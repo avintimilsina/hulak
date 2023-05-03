@@ -1,17 +1,25 @@
 {
-  "private": true,
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "eslint": "^7.32.0",
-    "eslint-config-custom": "workspace:*",
-    "prettier": "^2.5.1",
-    "turbo": "latest"
-  },
-  "packageManager": "pnpm@7.15.0",
-  "name": "hulak"
+	"private": true,
+	"scripts": {
+		"build": "turbo run build",
+		"lint": "turbo run lint",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"dev:web": "turbo run dev --no-daemon --parallel --no-cache --continue --filter=web",
+		"dev:docs": "turbo run dev --no-daemon --parallel --no-cache --continue --filter=docs",
+		"dev": "turbo run dev --parallel --no-cache --continue",
+		"format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
+		"prepare": "husky install"
+	},
+	"devDependencies": {
+		"eslint": "^7.32.0",
+		"eslint-config-custom": "workspace:*",
+		"prettier": "^2.8.0",
+		"turbo": "latest",
+		"@commitlint/cli": "^17.6.1",
+		"@commitlint/config-conventional": "^17.6.1",
+		"husky": "^8.0.3",
+		"lint-staged": "^13.2.2"
+	},
+	"packageManager": "pnpm@7.15.0",
+	"name": "hulak"
 }
