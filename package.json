@@ -1,12 +1,12 @@
 {
 	"private": true,
 	"scripts": {
-		"build": "turbo run build",
-		"lint": "turbo run lint",
+		"build": "turbo run build --no-daemon",
+		"lint": "turbo run lint --no-daemon",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
 		"dev:web": "turbo run dev --no-daemon --parallel --no-cache --continue --filter=web",
 		"dev:docs": "turbo run dev --no-daemon --parallel --no-cache --continue --filter=docs",
-		"dev": "turbo run dev --parallel --no-cache --continue",
+		"dev": "turbo run dev --parallel --no-cache --continue --no-daemon",
 		"format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
 		"prepare": "husky install"
 	},
