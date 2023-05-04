@@ -17,6 +17,7 @@
 		"formik": "^2.2.9",
 		"framer-motion": "^10.12.7",
 		"next": "^13.3.4",
+		"nprogress": "^0.2.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-firebase-hooks": "^5.1.1",
@@ -25,6 +26,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "18.11.10",
+		"@types/nprogress": "^0.2.0",
 		"@types/react": "18.2.1",
 		"@types/react-dom": "18.2.2",
 		"eslint": "^7.32.0",
