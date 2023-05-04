@@ -1,3 +1,4 @@
+import Result from "@/components/shared/Result";
 import {
 	Button,
 	Center,
@@ -22,7 +23,7 @@ const VerifyEmail = () => {
 		return <p>Loading...</p>;
 	}
 	if (error) {
-		return <p>Error: {error.message}</p>;
+		return <Result type="error" heading={error.name} text={error.message} />;
 	}
 	if (currentUser?.emailVerified) {
 		router.push("/");
