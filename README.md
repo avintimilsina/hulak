@@ -1,81 +1,108 @@
-# Turborepo starter
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/github_username/repo_name">
+    <img src="./apps/storefront/public/logo_dark.svg" alt="Logo" width="160" height="80">
+  </a>
 
-This is an official starter Turborepo.
+  <h3 align="center">Hulak</h3>
 
-## Using this example
+  <p align="center">
+    Built with god knows what
+    <br />
+    <a href="https://madre.vercel.app"></a>
 
-Run the following command:
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/powered-by-electricity.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-typescript.svg)](https://forthebadge.com)
 
-```sh
-npx create-turbo@latest
-```
+</div>
 
-## What's inside?
+## About The Project
 
-This Turborepo includes the following packages/apps:
+<a href="https://dbdiagram.io/d/6427f58e5758ac5f1725e8ce">SQL Diagram for the Database</a>
 
-### Apps and Packages
+<!-- GETTING STARTED -->
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+## Getting Started
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+To get a local copy up and running follow these simple example steps.
 
-### Utilities
+### Installation
 
-This Turborepo has some additional tools already setup for you:
+1. Clone the repo
+   ```sh
+   git clone https://github.com/sahrohit/fullstack-ecommerce.git
+   ```
+2. Install the project dependencies
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+   ```powershell
+       $ pnpm install
+   ```
 
-### Build
+3. Rename the `env.example` to `env.local` & update you enviroment variables in all the apps.
 
-To build all apps and packages, run the following command:
+   ```js
+   API_KEY = YOUR_API_KEY;
+   ```
 
-```
-cd my-turborepo
-pnpm build
-```
+4. Run the following commands to start the development server
 
-### Develop
+   ```powershell
+   $ pnpm dev
+   ```
 
-To develop all apps and packages, run the following command:
+### After Setting Up
 
-```
-cd my-turborepo
-pnpm dev
-```
+To initialize the backend,
 
-### Remote Caching
+`yarn watch` - Run Typescript in watch mode
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+`yarn dev` - Start a Nodejs server on the port specified in .env
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+To initialize the frontend,
 
-```
-cd my-turborepo
-npx turbo login
-```
+`yarn dev` - Starts a Next App at http://localhost:3000
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+For other commands, check `scripts` in package.json.
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+## Apps
 
-```
-npx turbo link
-```
+| Apps       | Description                           |
+| ---------- | ------------------------------------- |
+| api        | Backend Server for the infrastructure |
+| admin      | Frontend Nextjs app for Managment     |
+| storefront | Frontend Nextjs app for end users     |
+| oldstore   | Last iteration of frontend app        |
 
-## Useful Links
+## Built With
 
-Learn more about the power of Turborepo:
+<div style="display: flex; flex-wrap: wrap;">
+<img src="https://img.icons8.com/color/48/000000/typescript.png" title="Typescript" alt="Typescript" width="50" height="50" />
+<img src="https://img.icons8.com/color/48/000000/nodejs.png" title="Nodejs" alt="Nodejs" width="50" height="50" />
+<img src="https://img.icons8.com/color/48/000000/graphql.png" title="Graphql" alt="Graphql" width="50" height="50" />
+<img src="https://img.icons8.com/color/256/postgreesql.png" title="Postgresql" alt="Postgresql" width="50" height="50" />
+<img src="https://img.icons8.com/color/48/000000/redis.png" title="Redis" alt="Redis" width="50" height="50" /><img src="https://img.icons8.com/color/48/000000/apollo.png" title="Apollo" alt="Apollo" width="50" height="50" />
+<img src="https://img.icons8.com/color/48/000000/nextjs.png" title="Nextjs" alt="Nextjs" width="50" height="50" />
+</div>
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<!-- LICENSE -->
+
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<!-- CONTACT -->
