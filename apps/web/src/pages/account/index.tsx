@@ -29,7 +29,7 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 import { BiCurrentLocation } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
-import { auth, db } from "../../firebase";
+import { auth, db } from "../../../firebase";
 
 const AccountSetting = () => {
 	const googleProvider = new GoogleAuthProvider();
