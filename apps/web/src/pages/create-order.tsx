@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+import useLocalStorage from "@/components/hooks/useLocalStorage";
 import DestinationForm from "@/components/pages/create/DestinationForm";
 import SourceForm from "@/components/pages/create/SourceForm";
 import SustinableForm from "@/components/pages/create/SustinableForm";
@@ -8,7 +10,10 @@ import Steps from "@/components/ui/steps/Steps";
 import useSteps from "@/components/ui/steps/useSteps";
 import { Box, Button, HStack, Stack, Text } from "@chakra-ui/react";
 import { Form, Formik, FormikProps } from "formik";
+import { useRouter } from "next/router";
+import { useAuthState } from "react-firebase-hooks/auth";
 import * as Yup from "yup";
+import { auth } from "../../firebase";
 
 const defaultValues = {
 	// Source
@@ -93,6 +98,13 @@ const AddressFormSchema = Yup.object({
 	packageDescription: Yup.string().required("Required"),
 });
 const CreateOrder = () => {
+	const [currentUser] = useAuthState(auth);
+	const router = useRouter();
+	const [, setOrder] = useLocalStorage("order", {
+		...defaultValues,
+		status: "TEMP",
+		pidx: "",
+	});
 	const { nextStep, prevStep, activeStep } = useSteps({
 		initialStep: 0,
 	});
@@ -101,7 +113,60 @@ const CreateOrder = () => {
 			initialValues={defaultValues}
 			validationSchema={AddressFormSchema}
 			onSubmit={async (values, action) => {
-				console.log(values);
+				if (!currentUser?.displayName || !currentUser?.email) {
+					router.push("/auth/login");
+					return;
+				}
+
+				setOrder({
+					...values,
+					status: "INITIATED",
+					pidx: "",
+				});
+
+				const response = await fetch("/api/payment", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						amount: 1300,
+						purchase_order_id: "test12",
+						purchase_order_name: "test",
+						customer_info: {
+							name: currentUser.displayName,
+							email: currentUser.email,
+							phone: currentUser?.phoneNumber ?? "9800000000",
+						},
+						amount_breakdown: [
+							{
+								label: "Delivery Charges",
+								amount: 1000,
+							},
+							{
+								label: "VAT",
+								amount: 300,
+							},
+						],
+						product_details: [
+							{
+								identity: "1234567890",
+								name: "Delivery Charges",
+								total_price: 1300,
+								quantity: 1,
+								unit_price: 1300,
+							},
+						],
+					}),
+				});
+
+				const { pidx, payment_url } = await response.json();
+				setOrder((prev) => ({
+					...prev,
+					pidx,
+				}));
+				window.location.assign(payment_url);
+
 				action.resetForm();
 			}}
 		>
