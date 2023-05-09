@@ -3,7 +3,6 @@ import {
 	FormErrorMessage,
 	FormLabel,
 	HStack,
-	Heading,
 	Input,
 	Stack,
 } from "@chakra-ui/react";
@@ -11,7 +10,6 @@ import { Field } from "formik";
 
 const SourceForm = () => (
 	<Stack spacing="4">
-		<Heading>Where are you shipping from?</Heading>
 		<HStack alignItems="flex-end">
 			<Field name="sourceCountry">
 				{({ field, form }: any) => (

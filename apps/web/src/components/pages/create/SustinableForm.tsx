@@ -4,7 +4,6 @@ import {
 	FormErrorMessage,
 	FormLabel,
 	HStack,
-	Heading,
 	Input,
 	Stack,
 	Textarea,
@@ -13,7 +12,6 @@ import { Field } from "formik";
 
 const SustinableForm = () => (
 	<Stack spacing="4">
-		<Heading>Almost Done. Let&apos;s check a few more details.</Heading>
 		<Field name="packageDescription">
 			{({ field, form }: any) => (
 				<FormControl

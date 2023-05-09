@@ -4,7 +4,6 @@ import {
 	FormErrorMessage,
 	FormLabel,
 	HStack,
-	Heading,
 	Input,
 	Stack,
 } from "@chakra-ui/react";
@@ -12,7 +11,6 @@ import { Field } from "formik";
 
 const WhatForm = () => (
 	<Stack spacing="4">
-		<Heading>What kind of packaging are you using?</Heading>
 		<Field name="packageWeight">
 			{({ field, form }: any) => (
 				<FormControl

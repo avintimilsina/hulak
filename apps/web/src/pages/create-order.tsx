@@ -2,9 +2,12 @@ import DestinationForm from "@/components/pages/create/DestinationForm";
 import SourceForm from "@/components/pages/create/SourceForm";
 import SustinableForm from "@/components/pages/create/SustinableForm";
 import WhatForm from "@/components/pages/create/WhatForm";
-import { Button } from "@chakra-ui/react";
+import Step from "@/components/ui/steps/Step";
+import StepContent from "@/components/ui/steps/StepContent";
+import Steps from "@/components/ui/steps/Steps";
+import useSteps from "@/components/ui/steps/useSteps";
+import { Box, Button, HStack, Stack, Text } from "@chakra-ui/react";
 import { Form, Formik, FormikProps } from "formik";
-import { useRouter } from "next/router";
 import * as Yup from "yup";
 
 const defaultValues = {
@@ -90,7 +93,9 @@ const AddressFormSchema = Yup.object({
 	packageDescription: Yup.string().required("Required"),
 });
 const CreateOrder = () => {
-	const router = useRouter();
+	const { nextStep, prevStep, activeStep } = useSteps({
+		initialStep: 0,
+	});
 	return (
 		<Formik
 			initialValues={defaultValues}
@@ -102,30 +107,126 @@ const CreateOrder = () => {
 		>
 			{(props: FormikProps<any>) => (
 				<Form>
-					<SourceForm />
-					<DestinationForm />
-					<WhatForm />
-					<SustinableForm />
-					<Button
-						colorScheme="green"
-						size="lg"
-						fontSize="md"
-						isLoading={props.isSubmitting}
-						onClick={() => {
-							router.push("/payment");
-						}}
+					<Box
+						mx="auto"
+						maxW="4xl"
+						py="10"
+						px={{ base: "6", md: "8" }}
+						minH="400px"
 					>
-						Payment
-					</Button>
-					<Button
-						type="submit"
-						colorScheme="blue"
-						size="lg"
-						fontSize="md"
-						isLoading={props.isSubmitting}
-					>
-						Create Order
-					</Button>
+						<Steps activeStep={activeStep}>
+							<Step title="Where are you shipping from?">
+								<StepContent>
+									<Stack shouldWrapChildren spacing="4">
+										<Text>
+											For each ad campaign that you create, you can control how
+											much you&apos;re willing to spend on clicks and
+											conversions, which networks and geographical locations you
+											want your ads to show on, and more.
+										</Text>
+										<SourceForm />
+										<HStack>
+											<Button size="sm" variant="ghost" isDisabled>
+												Back
+											</Button>
+											<Button size="sm" onClick={nextStep}>
+												Next
+											</Button>
+										</HStack>
+									</Stack>
+								</StepContent>
+							</Step>
+							<Step title="Where is your shipping going?">
+								<StepContent>
+									<Stack shouldWrapChildren spacing="4">
+										<Text>
+											An ad group contains one or more ads which target a shared
+											set of keywords.
+										</Text>
+										<DestinationForm />
+										<HStack>
+											<Button size="sm" onClick={prevStep} variant="ghost">
+												Back
+											</Button>
+											<Button size="sm" onClick={nextStep}>
+												Next
+											</Button>
+										</HStack>
+									</Stack>
+								</StepContent>
+							</Step>
+							<Step title="What kind of packaging are you using?">
+								<StepContent>
+									<Stack shouldWrapChildren spacing="4">
+										<Text>
+											Try out different ad text to see what brings in the most
+											customers, and learn how to enhance your ads using
+											features like ad extensions. If you run into any problems
+											with your ads, find out how to tell if they&apos;re
+											running and how to resolve approval issues.
+										</Text>
+										<WhatForm />
+										<HStack>
+											<Button size="sm" onClick={prevStep} variant="ghost">
+												Back
+											</Button>
+											<Button size="sm" onClick={nextStep}>
+												Next
+											</Button>
+										</HStack>
+									</Stack>
+								</StepContent>
+							</Step>
+							<Step title="Almost Done. Let's check a few more details.">
+								<StepContent>
+									<Stack shouldWrapChildren spacing="4">
+										<Text>
+											Try out different ad text to see what brings in the most
+											customers, and learn how to enhance your ads using
+											features like ad extensions. If you run into any problems
+											with your ads, find out how to tell if they&apos;re
+											running and how to resolve approval issues.
+										</Text>
+										<SustinableForm />
+										<HStack>
+											<Button size="sm" onClick={prevStep} variant="ghost">
+												Back
+											</Button>
+											<Button size="sm" onClick={nextStep}>
+												Finish
+											</Button>
+										</HStack>
+									</Stack>
+								</StepContent>
+							</Step>
+						</Steps>
+						<HStack
+							display={activeStep === 4 ? "flex" : "none"}
+							mt="10"
+							spacing="4"
+							shouldWrapChildren
+						>
+							<Text>All steps completed - you&apos;re finished</Text>
+							<Button
+								size="sm"
+								onClick={prevStep}
+								variant="outline"
+								verticalAlign="baseline"
+							>
+								Back
+							</Button>
+
+							<Button
+								type="submit"
+								colorScheme="blue"
+								size="sm"
+								fontSize="md"
+								isLoading={props.isSubmitting}
+							>
+								Create Order
+							</Button>
+						</HStack>
+					</Box>
 				</Form>
 			)}
 		</Formik>
