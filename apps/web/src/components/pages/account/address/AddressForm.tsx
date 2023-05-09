@@ -150,9 +150,11 @@ const AddressForm = ({
 							<Field name="name">
 								{({ field, form }: any) => (
 									<FormControl>
-										<FormLabel>Name</FormLabel>
+										<HStack justifyContent="space-between">
+											<FormLabel>Name</FormLabel>
+											<FormErrorMessage>{form.errors.name}</FormErrorMessage>
+										</HStack>
 										<Input {...field} type="text" maxLength={255} />
-										<FormErrorMessage>{form.errors.name}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
@@ -180,20 +182,24 @@ const AddressForm = ({
 						<Field name="phone_number">
 							{({ field, form }: any) => (
 								<FormControl>
-									<FormLabel>Phone Number</FormLabel>
+									<HStack justifyContent="space-between">
+										<FormLabel>Phone Number</FormLabel>
+										<FormErrorMessage>
+											{form.errors.phone_number}
+										</FormErrorMessage>
+									</HStack>
 									<Input {...field} type="numeric" />
-									<FormErrorMessage>
-										{form.errors.phone_number}
-									</FormErrorMessage>
 								</FormControl>
 							)}
 						</Field>
 						<Field name="address">
 							{({ field, form }: any) => (
 								<FormControl>
-									<FormLabel>Address</FormLabel>
+									<HStack justifyContent="space-between">
+										<FormLabel>Address</FormLabel>
+										<FormErrorMessage>{form.errors.address}</FormErrorMessage>
+									</HStack>
 									<Input {...field} type="text" />
-									<FormErrorMessage>{form.errors.address}</FormErrorMessage>
 								</FormControl>
 							)}
 						</Field>
@@ -201,9 +207,11 @@ const AddressForm = ({
 							<Field name="city">
 								{({ field, form }: any) => (
 									<FormControl>
-										<FormLabel>City</FormLabel>
+										<HStack justifyContent="space-between">
+											<FormLabel>City</FormLabel>
+											<FormErrorMessage>{form.errors.city}</FormErrorMessage>
+										</HStack>
 										<Input {...field} type="text" />
-										<FormErrorMessage>{form.errors.city}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
@@ -211,9 +219,11 @@ const AddressForm = ({
 							<Field name="state">
 								{({ field, form }: any) => (
 									<FormControl>
-										<FormLabel>State</FormLabel>
+										<HStack justifyContent="space-between">
+											<FormLabel>State</FormLabel>
+											<FormErrorMessage>{form.errors.state}</FormErrorMessage>
+										</HStack>
 										<Input {...field} type="text" />
-										<FormErrorMessage>{form.errors.state}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
@@ -222,18 +232,22 @@ const AddressForm = ({
 							<Field name="zip">
 								{({ field, form }: any) => (
 									<FormControl>
-										<FormLabel>Zip Code</FormLabel>
+										<HStack justifyContent="space-between">
+											<FormLabel>Zip Code</FormLabel>
+											<FormErrorMessage>{form.errors.zip}</FormErrorMessage>
+										</HStack>
 										<Input {...field} type="text" />
-										<FormErrorMessage>{form.errors.zip}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
 							<Field name="country">
 								{({ field, form }: any) => (
 									<FormControl>
-										<FormLabel>Country</FormLabel>
+										<HStack justifyContent="space-between">
+											<FormLabel>Country</FormLabel>
+											<FormErrorMessage>{form.errors.country}</FormErrorMessage>
+										</HStack>
 										<Input {...field} type="text" />
-										<FormErrorMessage>{form.errors.country}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>

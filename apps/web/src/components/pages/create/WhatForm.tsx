@@ -3,6 +3,7 @@ import {
 	FormControl,
 	FormErrorMessage,
 	FormLabel,
+	HStack,
 	Heading,
 	Input,
 	Stack,
@@ -17,9 +18,11 @@ const WhatForm = () => (
 				<FormControl
 					isInvalid={form.errors.packageWeight && form.touched.packageWeight}
 				>
-					<FormLabel>Weight</FormLabel>
+					<HStack justifyContent="space-between">
+						<FormLabel>Weight</FormLabel>
+						<FormErrorMessage>{form.errors.packageWeight}</FormErrorMessage>
+					</HStack>
 					<Input {...field} type="text" maxLength={255} />
-					<FormErrorMessage>{form.errors.packageWeight}</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>
@@ -28,9 +31,11 @@ const WhatForm = () => (
 				<FormControl
 					isInvalid={form.errors.packageLength && form.touched.packageLength}
 				>
-					<FormLabel>Length</FormLabel>
+					<HStack justifyContent="space-between">
+						<FormLabel>Length</FormLabel>
+						<FormErrorMessage>{form.errors.packageLength}</FormErrorMessage>
+					</HStack>
 					<Input {...field} type="text" maxLength={255} />
-					<FormErrorMessage>{form.errors.packageLength}</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>
@@ -39,9 +44,11 @@ const WhatForm = () => (
 				<FormControl
 					isInvalid={form.errors.packageWidth && form.touched.packageWidth}
 				>
-					<FormLabel>Width</FormLabel>
+					<HStack justifyContent="space-between">
+						<FormLabel>Width</FormLabel>
+						<FormErrorMessage>{form.errors.packageWidth}</FormErrorMessage>
+					</HStack>
 					<Input {...field} type="text" maxLength={255} />
-					<FormErrorMessage>{form.errors.packageWidth}</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>
@@ -50,9 +57,11 @@ const WhatForm = () => (
 				<FormControl
 					isInvalid={form.errors.packageHeight && form.touched.packageHeight}
 				>
-					<FormLabel>Height</FormLabel>
+					<HStack justifyContent="space-between">
+						<FormLabel>Height</FormLabel>
+						<FormErrorMessage>{form.errors.packageHeight}</FormErrorMessage>
+					</HStack>
 					<Input {...field} type="text" />
-					<FormErrorMessage>{form.errors.packageHeight}</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>
@@ -61,60 +70,39 @@ const WhatForm = () => (
 				<FormControl
 					isInvalid={form.errors.packageValue && form.touched.packageValue}
 				>
-					<FormLabel>Total Package Value</FormLabel>
+					<HStack justifyContent="space-between">
+						<FormLabel>Total Package Value</FormLabel>
+						<FormErrorMessage>{form.errors.packageValue}</FormErrorMessage>
+					</HStack>
 					<Input {...field} type="text" />
-					<FormErrorMessage>{form.errors.packageValue}</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>
 		<Field name="isLithiumIncluded" type="checkbox">
-			{({ field, form }: any) => (
-				<FormControl
-					isInvalid={
-						form.errors.isLithiumIncluded && form.touched.isLithiumIncluded
-					}
-				>
+			{({ field }: any) => (
+				<FormControl>
 					<Checkbox {...field}>Include Lithium Batteries</Checkbox>
-					<FormErrorMessage>{form.errors.isLithiumIncluded}</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>
 		<Field name="isDryIceIncluded" type="checkbox">
-			{({ field, form }: any) => (
-				<FormControl
-					isInvalid={
-						form.errors.isDryIceIncluded && form.touched.isDryIceIncluded
-					}
-				>
+			{({ field }: any) => (
+				<FormControl>
 					<Checkbox {...field}>Include Dry Ice (+$)</Checkbox>
-					<FormErrorMessage>{form.errors.isDryIceIncluded}</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>
 		<Field name="isSignatureIncluded" type="checkbox">
-			{({ field, form }: any) => (
-				<FormControl
-					isInvalid={
-						form.errors.isSignatureIncluded && form.touched.isSignatureIncluded
-					}
-				>
+			{({ field }: any) => (
+				<FormControl>
 					<Checkbox {...field}>Signature Options (+$)</Checkbox>
-					<FormErrorMessage>{form.errors.isSignatureIncluded}</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>
 		<Field name="isOversizedPackageIncluded" type="checkbox">
-			{({ field, form }: any) => (
-				<FormControl
-					isInvalid={
-						form.errors.isOversizedPackageIncluded &&
-						form.touched.isOversizedPackageIncluded
-					}
-				>
+			{({ field }: any) => (
+				<FormControl>
 					<Checkbox {...field}>Oversized Package (+$)</Checkbox>
-					<FormErrorMessage>
-						{form.errors.isOversizedPackageIncluded}
-					</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>

@@ -18,9 +18,11 @@ const SourceForm = () => (
 					<FormControl
 						isInvalid={form.errors.sourceCountry && form.touched.sourceCountry}
 					>
-						<FormLabel>Country</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>Country</FormLabel>
+							<FormErrorMessage>{form.errors.sourceCountry}</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="text" maxLength={255} />
-						<FormErrorMessage>{form.errors.sourceCountry}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -31,9 +33,11 @@ const SourceForm = () => (
 					<FormControl
 						isInvalid={form.errors.sourceName && form.touched.sourceName}
 					>
-						<FormLabel>Full Name or Company Name</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>Full Name or Company Name</FormLabel>
+							<FormErrorMessage>{form.errors.sourceName}</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="text" maxLength={255} />
-						<FormErrorMessage>{form.errors.sourceName}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -44,9 +48,13 @@ const SourceForm = () => (
 							form.errors.sourceContactName && form.touched.sourceContactName
 						}
 					>
-						<FormLabel>Contact Name</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>Contact Name</FormLabel>
+							<FormErrorMessage>
+								{form.errors.sourceContactName}
+							</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="text" maxLength={255} />
-						<FormErrorMessage>{form.errors.sourceContactName}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -58,9 +66,13 @@ const SourceForm = () => (
 						form.errors.sourceAddressLine1 && form.touched.sourceAddressLine1
 					}
 				>
-					<FormLabel>Address Line 1</FormLabel>
+					<HStack justifyContent="space-between">
+						<FormLabel>Address Line 1</FormLabel>
+						<FormErrorMessage>
+							{form.errors.sourceAddressLine1}
+						</FormErrorMessage>
+					</HStack>
 					<Input {...field} type="text" />
-					<FormErrorMessage>{form.errors.sourceAddressLine1}</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>
@@ -71,9 +83,13 @@ const SourceForm = () => (
 						form.errors.sourceAddressLine2 && form.touched.sourceAddressLine2
 					}
 				>
-					<FormLabel>Address Line 2</FormLabel>
+					<HStack justifyContent="space-between">
+						<FormLabel>Address Line 2</FormLabel>
+						<FormErrorMessage>
+							{form.errors.sourceAddressLine1}
+						</FormErrorMessage>
+					</HStack>
 					<Input {...field} type="text" />
-					<FormErrorMessage>{form.errors.sourceAddressLine1}</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>
@@ -83,9 +99,11 @@ const SourceForm = () => (
 					<FormControl
 						isInvalid={form.errors.sourceZip && form.touched.sourceZip}
 					>
-						<FormLabel>Zip Code</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>Zip Code</FormLabel>
+							<FormErrorMessage>{form.errors.sourceZip}</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="text" />
-						<FormErrorMessage>{form.errors.sourceZip}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -94,9 +112,11 @@ const SourceForm = () => (
 					<FormControl
 						isInvalid={form.errors.sourceCity && form.touched.sourceCity}
 					>
-						<FormLabel>City</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>City</FormLabel>
+							<FormErrorMessage>{form.errors.sourceCity}</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="text" />
-						<FormErrorMessage>{form.errors.sourceCity}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -105,9 +125,11 @@ const SourceForm = () => (
 					<FormControl
 						isInvalid={form.errors.sourceState && form.touched.sourceState}
 					>
-						<FormLabel>State</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>State</FormLabel>
+							<FormErrorMessage>{form.errors.sourceState}</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="text" />
-						<FormErrorMessage>{form.errors.sourceState}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -118,9 +140,11 @@ const SourceForm = () => (
 					<FormControl
 						isInvalid={form.errors.sourceEmail && form.touched.sourceEmail}
 					>
-						<FormLabel>Email</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>Email</FormLabel>
+							<FormErrorMessage>{form.errors.sourceEmail}</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="email" />
-						<FormErrorMessage>{form.errors.sourceEmail}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -131,9 +155,13 @@ const SourceForm = () => (
 							form.errors.sourcePhoneNumber && form.touched.sourcePhoneNumber
 						}
 					>
-						<FormLabel>Phone Number</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>Phone Number</FormLabel>
+							<FormErrorMessage>
+								{form.errors.sourcePhoneNumber}
+							</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="numeric" />
-						<FormErrorMessage>{form.errors.sourcePhoneNumber}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>

@@ -20,11 +20,13 @@ const DestinationForm = () => (
 							form.errors.destinationCountry && form.touched.destinationCountry
 						}
 					>
-						<FormLabel>Country</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>Country</FormLabel>
+							<FormErrorMessage>
+								{form.errors.destinationCountry}
+							</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="text" maxLength={255} />
-						<FormErrorMessage>
-							{form.errors.destinationCountry}
-						</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -37,9 +39,11 @@ const DestinationForm = () => (
 							form.errors.destinationName && form.touched.destinationName
 						}
 					>
-						<FormLabel>Full Name or Company Name</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>Full Name or Company Name</FormLabel>
+							<FormErrorMessage>{form.errors.destinationName}</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="text" maxLength={255} />
-						<FormErrorMessage>{form.errors.destinationName}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -51,11 +55,13 @@ const DestinationForm = () => (
 							form.touched.destinationContactName
 						}
 					>
-						<FormLabel>Contact Name</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>Contact Name</FormLabel>
+							<FormErrorMessage>
+								{form.errors.destinationContactName}
+							</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="text" maxLength={255} />
-						<FormErrorMessage>
-							{form.errors.destinationContactName}
-						</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -68,11 +74,13 @@ const DestinationForm = () => (
 						form.touched.destinationAddressLine1
 					}
 				>
-					<FormLabel>Address Line 1</FormLabel>
+					<HStack justifyContent="space-between">
+						<FormLabel>Address Line 1</FormLabel>
+						<FormErrorMessage>
+							{form.errors.destinationAddressLine1}
+						</FormErrorMessage>
+					</HStack>
 					<Input {...field} type="text" />
-					<FormErrorMessage>
-						{form.errors.destinationAddressLine1}
-					</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>
@@ -84,11 +92,13 @@ const DestinationForm = () => (
 						form.touched.destinationAddressLine2
 					}
 				>
-					<FormLabel>Address Line 2</FormLabel>
+					<HStack justifyContent="space-between">
+						<FormLabel>Address Line 2</FormLabel>
+						<FormErrorMessage>
+							{form.errors.destinationAddressLine2}
+						</FormErrorMessage>
+					</HStack>
 					<Input {...field} type="text" />
-					<FormErrorMessage>
-						{form.errors.destinationAddressLine2}
-					</FormErrorMessage>
 				</FormControl>
 			)}
 		</Field>
@@ -100,9 +110,11 @@ const DestinationForm = () => (
 							form.errors.destinationZip && form.touched.destinationZip
 						}
 					>
-						<FormLabel>Zip Code</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>Zip Code</FormLabel>
+							<FormErrorMessage>{form.errors.destinationZip}</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="numeric" />
-						<FormErrorMessage>{form.errors.destinationZip}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -113,9 +125,11 @@ const DestinationForm = () => (
 							form.errors.destinationCity && form.touched.destinationCity
 						}
 					>
-						<FormLabel>City</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>City</FormLabel>
+							<FormErrorMessage>{form.errors.destinationCity}</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="text" />
-						<FormErrorMessage>{form.errors.destinationCity}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -126,9 +140,13 @@ const DestinationForm = () => (
 							form.errors.destinationState && form.touched.destinationState
 						}
 					>
-						<FormLabel>State</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>State</FormLabel>
+							<FormErrorMessage>
+								{form.errors.destinationState}
+							</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="text" />
-						<FormErrorMessage>{form.errors.destinationState}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -141,9 +159,13 @@ const DestinationForm = () => (
 							form.errors.destinationEmail && form.touched.destinationEmail
 						}
 					>
-						<FormLabel>Email</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>Email</FormLabel>
+							<FormErrorMessage>
+								{form.errors.destinationEmail}
+							</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="email" />
-						<FormErrorMessage>{form.errors.destinationEmail}</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
@@ -155,11 +177,13 @@ const DestinationForm = () => (
 							form.touched.destinationPhoneNumber
 						}
 					>
-						<FormLabel>Phone Number</FormLabel>
+						<HStack justifyContent="space-between">
+							<FormLabel>Phone Number</FormLabel>
+							<FormErrorMessage>
+								{form.errors.destinationPhoneNumber}
+							</FormErrorMessage>
+						</HStack>
 						<Input {...field} type="numeric" />
-						<FormErrorMessage>
-							{form.errors.destinationPhoneNumber}
-						</FormErrorMessage>
 					</FormControl>
 				)}
 			</Field>
