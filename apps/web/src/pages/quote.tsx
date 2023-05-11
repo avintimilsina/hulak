@@ -1,18 +1,34 @@
+/* eslint-disable no-console */
+import calculatePostage from "@/components/helpers/calculatePostage";
 import WhatForm from "@/components/pages/create/WhatForm";
 import SendFrom from "@/components/pages/quote/SendFrom";
 import SendTo from "@/components/pages/quote/SendTo";
-import { Box, Button, HStack, Heading } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, HStack, Heading } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 
 const defaultValues = {
-	packageWeight: undefined,
-	packageLength: undefined,
-	packageWidth: undefined,
-	packageHeight: undefined,
-	packageValue: undefined,
+	sourcePincode: "",
+	sourceCity: "",
+	sourceDistrict: "",
+	destinationPincode: "",
+	destinationCity: "",
+	destinationDistrict: "",
+
+	packageWeight: 0,
+	packageLength: 0,
+	packageWidth: 0,
+	packageHeight: 0,
+	packageValue: 0,
 };
 const QuoteFormSchema = Yup.object({
+	sourcePincode: Yup.string().required("Required"),
+	sourceCity: Yup.string().required("Required"),
+	sourceDistrict: Yup.string().required("Required"),
+	destinationPincode: Yup.string().required("Required"),
+	destinationCity: Yup.string().required("Required"),
+	destinationDistrict: Yup.string().required("Required"),
+
 	packageWeight: Yup.number().required("Required"),
 	packageLength: Yup.number().required("Required"),
 	packageWidth: Yup.number().required("Required"),
@@ -24,7 +40,15 @@ const QuotePage = () => (
 		initialValues={defaultValues}
 		validationSchema={QuoteFormSchema}
 		onSubmit={async (values) => {
-			console.log(values);
+			const postagePrice = await calculatePostage(
+				values.packageHeight,
+				values.packageWeight,
+				values.packageLength,
+				values.packageWidth,
+				values.sourceCity,
+				values.destinationCity
+			);
+			console.log("PostagePrice", postagePrice);
 		}}
 	>
 		{() => (
@@ -41,7 +65,17 @@ const QuotePage = () => (
 						<SendFrom />
 						<SendTo />
 					</HStack>
-					<WhatForm />
+					<Card
+						p="4"
+						borderRadius="md"
+						borderWidth="1px"
+						boxShadow="md"
+						borderColor="gray.200"
+					>
+						<CardBody>
+							<WhatForm />
+						</CardBody>
+					</Card>
 
 					<Button type="submit">Submit</Button>
 				</Box>

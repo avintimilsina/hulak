@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Button, Grid, Heading, VStack } from "@chakra-ui/react";
 
