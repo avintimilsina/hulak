@@ -158,71 +158,83 @@ const SupportPage = () => {
 											<Box bg="white" borderRadius="lg" width="md">
 												<Box m={8} color="#0B0E3F">
 													<VStack spacing={5}>
-														<Field name="supportName">
-															{({ field, form }: any) => (
-																<FormControl
-																	isInvalid={
-																		form.errors.supportName &&
-																		form.touched.supportName
-																	}
-																>
-																	<HStack justifyContent="space-between">
-																		<FormLabel>Name</FormLabel>
-																		<FormErrorMessage>
-																			{form.errors.supportName}
-																		</FormErrorMessage>
-																	</HStack>
-																	<Input
-																		{...field}
-																		type="text"
-																		maxLength={255}
-																	/>
-																</FormControl>
-															)}
-														</Field>
-														<Field name="supportEmail">
-															{({ field, form }: any) => (
-																<FormControl
-																	isInvalid={
-																		form.errors.supportEmail &&
-																		form.touched.supportEmail
-																	}
-																>
-																	<HStack justifyContent="space-between">
-																		<FormLabel>Email</FormLabel>
-																		<FormErrorMessage>
-																			{form.errors.supportEmail}
-																		</FormErrorMessage>
-																	</HStack>
-																	<Input
-																		{...field}
-																		type="email"
-																		maxLength={255}
-																	/>
-																</FormControl>
-															)}
-														</Field>
-														<Field name="issue">
-															{({ field, form }: any) => (
-																<FormControl
-																	isInvalid={
-																		form.errors.issue && form.touched.issue
-																	}
-																>
-																	<HStack justifyContent="space-between">
-																		<FormLabel>Issue</FormLabel>
-																		<FormErrorMessage>
-																			{form.errors.issue}
-																		</FormErrorMessage>
-																	</HStack>
-																	<Input
-																		{...field}
-																		type="text"
-																		maxLength={255}
-																	/>
-																</FormControl>
-															)}
-														</Field>
+														<HStack>
+															<Field name="supportName">
+																{({ field, form }: any) => (
+																	<FormControl
+																		isInvalid={
+																			form.errors.supportName &&
+																			form.touched.supportName
+																		}
+																	>
+																		<HStack justifyContent="space-between">
+																			<FormLabel>Name</FormLabel>
+																			<FormErrorMessage>
+																				{form.errors.supportName}
+																			</FormErrorMessage>
+																		</HStack>
+																		<Input
+																			{...field}
+																			type="text"
+																			maxLength={255}
+																		/>
+																	</FormControl>
+																)}
+															</Field>
+															<Field name="supportEmail">
+																{({ field, form }: any) => (
+																	<FormControl
+																		isInvalid={
+																			form.errors.supportEmail &&
+																			form.touched.supportEmail
+																		}
+																	>
+																		<HStack justifyContent="space-between">
+																			<FormLabel>Email</FormLabel>
+																			<FormErrorMessage>
+																				{form.errors.supportEmail}
+																			</FormErrorMessage>
+																		</HStack>
+																		<Input
+																			{...field}
+																			type="email"
+																			maxLength={255}
+																		/>
+																	</FormControl>
+																)}
+															</Field>
+														</HStack>
+														<HStack>
+															<Field name="issue">
+																{({ field, form }: any) => (
+																	<FormControl
+																		isInvalid={
+																			form.errors.issue && form.touched.issue
+																		}
+																	>
+																		<HStack justifyContent="space-between">
+																			<FormLabel>Issue</FormLabel>
+																			<FormErrorMessage>
+																				{form.errors.issue}
+																			</FormErrorMessage>
+																		</HStack>
+																		<Input
+																			{...field}
+																			type="text"
+																			maxLength={255}
+																		/>
+																	</FormControl>
+																)}
+															</Field>
+															<Field name="referenceNumber">
+																{({ field }: any) => (
+																	<FormControl>
+																		<FormLabel>Reference Number</FormLabel>
+																		<Input {...field} type="text" />
+																	</FormControl>
+																)}
+															</Field>
+														</HStack>
 														<Field name="supportDescription">
 															{({ field, form }: any) => (
 																<FormControl
@@ -241,14 +253,7 @@ const SupportPage = () => {
 																</FormControl>
 															)}
 														</Field>
-														<Field name="referenceNumber">
-															{({ field }: any) => (
-																<FormControl>
-																	<FormLabel>Reference Number</FormLabel>
-																	<Input {...field} type="text" />
-																</FormControl>
-															)}
-														</Field>
+
 														<FormControl id="name" float="right">
 															<Button
 																variant="solid"

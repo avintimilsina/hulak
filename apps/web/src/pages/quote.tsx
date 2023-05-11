@@ -3,7 +3,7 @@ import calculatePostage from "@/components/helpers/calculatePostage";
 import WhatForm from "@/components/pages/create/WhatForm";
 import SendFrom from "@/components/pages/quote/SendFrom";
 import SendTo from "@/components/pages/quote/SendTo";
-import { Box, Button, Card, CardBody, HStack, Heading } from "@chakra-ui/react";
+import { Box, Button, Heading, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 
@@ -61,21 +61,12 @@ const QuotePage = () => (
 					minH="400px"
 				>
 					<Heading>Quote</Heading>
-					<HStack justifyContent="space-between">
+					<VStack gap="4">
 						<SendFrom />
 						<SendTo />
-					</HStack>
-					<Card
-						p="4"
-						borderRadius="md"
-						borderWidth="1px"
-						boxShadow="md"
-						borderColor="gray.200"
-					>
-						<CardBody>
-							<WhatForm />
-						</CardBody>
-					</Card>
+					</VStack>
+					<Heading>Pacakge Information</Heading>
+					<WhatForm />
 
 					<Button type="submit">Submit</Button>
 				</Box>
