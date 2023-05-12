@@ -11,32 +11,19 @@ const calculatePostage = async (
 		`https://api.openweathermap.org/data/2.5/weather?q=${sourceAddressLine1}&appid=e167a121565880362a4769a2e4acf518`
 	);
 	const sourceData = await sourceResult.json();
-	const sourceLongitude = sourceData.coord.lon;
-	const sourceLatitude = sourceData.coord.lat;
-	console.log("sourceLatitude", sourceLatitude);
-	console.log("sourceLongitude", sourceLongitude);
 
 	const destinationResult = await fetch(
 		`https://api.openweathermap.org/data/2.5/weather?q=${destinationAddressLine1}&appid=e167a121565880362a4769a2e4acf518`
 	);
 	const destinationData = await destinationResult.json();
-	const destinationLongitude = destinationData.coord.lon;
-	const destinationLatitude = destinationData.coord.lat;
-	console.log("destinationLatitude", destinationLatitude);
-	console.log("destinationLongitude", destinationLongitude);
 
-	// const distance =
-	// 	Math.acos(
-	// 		Math.sin(sourceLatitude) * Math.sin(destinationLatitude) +
-	// 			Math.cos(sourceLatitude) *
-	// 				Math.cos(destinationLatitude) *
-	// 				Math.cos(destinationLongitude - sourceLongitude)
-	// 	) * 6371;
 	const R = 6371e3; // metres
-	const φ1 = (sourceLatitude * Math.PI) / 180; // φ, λ in radians
-	const φ2 = (destinationLatitude * Math.PI) / 180;
-	const Δφ = ((destinationLatitude - sourceLatitude) * Math.PI) / 180;
-	const Δλ = ((destinationLongitude - sourceLongitude) * Math.PI) / 180;
+	const φ1 = (sourceData.coord.lat * Math.PI) / 180; // φ, λ in radians
+	const φ2 = (destinationData.coord.lat * Math.PI) / 180;
+	const Δφ =
+		((destinationData.coord.lat - sourceData.coord.lat) * Math.PI) / 180;
+	const Δλ =
+		((destinationData.coord.lon - sourceData.coord.lon) * Math.PI) / 180;
 
 	const a =
 		Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
@@ -45,14 +32,10 @@ const calculatePostage = async (
 
 	const distance = (1.5 * (R * c)) / 1000; // in metres
 
-	console.log("distance", distance);
-
 	const volume = packageHeight * packageLength * packageWidth;
-	console.log("volume", volume);
 
 	const postageCost = distance * volume * packageWeight;
-	console.log("postageCost", postageCost);
 
-	return postageCost;
+	return { postageCost, distance, volume };
 };
 export default calculatePostage;
