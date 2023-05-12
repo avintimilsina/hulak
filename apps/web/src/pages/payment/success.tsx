@@ -8,15 +8,14 @@ import { db } from "../../../firebase";
 const SuccessPage = () => {
 	const router = useRouter();
 	const [order, setOrder] = useLocalStorage<any>("order");
-	const khaltiInfo = router.query;
 	useEffect(() => {
 		const runThisNow = async () => {
 			if (router.query?.pidx && order) {
 				await setDoc(
-					doc(db, "orders", (khaltiInfo?.pidx as string) ?? "-"),
+					doc(db, "orders", (router.query?.pidx as string) ?? "-"),
 					{
 						...order,
-						...khaltiInfo,
+						khalti: { ...router.query },
 						createdAt: serverTimestamp(),
 					},
 					{
@@ -27,7 +26,7 @@ const SuccessPage = () => {
 			}
 		};
 		runThisNow();
-	}, [khaltiInfo, order, router, setOrder]);
+	}, [order, router, setOrder]);
 
 	return (
 		<Result

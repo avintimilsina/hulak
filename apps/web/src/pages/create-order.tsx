@@ -17,85 +17,81 @@ import { auth } from "../../firebase";
 
 const defaultValues = {
 	// Source
-	sourceCountry: "",
-	sourceName: "",
-	sourceContactName: "",
-	sourceAddressLine1: "",
-	sourceAddressLine2: "",
-	sourceZip: "",
-	sourceCity: "",
-	sourceState: "",
-	sourceEmail: "",
-	sourcePhoneNumber: "",
+	source: {
+		country: "",
+		name: "",
+		contactName: "",
+		addressLine1: "",
+		addressLine2: "",
+		zip: "",
+		city: "",
+		state: "",
+		email: "",
+		phoneNumber: "",
+	},
 
 	// Destination
-	destinationCountry: "",
-	destinationName: "",
-	destinationContactName: "",
-	destinationAddressLine1: "",
-	destinationAddressLine2: "",
-	destinationZip: "",
-	destinationCity: "",
-	destinationState: "",
-	destinationEmail: "",
-	destinationPhoneNumber: "",
+	destination: {
+		country: "",
+		name: "",
+		contactName: "",
+		addressLine1: "",
+		addressLine2: "",
+		zip: "",
+		city: "",
+		state: "",
+		email: "",
+		phoneNumber: "",
+	},
 
 	// What
-	packageWeight: "",
-	packageLength: "",
-	packageWidth: "",
-	packageHeight: "",
-	packageValue: "",
+	package: {
+		weight: "",
+		length: "",
+		width: "",
+		height: "",
+		value: "",
+		description: "",
+	},
 
 	// Sustinable
-	packageDescription: "",
+	isLithiumIncluded: false,
+	isDryIceIncluded: false,
+	isSignatureIncluded: false,
+	isOversizedPackageIncluded: false,
+	isCarbonNeutral: false,
+	deliverOnlyToReceiver: false,
 };
-const AddressFormSchema = Yup.object({
+const AddressSchema = Yup.object({
+	country: Yup.string().required("Required"),
+	name: Yup.string().required("Required"),
+	contactName: Yup.string().required("Required"),
+	addressLine1: Yup.string().required("Required"),
+	addressLine2: Yup.string().required("Required"),
+	zip: Yup.string().required("Required"),
+	city: Yup.string().required("Required"),
+	state: Yup.string().required("Required"),
+	email: Yup.string().required("Required").email("Invalid email address"),
+	phoneNumber: Yup.string()
+		.required("Required")
+		.matches(
+			/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+			"Phone number is not valid"
+		),
+});
+const OrderSchema = Yup.object({
 	// Source
-	sourceCountry: Yup.string().required("Required"),
-	sourceName: Yup.string().required("Required"),
-	sourceContactName: Yup.string().required("Required"),
-	sourceAddressLine1: Yup.string().required("Required"),
-	sourceAddressLine2: Yup.string().required("Required"),
-	sourceZip: Yup.string().required("Required"),
-	sourceCity: Yup.string().required("Required"),
-	sourceState: Yup.string().required("Required"),
-	sourceEmail: Yup.string().required("Required").email("Invalid email address"),
-	sourcePhoneNumber: Yup.string()
-		.required("Required")
-		.matches(
-			/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-			"Phone number is not valid"
-		),
+	source: AddressSchema,
+	destination: AddressSchema,
 
-	// Destination
-	destinationCountry: Yup.string().required("Required"),
-	destinationName: Yup.string().required("Required"),
-	destinationContactName: Yup.string().required("Required"),
-	destinationAddressLine1: Yup.string().required("Required"),
-	destinationAddressLine2: Yup.string().required("Required"),
-	destinationZip: Yup.string().required("Required"),
-	destinationCity: Yup.string().required("Required"),
-	destinationState: Yup.string().required("Required"),
-	destinationEmail: Yup.string()
-		.required("Required")
-		.email("Invalid email address"),
-	destinationPhoneNumber: Yup.string()
-		.required("Required")
-		.matches(
-			/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-			"Phone number is not valid"
-		),
-
-	// What
-	packageWeight: Yup.string().required("Required"),
-	packageLength: Yup.string().required("Required"),
-	packageWidth: Yup.string().required("Required"),
-	packageHeight: Yup.string().required("Required"),
-	packageValue: Yup.string().required("Required"),
-
-	// Sustinable
-	packageDescription: Yup.string().required("Required"),
+	package: Yup.object({
+		weight: Yup.string().required("Required"),
+		length: Yup.string().required("Required"),
+		width: Yup.string().required("Required"),
+		height: Yup.string().required("Required"),
+		value: Yup.string().required("Required"),
+		description: Yup.string().required("Required"),
+	}),
 });
 const CreateOrder = () => {
 	const [currentUser] = useAuthState(auth);
@@ -111,7 +107,7 @@ const CreateOrder = () => {
 	return (
 		<Formik
 			initialValues={defaultValues}
-			validationSchema={AddressFormSchema}
+			validationSchema={OrderSchema}
 			onSubmit={async (values, action) => {
 				if (!currentUser?.displayName || !currentUser?.email) {
 					router.push("/auth/login");
