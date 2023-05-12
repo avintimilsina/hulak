@@ -15,6 +15,7 @@ import {
 	VStack,
 	Wrap,
 	WrapItem,
+	useToast,
 } from "@chakra-ui/react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { Field, Form, Formik, FormikProps } from "formik";
@@ -42,18 +43,26 @@ const defaultValues = {
 };
 
 const SupportPage = () => {
+	const toast = useToast();
 	const [currentUser] = useAuthState(auth);
 	return (
 		<Formik
 			initialValues={defaultValues}
 			validationSchema={SupportPageSchema}
 			onSubmit={async (values, actions) => {
-				await addDoc(collection(db, "support"), {
+				const docRef = await addDoc(collection(db, "support"), {
 					...values,
-					userId: currentUser?.uid,
+					userId: currentUser?.uid ?? "guest",
 					status: "INITIATED",
 					createdAt: serverTimestamp(),
 				});
+				if (docRef.id) {
+					toast({
+						title: "Support request created.",
+						status: "success",
+						duration: 9000,
+					});
+				}
 				actions.setSubmitting(false);
 			}}
 		>
@@ -65,6 +74,7 @@ const SupportPage = () => {
 						mt={0}
 						centerContent
 						overflow="hidden"
+						h="100vh"
 					>
 						<Flex>
 							<Box
@@ -155,10 +165,10 @@ const SupportPage = () => {
 											</Box>
 										</WrapItem>
 										<WrapItem>
-											<Box bg="white" borderRadius="lg" width="md">
+											<Box bg="white" borderRadius="lg" width="xl">
 												<Box m={8} color="#0B0E3F">
 													<VStack spacing={5}>
-														<HStack>
+														<HStack w="full">
 															<Field name="supportName">
 																{({ field, form }: any) => (
 																	<FormControl
@@ -204,7 +214,7 @@ const SupportPage = () => {
 																)}
 															</Field>
 														</HStack>
-														<HStack>
+														<HStack w="full">
 															<Field name="issue">
 																{({ field, form }: any) => (
 																	<FormControl
@@ -262,7 +272,7 @@ const SupportPage = () => {
 																type="submit"
 																isLoading={props.isSubmitting}
 															>
-																Send Message
+																Open Issue
 															</Button>
 														</FormControl>
 													</VStack>
