@@ -1,9 +1,10 @@
+import SidebarWrapper from "@/components/shared/dashboard/sidebar";
 import theme from "@/config/theme";
 import "@/styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import type { AppProps } from "next/app";
-import { Router } from "next/router";
+import { Router, useRouter } from "next/router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { useEffect } from "react";
@@ -16,6 +17,7 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 const App = ({ Component, pageProps }: AppProps) => {
 	const [currentUser] = useAuthState(auth);
+	const router = useRouter();
 	useEffect(() => {
 		const setUser = async () => {
 			if (currentUser) {
@@ -42,7 +44,13 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 	return (
 		<ChakraProvider theme={theme}>
-			<Component {...pageProps} />
+			{router.pathname.startsWith("/account") ? (
+				<SidebarWrapper>
+					<Component {...pageProps} />
+				</SidebarWrapper>
+			) : (
+				<Component {...pageProps} />
+			)}
 		</ChakraProvider>
 	);
 };
