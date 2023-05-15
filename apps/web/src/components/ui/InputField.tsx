@@ -10,9 +10,10 @@ import { Field } from "formik";
 interface InputFieldProps {
 	label: string;
 	name: string;
+	type: string;
 }
 
-const InputField = ({ label, name }: InputFieldProps) => (
+const InputField = ({ label, name, type }: InputFieldProps) => (
 	<Field name={name}>
 		{({ field, meta }: any) => (
 			<FormControl isInvalid={meta.error && meta.touched}>
@@ -20,7 +21,7 @@ const InputField = ({ label, name }: InputFieldProps) => (
 					<FormLabel>{label}</FormLabel>
 					<FormErrorMessage>{meta.error}</FormErrorMessage>
 				</HStack>
-				<Input {...field} type="text" maxLength={255} />
+				<Input {...field} type={type} maxLength={255} />
 			</FormControl>
 		)}
 	</Field>

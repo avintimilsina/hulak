@@ -5,13 +5,17 @@ import { HStack, SimpleGrid, Stack } from "@chakra-ui/react";
 const WhatForm = () => (
 	<Stack spacing="4">
 		<HStack>
-			<InputField label="Length" name="package.length" />
-			<InputField label="Width" name="package.width" />
-			<InputField label="Height" name="package.height" />
+			<InputField label="Length" name="package.length" type="number" />
+			<InputField label="Width" name="package.width" type="number" />
+			<InputField label="Height" name="package.height" type="number" />
 		</HStack>
 		<HStack>
-			<InputField label="Weight" name="package.weight" />
-			<InputField label="Total Package Value" name="package.value" />
+			<InputField label="Weight" name="package.weight" type="number" />
+			<InputField
+				label="Total Package Value"
+				name="package.value"
+				type="number"
+			/>
 		</HStack>
 		<SimpleGrid columns={2} spacing={4}>
 			<CheckboxField
