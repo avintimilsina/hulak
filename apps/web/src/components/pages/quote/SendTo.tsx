@@ -7,9 +7,7 @@ const SendTo = () => (
 			Reciever Details
 		</Heading>
 		<HStack w="full">
-			<InputField name="destinationPincode" label="Pincode" type="numeric" />
-			<InputField name="destinationCity" label="City" type="text" />
-			<InputField name="destinationDistrict" label="District" type="text" />
+			<InputField name="destination.city" label="City" type="text" />
 		</HStack>
 	</VStack>
 );

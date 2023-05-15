@@ -1,40 +1,43 @@
 /* eslint-disable no-console */
 import calculatePostage from "@/components/helpers/calculatePostage";
 import WhatForm from "@/components/pages/create/WhatForm";
-import SendFrom from "@/components/pages/quote/SendFrom";
-import SendTo from "@/components/pages/quote/SendTo";
-import { Button, Heading, Stack, Text, VStack } from "@chakra-ui/react";
+import InputField from "@/components/ui/InputField";
+import { Button, HStack, Heading, Stack, Text, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 
 const defaultValues = {
-	sourcePincode: "",
-	sourceCity: "",
-	sourceDistrict: "",
-	destinationPincode: "",
-	destinationCity: "",
-	destinationDistrict: "",
+	source: {
+		city: "",
+	},
 
-	packageWeight: 0,
-	packageLength: 0,
-	packageWidth: 0,
-	packageHeight: 0,
-	packageValue: 0,
+	// Destination
+	destination: {
+		city: "",
+	},
+	package: {
+		weight: 0,
+		length: 0,
+		width: 0,
+		height: 0,
+		value: 0,
+	},
 };
 const QuoteFormSchema = Yup.object({
-	sourcePincode: Yup.string().required("Required"),
-	sourceCity: Yup.string().required("Required"),
-	sourceDistrict: Yup.string().required("Required"),
-	destinationPincode: Yup.string().required("Required"),
-	destinationCity: Yup.string().required("Required"),
-	destinationDistrict: Yup.string().required("Required"),
-
-	packageWeight: Yup.number().required("Required"),
-	packageLength: Yup.number().required("Required"),
-	packageWidth: Yup.number().required("Required"),
-	packageHeight: Yup.number().required("Required"),
-	packageValue: Yup.number().required("Required"),
+	source: Yup.object({
+		city: Yup.string().required("Required"),
+	}),
+	destination: Yup.object({
+		city: Yup.string().required("Required"),
+	}),
+	package: Yup.object({
+		weight: Yup.number().required("Required"),
+		length: Yup.number().required("Required"),
+		width: Yup.number().required("Required"),
+		height: Yup.number().required("Required"),
+		value: Yup.number().required("Required"),
+	}),
 });
 const QuotePage = () => {
 	const [cost, setCost] = useState(0);
@@ -51,12 +54,12 @@ const QuotePage = () => {
 					distance: calculatedDistance,
 					volume: calculatedVolume,
 				} = await calculatePostage(
-					values.packageHeight,
-					values.packageWeight,
-					values.packageLength,
-					values.packageWidth,
-					values.sourceCity,
-					values.destinationCity
+					values.package.height,
+					values.package.weight,
+					values.package.length,
+					values.package.width,
+					values.source.city,
+					values.destination.city
 				);
 				setCost(postageCost);
 				setDistance(calculatedDistance);
@@ -73,17 +76,18 @@ const QuotePage = () => {
 						gap={8}
 					>
 						<VStack mx="auto" maxW="4xl" gap={4} px={{ base: 4, lg: 24 }}>
-							<VStack gap="4">
-								<SendFrom />
-								<SendTo />
-							</VStack>
+							<HStack gap="4" w="full">
+								<InputField name="destination.city" label="From" type="text" />
+
+								<InputField name="source.city" label="To" type="text" />
+							</HStack>
 							<Heading size="md" w="full">
 								Package Information
 							</Heading>
 							<WhatForm />
 						</VStack>
 						<VStack flexGrow={1}>
-							<Text>Distance: {distance}</Text>
+							<Text>Distance: {distance}m</Text>
 							<Text>Postage Volume: {volume}</Text>
 							<Text>Postage Cost: {cost}</Text>
 							<Button type="submit">Submit</Button>

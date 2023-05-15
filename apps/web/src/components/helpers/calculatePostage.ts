@@ -8,12 +8,12 @@ const calculatePostage = async (
 	destinationAddressLine1: string
 ) => {
 	const sourceResult = await fetch(
-		`https://api.openweathermap.org/data/2.5/weather?q=${sourceAddressLine1}&appid=e167a121565880362a4769a2e4acf518`
+		`https://api.openweathermap.org/data/2.5/weather?q=${sourceAddressLine1}&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_API_KEY}`
 	);
 	const sourceData = await sourceResult.json();
 
 	const destinationResult = await fetch(
-		`https://api.openweathermap.org/data/2.5/weather?q=${destinationAddressLine1}&appid=e167a121565880362a4769a2e4acf518`
+		`https://api.openweathermap.org/data/2.5/weather?q=${destinationAddressLine1}&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_API_KEY}`
 	);
 	const destinationData = await destinationResult.json();
 
