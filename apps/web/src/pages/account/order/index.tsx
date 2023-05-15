@@ -1,10 +1,17 @@
-import Result from "@/components/shared/Result";
-import OrderCard from "@/components/pages/account/order/OrderCard";
 import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
-import { Heading, SimpleGrid, Stack, Text, VStack } from "@chakra-ui/react";
+import Result from "@/components/shared/Result";
+import {
+	Box,
+	Flex,
+	Heading,
+	SimpleGrid,
+	Stack,
+	Text,
+	VStack,
+} from "@chakra-ui/react";
 import { collection } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "../../../firebase";
+import { db } from "../../../../firebase";
 
 const OrdersPage = () => {
 	const [values, loading, error] = useCollectionData(collection(db, "orders"), {
@@ -45,9 +52,29 @@ const OrdersPage = () => {
 		<Stack gap={4}>
 			<Heading>Orders</Heading>
 			<VStack gap={4} w="full">
-				{values?.map((order) => (
-					<OrderCard orderItem={order} key={order.pidx} />
-				))}
+				<Flex
+					display={{ base: "none", lg: "block" }}
+					width="96"
+					direction="column"
+					overflowY="auto"
+					borderRightWidth="1px"
+					p="6"
+				>
+					{values?.map((order) => (
+						<Text>{order.pidx}</Text>
+
+						// <OrderCard orderItem={order} key={order.pidx} />
+					))}
+				</Flex>
+				<Flex flex="1" p="6">
+					<Box
+						borderWidth="2px"
+						rounded="base"
+						borderStyle="dashed"
+						h="full"
+						w="full"
+					/>
+				</Flex>
 			</VStack>
 		</Stack>
 	);
