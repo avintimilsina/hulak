@@ -36,7 +36,9 @@ const Homepage = () => {
 					Login
 				</Button>
 			)}
-			<Text as="pre">{JSON.stringify(currentUser, null, 2)}</Text>
+			<Text as="pre" w="2xl">
+				{JSON.stringify(currentUser, null, 2)}
+			</Text>
 		</Grid>
 	);
 };

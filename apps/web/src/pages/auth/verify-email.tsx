@@ -70,12 +70,14 @@ const VerifyEmailPage = ({ currentUser }: VerifyEmailPageProps) => {
 								onClick={async () => {
 									const emailVerification = await sendEmailVerification();
 									if (emailVerification) {
-										toast({
-											title: `Email verification sent`,
-											status: "success",
-											isClosable: true,
-											id: "email-verification",
-										});
+										if (!toast.isActive("email-verification")) {
+											toast({
+												title: `Email verification sent`,
+												status: "success",
+												isClosable: true,
+												id: "email-verification",
+											});
+										}
 									}
 								}}
 							>
