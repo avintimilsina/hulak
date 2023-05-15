@@ -34,8 +34,41 @@ const calculatePostage = async (
 
 	const volume = packageHeight * packageLength * packageWidth;
 
-	const postageCost = distance * volume * packageWeight;
+	const postageCost =
+		distanceToUnitPrice(distance) * packageWeight * volumeMultiplier(volume);
 
 	return { postageCost, distance, volume };
 };
 export default calculatePostage;
+
+const distanceToUnitPrice = (distance: number) => {
+	if (distance > 0 && distance < 10) {
+		return 100;
+	}
+	if (distance > 10 && distance < 30) {
+		return 200;
+	}
+	if (distance > 30 && distance < 50) {
+		return 300;
+	}
+	if (distance > 50 && distance < 100) {
+		return 400;
+	}
+	return 500;
+};
+
+const volumeMultiplier = (volume: number) => {
+	if (volume > 0 && volume < 8000) {
+		return 1;
+	}
+	if (volume > 8000 && volume < 20000) {
+		return 1.5;
+	}
+	if (volume > 20000 && volume < 50000) {
+		return 2;
+	}
+	if (volume > 50000 && volume < 100000) {
+		return 2.5;
+	}
+	return 3;
+};
