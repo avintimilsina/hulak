@@ -29,5 +29,7 @@ export default async function handler(
 
 	const khaltiResponse = await resposne.json();
 
+	console.log(khaltiResponse);
+
 	res.status(200).json({ ...khaltiResponse });
 }

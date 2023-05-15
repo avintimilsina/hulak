@@ -31,7 +31,7 @@ export default async function handler(
 		.doc(req.body.pidx)
 		.set(
 			{
-				khalti,
+				...khalti,
 				status: khalti?.status?.toUpperCase(),
 			},
 			{ merge: true }
