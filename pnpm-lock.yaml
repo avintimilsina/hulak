@@ -68,6 +68,9 @@ importers:
       '@emotion/styled':
         specifier: ^11.10.8
         version: 11.11.0(@emotion/react@11.11.0)(@types/react@18.2.6)(react@18.2.0)
+      dayjs:
+        specifier: ^1.11.7
+        version: 1.11.7
       firebase:
         specifier: ^9.21.0
         version: 9.21.0
@@ -4507,6 +4510,10 @@ packages:
     resolution: {integrity: sha512-2iy1EkLdlBzQGvbweYRFxmFath8+K7+AKB0TlhHWkNuH+TmovaMH/Wp7V7R4u7f4SnX3OgLsU9t1NI9ioDnUpg==}
     engines: {node: '>=8'}
     dev: true
+
+  /dayjs@1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
+    dev: false
 
   /debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
