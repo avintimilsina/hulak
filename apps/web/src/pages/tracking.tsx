@@ -26,11 +26,33 @@ import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
 import { db } from "../../firebase";
 
 const steps = [
-	{ index: 1, title: "PLACED", description: "Description goes here" },
-	{ index: 2, title: "PICKED", description: "Description goes here" },
-	{ index: 3, title: "SHIPPED", description: "Description goes here" },
-	{ index: 4, title: "OUTFORDELIVERY", description: "Description goes here" },
-	{ index: 5, title: "DELIVERED", description: "Description goes here" },
+	{
+		index: 1,
+		title: "PLACED",
+		description: "The order is confirmed and the payment is processed.",
+	},
+	{
+		index: 2,
+		title: "PICKED",
+		description: "The order is picked up from the sender.",
+	},
+	{
+		index: 3,
+		title: "SHIPPED",
+		description: "The order has left the sender location.",
+	},
+	{
+		index: 4,
+		title: "OUTFORDELIVERY",
+		description:
+			"Look out for the delivery guy. Your's order is out for delivery",
+	},
+	{
+		index: 5,
+		title: "DELIVERED",
+		description:
+			"Its delivered. If you are still checking here, go check your mail",
+	},
 ];
 
 const TrackingPage = () => {
@@ -50,8 +72,9 @@ const TrackingPage = () => {
 
 	useEffect(() => {
 		if (value) {
-			setActiveStep(steps.findIndex((step) => step.title === value.status));
-			console.log(steps.findIndex((step) => step.title === value.status));
+			setActiveStep(
+				steps.filter((step) => step.title === value.status)[0].index
+			);
 		}
 	}, [setActiveStep, value]);
 
@@ -116,7 +139,11 @@ const TrackingPage = () => {
 
 												<Box flexShrink="0">
 													<StepTitle>{step.title}</StepTitle>
-													<StepDescription>{step.description}</StepDescription>
+													{activeStep === index + 1 && (
+														<StepDescription>
+															{step.description}
+														</StepDescription>
+													)}
 												</Box>
 
 												<StepSeparator />
