@@ -17,12 +17,16 @@ const defaultValues = {
 		city: "",
 	},
 	package: {
-		weight: 0,
-		length: 0,
-		width: 0,
-		height: 0,
-		value: 0,
+		weight: undefined,
+		length: undefined,
+		width: undefined,
+		height: undefined,
+		value: undefined,
 	},
+	isLithiumIncluded: false,
+	isDryIceIncluded: false,
+	isSignatureIncluded: false,
+	isOversizedPackageIncluded: false,
 };
 const QuoteFormSchema = Yup.object({
 	source: Yup.object({
@@ -54,12 +58,18 @@ const QuotePage = () => {
 					distance: calculatedDistance,
 					volume: calculatedVolume,
 				} = await calculatePostage(
-					values.package.height,
-					values.package.weight,
-					values.package.length,
-					values.package.width,
-					values.source.city,
-					values.destination.city
+					values.package.height!,
+					values.package.weight!,
+					values.package.length!,
+					values.package.width!,
+					values.source.city!,
+					values.destination.city!,
+					{
+						isDryIceIncluded: values.isDryIceIncluded,
+						isLithiumIncluded: values.isLithiumIncluded,
+						isOversizedPackageIncluded: values.isOversizedPackageIncluded,
+						isSignatureIncluded: values.isSignatureIncluded,
+					}
 				);
 				setCost(postageCost);
 				setDistance(calculatedDistance);
@@ -87,7 +97,7 @@ const QuotePage = () => {
 							<WhatForm />
 						</VStack>
 						<VStack flexGrow={1}>
-							<Text>Distance: {distance}m</Text>
+							<Text>Distance: {distance} Km</Text>
 							<Text>Postage Volume: {volume}</Text>
 							<Text>Postage Cost: {cost}</Text>
 							<Button type="submit">Submit</Button>

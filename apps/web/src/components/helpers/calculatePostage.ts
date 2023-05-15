@@ -1,11 +1,18 @@
 /* eslint-disable no-console */
+interface CalculatePostageOption {
+	isLithiumIncluded: boolean;
+	isSignatureIncluded: boolean;
+	isOversizedPackageIncluded: boolean;
+	isDryIceIncluded: boolean;
+}
 const calculatePostage = async (
 	packageHeight: number,
 	packageWeight: number,
 	packageLength: number,
 	packageWidth: number,
 	sourceAddressLine1: string,
-	destinationAddressLine1: string
+	destinationAddressLine1: string,
+	options?: CalculatePostageOption
 ) => {
 	const sourceResult = await fetch(
 		`https://api.openweathermap.org/data/2.5/weather?q=${sourceAddressLine1}&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_API_KEY}`
@@ -35,7 +42,10 @@ const calculatePostage = async (
 	const volume = packageHeight * packageLength * packageWidth;
 
 	const postageCost =
-		distanceToUnitPrice(distance) * packageWeight * volumeMultiplier(volume);
+		distanceToUnitPrice(distance) *
+		packageWeight *
+		volumeMultiplier(volume) *
+		optionsMultiplier(options);
 
 	return { postageCost, distance, volume };
 };
@@ -71,4 +81,21 @@ const volumeMultiplier = (volume: number) => {
 		return 2.5;
 	}
 	return 3;
+};
+
+const optionsMultiplier = (options: CalculatePostageOption | undefined) => {
+	let multiplier = 1;
+	if (options?.isLithiumIncluded) {
+		multiplier += 0.3;
+	}
+	if (options?.isSignatureIncluded) {
+		multiplier += 0.3;
+	}
+	if (options?.isOversizedPackageIncluded) {
+		multiplier += 0.3;
+	}
+	if (options?.isDryIceIncluded) {
+		multiplier += 0.3;
+	}
+	return multiplier;
 };
