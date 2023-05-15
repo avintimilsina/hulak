@@ -9,7 +9,13 @@ import StepContent from "@/components/ui/steps/StepContent";
 import Steps from "@/components/ui/steps/Steps";
 import useSteps from "@/components/ui/steps/useSteps";
 import { Box, Button, HStack, Stack, Text } from "@chakra-ui/react";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import {
+	addDoc,
+	collection,
+	doc,
+	serverTimestamp,
+	setDoc,
+} from "firebase/firestore";
 import { Form, Formik, FormikProps } from "formik";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -136,6 +142,8 @@ const CreateOrder = () => {
 					price: postageCost,
 					distance: calculatedDistance,
 					volume: calculatedVolume,
+					userId: currentUser.uid,
+					createdAt: serverTimestamp(),
 				});
 
 				const response = await fetch("/api/payment", {
@@ -186,6 +194,8 @@ const CreateOrder = () => {
 
 				await setDoc(doc(db, "orders", docRef.id, "payments", pidx), {
 					status: "PENDING",
+					orderId: docRef.id,
+					userId: currentUser.uid,
 				});
 
 				window.location.assign(payment_url);
