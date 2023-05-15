@@ -10,7 +10,7 @@ import { Field } from "formik";
 interface InputFieldProps {
 	label: string;
 	name: string;
-	type: string;
+	type?: string;
 }
 
 const InputField = ({ label, name, type }: InputFieldProps) => (
@@ -26,5 +26,9 @@ const InputField = ({ label, name, type }: InputFieldProps) => (
 		)}
 	</Field>
 );
+
+InputField.defaultProps = {
+	type: "text",
+};
 
 export default InputField;
