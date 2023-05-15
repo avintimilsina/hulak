@@ -1,19 +1,17 @@
-import useLocalStorage from "@/components/hooks/useLocalStorage";
 import Result from "@/components/shared/Result";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const SuccessPage = () => {
 	const router = useRouter();
-	const [order, setOrder] = useLocalStorage<any>("order");
 	useEffect(() => {
 		const runThisNow = async () => {
-			if (router.query?.pidx && order) {
+			if (router.query?.purchase_order_id && router.query?.pidx) {
 				await fetch("/api/update-order", {
 					method: "POST",
 					body: JSON.stringify({
 						pidx: router.query.pidx,
-						order,
+						orderId: router.query.purchase_order_id,
 					}),
 					headers: {
 						"content-type": "application/json",
@@ -22,7 +20,7 @@ const SuccessPage = () => {
 			}
 		};
 		runThisNow();
-	}, [order, router, setOrder]);
+	}, [router]);
 
 	return (
 		<Result

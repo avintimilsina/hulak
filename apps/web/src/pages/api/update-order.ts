@@ -23,15 +23,26 @@ export default async function handler(
 		},
 	});
 	const khalti = await resposne.json();
-	const orderRef = db.collection("orders").doc(req.body.pidx);
 
-	const firestoreResponse = await orderRef.set(
+	const writePayment = await db
+		.collection("orders")
+		.doc(req.body.orderId)
+		.collection("payments")
+		.doc(req.body.pidx)
+		.set(
+			{
+				khalti,
+				status: khalti?.status?.toUpperCase(),
+			},
+			{ merge: true }
+		);
+
+	const writeOrder = await db.collection("orders").doc(req.body.orderId).set(
 		{
-			khalti,
-			...req.body.order,
+			status: "PLACED",
 		},
 		{ merge: true }
 	);
 
-	res.status(200).json(firestoreResponse);
+	res.status(200).json({ paid: writePayment, firestore: writeOrder });
 }

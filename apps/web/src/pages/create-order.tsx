@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import useLocalStorage from "@/components/hooks/useLocalStorage";
+import calculatePostage from "@/components/helpers/calculatePostage";
 import DestinationForm from "@/components/pages/create/DestinationForm";
 import SourceForm from "@/components/pages/create/SourceForm";
 import SustinableForm from "@/components/pages/create/SustinableForm";
@@ -9,11 +9,12 @@ import StepContent from "@/components/ui/steps/StepContent";
 import Steps from "@/components/ui/steps/Steps";
 import useSteps from "@/components/ui/steps/useSteps";
 import { Box, Button, HStack, Stack, Text } from "@chakra-ui/react";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { Form, Formik, FormikProps } from "formik";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import * as Yup from "yup";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
 
 const defaultValues = {
 	// Source
@@ -46,11 +47,11 @@ const defaultValues = {
 
 	// What
 	package: {
-		weight: "",
-		length: "",
-		width: "",
-		height: "",
-		value: "",
+		weight: undefined,
+		length: undefined,
+		width: undefined,
+		height: undefined,
+		value: undefined,
 		description: "",
 	},
 
@@ -85,22 +86,18 @@ const OrderSchema = Yup.object({
 	destination: AddressSchema,
 
 	package: Yup.object({
-		weight: Yup.string().required("Required"),
-		length: Yup.string().required("Required"),
-		width: Yup.string().required("Required"),
-		height: Yup.string().required("Required"),
-		value: Yup.string().required("Required"),
+		weight: Yup.number().required("Required"),
+		length: Yup.number().required("Required"),
+		width: Yup.number().required("Required"),
+		height: Yup.number().required("Required"),
+		value: Yup.number().required("Required"),
 		description: Yup.string().required("Required"),
 	}),
 });
 const CreateOrder = () => {
 	const [currentUser] = useAuthState(auth);
 	const router = useRouter();
-	const [, setOrder] = useLocalStorage("order", {
-		...defaultValues,
-		status: "TEMP",
-		pidx: "",
-	});
+
 	const { nextStep, prevStep, activeStep } = useSteps({
 		initialStep: 0,
 	});
@@ -114,10 +111,31 @@ const CreateOrder = () => {
 					return;
 				}
 
-				setOrder({
+				const {
+					postageCost,
+					distance: calculatedDistance,
+					volume: calculatedVolume,
+				} = await calculatePostage(
+					values.package.height!,
+					values.package.weight!,
+					values.package.length!,
+					values.package.width!,
+					values.source.city!,
+					values.destination.city!,
+					{
+						isDryIceIncluded: values.isDryIceIncluded,
+						isLithiumIncluded: values.isLithiumIncluded,
+						isOversizedPackageIncluded: values.isOversizedPackageIncluded,
+						isSignatureIncluded: values.isSignatureIncluded,
+					}
+				);
+
+				const docRef = await addDoc(collection(db, "orders"), {
 					...values,
 					status: "INITIATED",
-					pidx: "",
+					price: postageCost,
+					distance: calculatedDistance,
+					volume: calculatedVolume,
 				});
 
 				const response = await fetch("/api/payment", {
@@ -126,43 +144,51 @@ const CreateOrder = () => {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						amount: 1300,
-						purchase_order_id: "test12",
-						purchase_order_name: "test",
+						amount: postageCost,
+						purchase_order_id: docRef.id ?? "order-failed",
+						purchase_order_name: "Payment for delivery charges",
 						customer_info: {
 							name: currentUser.displayName,
 							email: currentUser.email,
-							phone: currentUser?.phoneNumber ?? "9800000000",
+							phone:
+								currentUser?.phoneNumber ??
+								values.source.phoneNumber ??
+								"9800000000",
 						},
 						amount_breakdown: [
 							{
-								label: "Delivery Charges",
-								amount: 1000,
-							},
-							{
-								label: "VAT",
-								amount: 300,
+								label: "Order Sub Total",
+								amount: postageCost,
 							},
 						],
 						product_details: [
 							{
-								identity: "1234567890",
-								name: "Delivery Charges",
-								total_price: 1300,
+								identity: docRef.id ?? "order-failed",
+								name: "Package Order",
+								total_price: postageCost,
 								quantity: 1,
-								unit_price: 1300,
+								unit_price: postageCost,
 							},
 						],
 					}),
 				});
 
 				const { pidx, payment_url } = await response.json();
-				setOrder((prev) => ({
-					...prev,
-					pidx,
-				}));
-				window.location.assign(payment_url);
 
+				await setDoc(
+					doc(db, "orders", docRef.id ?? "-"),
+					{
+						orderId: docRef.id,
+						pidx,
+					},
+					{ merge: true }
+				);
+
+				await setDoc(doc(db, "orders", docRef.id, "payments", pidx), {
+					status: "PENDING",
+				});
+
+				window.location.assign(payment_url);
 				action.resetForm();
 			}}
 		>
