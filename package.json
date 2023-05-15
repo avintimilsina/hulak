@@ -11,14 +11,14 @@
 		"prepare": "husky install"
 	},
 	"devDependencies": {
-		"eslint": "^8.0.0",
-		"eslint-config-custom": "workspace:*",
-		"prettier": "^2.8.0",
-		"turbo": "latest",
 		"@commitlint/cli": "^17.6.1",
 		"@commitlint/config-conventional": "^17.6.1",
+		"eslint": "^8.0.0",
+		"eslint-config-custom": "workspace:*",
 		"husky": "^8.0.3",
-		"lint-staged": "^13.2.2"
+		"lint-staged": "^13.2.2",
+		"prettier": "^2.8.0",
+		"turbo": "^1.9.5"
 	},
 	"packageManager": "pnpm@8.5.0",
 	"name": "hulak"
