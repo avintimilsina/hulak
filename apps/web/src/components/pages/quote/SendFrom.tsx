@@ -1,13 +1,5 @@
-import {
-	FormControl,
-	FormErrorMessage,
-	FormLabel,
-	HStack,
-	Heading,
-	Input,
-	VStack,
-} from "@chakra-ui/react";
-import { Field } from "formik";
+import InputField from "@/components/ui/InputField";
+import { HStack, Heading, VStack } from "@chakra-ui/react";
 
 const SendFrom = () => (
 	<VStack spacing="4" w="full">
@@ -15,47 +7,9 @@ const SendFrom = () => (
 			Sender Details
 		</Heading>
 		<HStack w="full">
-			<Field name="sourcePincode">
-				{({ field, form }: any) => (
-					<FormControl
-						isInvalid={form.errors.sourcePincode && form.touched.sourcePincode}
-					>
-						<HStack justifyContent="space-between">
-							<FormLabel>Pincode</FormLabel>
-							<FormErrorMessage>{form.errors.sourcePincode}</FormErrorMessage>
-						</HStack>
-						<Input {...field} type="text" maxLength={255} />
-					</FormControl>
-				)}
-			</Field>
-			<Field name="sourceCity">
-				{({ field, form }: any) => (
-					<FormControl
-						isInvalid={form.errors.sourceCity && form.touched.sourceCity}
-					>
-						<HStack justifyContent="space-between">
-							<FormLabel>City</FormLabel>
-							<FormErrorMessage>{form.errors.sourceCity}</FormErrorMessage>
-						</HStack>
-						<Input {...field} type="text" maxLength={255} />
-					</FormControl>
-				)}
-			</Field>
-			<Field name="sourceDistrict">
-				{({ field, form }: any) => (
-					<FormControl
-						isInvalid={
-							form.errors.sourceDistrict && form.touched.sourceDistrict
-						}
-					>
-						<HStack justifyContent="space-between">
-							<FormLabel>District</FormLabel>
-							<FormErrorMessage>{form.errors.sourceDistrict}</FormErrorMessage>
-						</HStack>
-						<Input {...field} type="text" maxLength={255} />
-					</FormControl>
-				)}
-			</Field>
+			<InputField name="sourcePincode" label="Pincode" type="numeric" />
+			<InputField name="sourceCity" label="City" type="text" />
+			<InputField name="sourceDistrict" label="District" type="text" />
 		</HStack>
 	</VStack>
 );
