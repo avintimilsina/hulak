@@ -1,48 +1,42 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Button, Grid, Heading, VStack } from "@chakra-ui/react";
+import KhaltiCheckout from "khalti-checkout-web";
+import { useRouter } from "next/router";
 
 const PaymentPage = () => {
+	const router = useRouter();
 	const handleSubmission = async () => {
-		const response = await fetch("/api/payment", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				amount: 1300,
-				purchase_order_id: "test12",
-				purchase_order_name: "test",
-				customer_info: {
-					name: "Ashim Upadhaya",
-					email: "example@gmail.com",
-					phone: "9811496763",
+		const checkout = new KhaltiCheckout({
+			// replace this key with yours
+			publicKey: process.env.NEXT_PUBLIC_KHALTI_PUBLIC_KEY,
+			productIdentity: "1234567890",
+			productName: "Drogon",
+			productUrl: "http://gameofthrones.com/buy/Dragons",
+			eventHandler: {
+				onSuccess(payload: any) {
+					// hit merchant api for initiating verfication
+					router.push({ pathname: "/payment/success", query: payload });
+					console.log(payload);
 				},
-				amount_breakdown: [
-					{
-						label: "Mark Price",
-						amount: 1000,
-					},
-					{
-						label: "VAT",
-						amount: 300,
-					},
-				],
-				product_details: [
-					{
-						identity: "1234567890",
-						name: "Khalti logo",
-						total_price: 1300,
-						quantity: 1,
-						unit_price: 1300,
-					},
-				],
-			}),
+				// onError handler is optional
+				onError(error: any) {
+					// handle errors
+					console.log(error);
+				},
+				onClose() {
+					console.log("widget is closing");
+				},
+			},
+			paymentPreference: [
+				"KHALTI",
+				"EBANKING",
+				"MOBILE_BANKING",
+				"CONNECT_IPS",
+				"SCT",
+			],
 		});
-
-		const { pidx, payment_url } = await response.json();
-		console.log("PIXD", pidx);
-		window.location.assign(payment_url);
+		checkout.show({ amount: 1000 });
 	};
 	return (
 		<Grid placeItems="center" h="100vh">

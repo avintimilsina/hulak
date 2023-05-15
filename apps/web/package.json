@@ -17,6 +17,7 @@
 		"firebase-admin": "^11.8.0",
 		"formik": "^2.2.9",
 		"framer-motion": "^10.12.7",
+		"khalti-checkout-web": "^2.2.0",
 		"nanoid": "^4.0.2",
 		"next": "^13.3.4",
 		"nprogress": "^0.2.0",
