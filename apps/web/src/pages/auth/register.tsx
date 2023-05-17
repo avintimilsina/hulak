@@ -1,6 +1,8 @@
-import RegisterForm from "@/components/auth/RegisterForm";
+import CheckboxField from "@/components/ui/CheckboxField";
+import InputField from "@/components/ui/InputField";
 import withAuthPages from "@/routes/withAuthPages";
-import { Button, Grid, useToast } from "@chakra-ui/react";
+import { Button, Grid, HStack, VStack, useToast } from "@chakra-ui/react";
+import { doc, setDoc } from "firebase/firestore";
 import { Form, Formik, FormikProps } from "formik";
 import { useRouter } from "next/router";
 import {
@@ -9,18 +11,21 @@ import {
 	useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import * as Yup from "yup";
-import { auth } from "../../../firebase";
+import { auth, db } from "../../../firebase";
 
 const defaultValues = {
 	firstName: "",
 	lastName: "",
 	email: "",
 	password: "",
+	panNumber: "",
+	isBusiness: false,
 };
 
 const RegisterSchema = Yup.object({
 	firstName: Yup.string().required("Required"),
-	lastName: Yup.string().required("Required"),
+	isBusiness: Yup.boolean(),
+	lastName: Yup.string(),
 	email: Yup.string().email("Invalid email address").required("Required"),
 	password: Yup.string()
 		.required("Required")
@@ -29,6 +34,10 @@ const RegisterSchema = Yup.object({
 	confirmPassword: Yup.string()
 		.required("Please retype your password.")
 		.oneOf([Yup.ref("password")], "Passwords must match"),
+	// panNumber: Yup.string().when("isBusiness", {
+	// 	is: true,
+	// 	then: Yup.string().required("Must enter email address")
+	// }),
 });
 
 const Register = () => {
@@ -52,7 +61,18 @@ const Register = () => {
 						displayName: `${values.firstName} ${values.lastName}`,
 						photoURL: `https://api.dicebear.com/6.x/adventurer/svg?seed=${values.firstName} ${values.lastName}`,
 					});
+
 					if (success) {
+						if (values.isBusiness) {
+							await setDoc(
+								doc(db, "users", response?.user?.uid),
+								{
+									panNumber: values.panNumber,
+									isBusiness: values.isBusiness,
+								},
+								{ merge: true }
+							);
+						}
 						const emailVerification = await sendEmailVerification();
 						if (emailVerification) {
 							if (!toast.isActive("register")) {
@@ -85,7 +105,31 @@ const Register = () => {
 			{(props: FormikProps<any>) => (
 				<Form>
 					<Grid placeItems="center" h="100vh">
-						<RegisterForm />
+						<CheckboxField name="isBusiness" label="Business" />
+						<VStack gap={2}>
+							{props.values.isBusiness ? (
+								<HStack>
+									<InputField
+										name="firstName"
+										label="Company Name"
+										type="text"
+									/>
+									<InputField name="panNumber" label="PAN Number" type="text" />
+								</HStack>
+							) : (
+								<HStack>
+									<InputField name="firstName" label="First Name" type="text" />
+									<InputField name="lastName" label="Last Name" type="text" />
+								</HStack>
+							)}
+							<InputField name="email" label="Email" type="email" />
+							<InputField name="password" label="Password" type="password" />
+							<InputField
+								name="confirmPassword"
+								label="Confirm Password"
+								type="password"
+							/>
+						</VStack>
 						<Button isLoading={props.isSubmitting} type="submit" w="lg">
 							Sign up
 						</Button>
