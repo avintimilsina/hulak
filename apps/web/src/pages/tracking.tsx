@@ -1,3 +1,5 @@
+import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
+import Result from "@/components/shared/Result";
 import InputField from "@/components/ui/InputField";
 import {
 	Box,
@@ -17,44 +19,12 @@ import {
 	VStack,
 	useSteps,
 } from "@chakra-ui/react";
+import { doc } from "firebase/firestore";
 import { Form, Formik, FormikProps } from "formik";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import * as Yup from "yup";
-import { doc } from "firebase/firestore";
-import Result from "@/components/shared/Result";
-import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
 import { db } from "../../firebase";
-
-const steps = [
-	{
-		index: 1,
-		title: "PLACED",
-		description: "The order is confirmed and the payment is processed.",
-	},
-	{
-		index: 2,
-		title: "PICKED",
-		description: "The order is picked up from the sender.",
-	},
-	{
-		index: 3,
-		title: "SHIPPED",
-		description: "The order has left the sender location.",
-	},
-	{
-		index: 4,
-		title: "OUTFORDELIVERY",
-		description:
-			"Look out for the delivery guy. Your's order is out for delivery",
-	},
-	{
-		index: 5,
-		title: "DELIVERED",
-		description:
-			"Its delivered. If you are still checking here, go check your mail",
-	},
-];
 
 const TrackingPage = () => {
 	const [trackingId, setTrackingId] = useState("");
@@ -65,20 +35,6 @@ const TrackingPage = () => {
 			snapshotListenOptions: { includeMetadataChanges: true },
 		}
 	);
-
-	const { activeStep, setActiveStep } = useSteps({
-		index: 0,
-		count: steps.length,
-	});
-
-	useEffect(() => {
-		if (value) {
-			setActiveStep(
-				steps.filter((step) => step.title === value.status)[0].index
-			);
-		}
-	}, [setActiveStep, value]);
-
 	if (error) {
 		<Result
 			heading={error.name}
@@ -118,48 +74,7 @@ const TrackingPage = () => {
 						{loading ? (
 							<PageLoadingSpinner />
 						) : (
-							value && (
-								<SimpleGrid
-									placeItems="center"
-									justifyContent="center"
-									h="70vh"
-									w="full"
-								>
-									<Stepper
-										size="lg"
-										colorScheme="red"
-										w="full"
-										maxW={{ base: "unset", lg: "2xl" }}
-										orientation="vertical"
-										index={activeStep}
-										h="70vh"
-										mx="4"
-									>
-										{steps.map((step, index) => (
-											<Step key={`step-${index + 1}`}>
-												<StepIndicator>
-													<StepStatus
-														complete={<StepIcon />}
-														incomplete={<StepNumber />}
-														active={<StepNumber />}
-													/>
-												</StepIndicator>
-
-												<Box w="full">
-													<StepTitle>{step.title}</StepTitle>
-													{activeStep === index + 1 && (
-														<StepDescription as={Text} textAlign="justify">
-															{step.description}
-														</StepDescription>
-													)}
-												</Box>
-
-												<StepSeparator />
-											</Step>
-										))}
-									</Stepper>
-								</SimpleGrid>
-							)
+							value && <TrackingTimeline status={value?.status} />
 						)}
 					</VStack>
 				</Form>
@@ -169,3 +84,88 @@ const TrackingPage = () => {
 };
 
 export default TrackingPage;
+
+const steps = [
+	{
+		index: 1,
+		title: "PLACED",
+		description: "The order is confirmed and the payment is processed.",
+	},
+	{
+		index: 2,
+		title: "PICKED",
+		description: "The order is picked up from the sender.",
+	},
+	{
+		index: 3,
+		title: "SHIPPED",
+		description: "The order has left the sender location.",
+	},
+	{
+		index: 4,
+		title: "OUTFORDELIVERY",
+		description:
+			"Look out for the delivery guy. Your's order is out for delivery",
+	},
+	{
+		index: 5,
+		title: "DELIVERED",
+		description:
+			"Its delivered. If you are still checking here, go check your mail",
+	},
+];
+
+interface TrackingTimelineProps {
+	status: string;
+	orientation?: "horizontal" | "vertical";
+}
+
+const TrackingTimeline = ({ status, orientation }: TrackingTimelineProps) => {
+	const { activeStep } = useSteps({
+		index: steps.filter((step) => step.title === status)[0].index,
+		count: steps.length,
+	});
+	return (
+		<SimpleGrid placeItems="center" justifyContent="center" h="70vh" w="full">
+			<Stepper
+				size="lg"
+				colorScheme="red"
+				w="full"
+				maxW={{ base: "unset", lg: "2xl" }}
+				orientation={orientation}
+				index={activeStep}
+				h="70vh"
+				mx="4"
+			>
+				{steps.map((step, index) => (
+					<Step key={`step-${index + 1}`}>
+						<StepIndicator>
+							<StepStatus
+								complete={<StepIcon />}
+								incomplete={<StepNumber />}
+								active={<StepNumber />}
+							/>
+						</StepIndicator>
+
+						<Box w="full">
+							<StepTitle>{step.title}</StepTitle>
+							{activeStep === index + 1 && (
+								<StepDescription as={Text} textAlign="justify">
+									{step.description}
+								</StepDescription>
+							)}
+						</Box>
+
+						<StepSeparator />
+					</Step>
+				))}
+			</Stepper>
+		</SimpleGrid>
+	);
+};
+
+TrackingTimeline.defaultProps = {
+	orientation: "vertical",
+};
+
+export { TrackingTimeline };

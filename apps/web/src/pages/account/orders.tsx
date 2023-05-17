@@ -2,7 +2,6 @@
 import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
 import { PriceTag } from "@/components/shared/PriceTag";
 import Result from "@/components/shared/Result";
-import { capitalize } from "@/utils/helpers";
 import {
 	Badge,
 	Box,
@@ -41,6 +40,7 @@ import { BsArrowReturnRight } from "react-icons/bs";
 import { FaLeaf } from "react-icons/fa";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { auth, db } from "../../../firebase";
+import { TrackingTimeline } from "../tracking";
 
 const OrdersPage = () => {
 	const router = useRouter();
@@ -76,7 +76,7 @@ const OrdersPage = () => {
 		);
 	}, [router.query.id, values]);
 
-	const { onCopy, hasCopied } = useClipboard("abcedf");
+	const { onCopy, hasCopied } = useClipboard(value?.orderId ?? "");
 
 	if (loading) {
 		return <PageLoadingSpinner />;
@@ -172,8 +172,8 @@ const OrdersPage = () => {
 								{value?.status?.toUpperCase() === "COMPLETED"
 									? "SUCCESSFUL"
 									: "NOT INITIATED"}
-								<Tag colorScheme="red" px={2}>
-									UNPAID
+								<Tag colorScheme="blue" px={2}>
+									{successPayment?.status?.toUpperCase()}
 								</Tag>
 								<HStack>
 									{order.isCarbonNeutral && (
@@ -230,11 +230,10 @@ const OrdersPage = () => {
 										Your Order is{" "}
 										<Tooltip label="Order Status" closeOnClick={false}>
 											<Text as="span">
-												{capitalize(
-													value?.status?.toUpperCase() === "INITIATED"
-														? "PLACED"
-														: "NOT YET CONFIRMED"
-												)}{" "}
+												{
+													orderPageTextFromStatus(value?.status?.toUpperCase())
+														.info
+												}
 											</Text>
 										</Tooltip>
 									</Heading>
@@ -243,46 +242,51 @@ const OrdersPage = () => {
 							<Box>
 								<Text>Hi {currentUser?.displayName},</Text>
 								<Text>
-									Your order has been confirmed and will be shipping soon.
+									{orderPageTextFromStatus(value?.status?.toUpperCase()).header}
 								</Text>
 							</Box>
-							<VStack alignItems="flex-start">
-								<HStack>
-									<Text fontSize="lg" fontWeight="semibold">
-										Tracking Number
-									</Text>
-									<Tooltip
-										label={hasCopied ? "Copied!" : "Copy"}
-										closeOnClick={false}
-									>
-										<IconButton
-											aria-label="Copy Tracking Number"
-											variant="ghost"
-											icon={<MdOutlineContentCopy size={20} />}
-											onClick={onCopy}
-										/>
-									</Tooltip>
-								</HStack>
-								<Text>{value?.orderId}</Text>
-							</VStack>
-							<HStack gap={6}>
-								<OrderInfo label="Order Date">
+							<HStack
+								justifyContent="space-around"
+								w="full"
+								alignItems="flex-start"
+							>
+								<VStack>
+									<HStack>
+										<Text fontSize="lg" fontWeight="semibold">
+											Tracking Number
+										</Text>
+										<Tooltip
+											label={hasCopied ? "Copied!" : "Copy"}
+											closeOnClick={false}
+										>
+											<IconButton
+												aria-label="Copy Tracking Number"
+												variant="ghost"
+												icon={<MdOutlineContentCopy size={20} />}
+												onClick={onCopy}
+											/>
+										</Tooltip>
+									</HStack>
+									<Text>{value?.orderId}</Text>
+								</VStack>
+								<OrderInfo label="Delivering To">
 									<Text>
-										{dayjs(Number(value?.createdAt?.seconds ?? 0)).format(
-											"DD MMMM, YYYY"
-										)}
+										{value?.destination.addressLine1},{" "}
+										{value?.destination.addressLine2}
 									</Text>
-								</OrderInfo>
-								<OrderInfo label="Payment">
-									<Text>Khalti</Text>
-								</OrderInfo>
-								<OrderInfo label="Address">
-									<Text>Sinamangal</Text>
+									<Text>
+										{value?.destination.city},{value?.destination.state}
+									</Text>
+									<Text>
+										{value?.destination.zip},{value?.destination.country}
+									</Text>
 								</OrderInfo>
 							</HStack>
 
+							<TrackingTimeline status={value?.status} orientation="vertical" />
+
 							<VStack w="full" px={{ base: 2, lg: 8 }} gap={2} py={4}>
-								<HStack justify="space-between" w="full" fontSize="lg">
+								{/* <HStack justify="space-between" w="full" fontSize="lg">
 									<Text color={mode("gray.600", "gray.400")}>Sub Total</Text>
 									<PriceTag price={123} currency="NPR" />
 								</HStack>
@@ -294,9 +298,8 @@ const OrdersPage = () => {
 										<Text>+</Text>
 										<PriceTag price={200} currency="NPR" />
 									</HStack>
-								</HStack>
+								</HStack> */}
 								<Divider />
-
 								<HStack
 									justify="space-between"
 									w="full"
@@ -304,14 +307,12 @@ const OrdersPage = () => {
 									fontSize="xl"
 								>
 									<Text color={mode("gray.500", "gray.300")}>Order Total</Text>
-									<PriceTag price={456} currency="NPR" />
+									<PriceTag price={value?.price ?? 0} currency="NPR" />
 								</HStack>
 							</VStack>
 							<Box>
 								<Text>
-									We&apos;ll send you shipping confirmation when your item(s)
-									are on the way! We appreciate your business, and hope you
-									enjoy your purchase.
+									{orderPageTextFromStatus(value?.status?.toUpperCase()).footer}
 								</Text>
 							</Box>
 							<Box>
@@ -320,7 +321,7 @@ const OrdersPage = () => {
 							</Box>
 							<Text w="full" fontSize="lg">
 								Have a Problem? Contact our{" "}
-								<Link href="/">Customer Support </Link>
+								<Link href="/support">Customer Support </Link>
 							</Text>
 						</Stack>
 					)}
@@ -346,3 +347,57 @@ export const OrderInfo = ({
 		<Text>{children}</Text>
 	</VStack>
 );
+
+export const orderPageTextFromStatus = (status: string) => {
+	switch (status) {
+		case "PICKED":
+			return {
+				info: "Order Picked",
+				header:
+					"Your order has been picked! We'll send you shipping confirmation once your order is on the way! ",
+				footer:
+					"We appreciate your business, and hope you enjoy your purchase.",
+			};
+		case "SHIPPED":
+			return {
+				info: "Order Shipped",
+				header:
+					"Your order has been shipped! We'll send you shipping confirmation once your order is on the way! ",
+				footer:
+					"We appreciate your business, and hope you enjoy your purchase.",
+			};
+		case "PLACED":
+			return {
+				info: "Order Placed",
+				header: "Your order has been placed!",
+				footer:
+					"We'll send you shipping confirmation once your order is on the way! We appreciate your business, and hope you enjoy your purchase.",
+			};
+		case "OUTFORDELIVERY":
+			return {
+				info: "Out for delivery",
+				header: "Your order is out for delivery!",
+				footer:
+					"We appreciate your business, and hope you enjoy your purchase.",
+			};
+		case "DELIVERED":
+			return {
+				info: "Delivered",
+				header: "Your order has been delivered!",
+				footer:
+					"Do checkout our other products and dont forget to leave a review.",
+			};
+		case "REJECTED":
+			return {
+				info: "Couldn't delivery the package.",
+				header: "Your order has been rejected!",
+				footer: "Please contact our support team for further details.",
+			};
+		default:
+			return {
+				info: "Something seems wrong.",
+				header: "Something went wrong!",
+				footer: "Please contact our suppport team as soon as possible.",
+			};
+	}
+};
