@@ -13,6 +13,7 @@ import {
 	StepStatus,
 	StepTitle,
 	Stepper,
+	Text,
 	VStack,
 	useSteps,
 } from "@chakra-ui/react";
@@ -103,7 +104,12 @@ const TrackingPage = () => {
 			{(props: FormikProps<any>) => (
 				<Form>
 					<VStack m={8} gap={8}>
-						<HStack alignItems="flex-end" gap={8} w="2xl">
+						<HStack
+							alignItems="flex-end"
+							gap={8}
+							w="full"
+							maxW={{ base: "unset", lg: "2xl" }}
+						>
 							<InputField label="Tracking Number" name="orderId" />
 							<Button type="submit" isLoading={props.isSubmitting}>
 								Search
@@ -123,9 +129,11 @@ const TrackingPage = () => {
 										size="lg"
 										colorScheme="red"
 										w="full"
+										maxW={{ base: "unset", lg: "2xl" }}
 										orientation="vertical"
 										index={activeStep}
 										h="70vh"
+										mx="4"
 									>
 										{steps.map((step, index) => (
 											<Step key={`step-${index + 1}`}>
@@ -137,10 +145,10 @@ const TrackingPage = () => {
 													/>
 												</StepIndicator>
 
-												<Box flexShrink="0">
+												<Box w="full">
 													<StepTitle>{step.title}</StepTitle>
 													{activeStep === index + 1 && (
-														<StepDescription>
+														<StepDescription as={Text} textAlign="justify">
 															{step.description}
 														</StepDescription>
 													)}

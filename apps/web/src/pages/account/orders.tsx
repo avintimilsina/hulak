@@ -263,7 +263,7 @@ const OrdersPage = () => {
 										/>
 									</Tooltip>
 								</HStack>
-								<Text>{value?.pidx}</Text>
+								<Text>{value?.orderId}</Text>
 							</VStack>
 							<HStack gap={6}>
 								<OrderInfo label="Order Date">
