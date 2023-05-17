@@ -1,4 +1,5 @@
 import Result from "@/components/shared/Result";
+import withProtected from "@/routes/withProtected";
 import {
 	Button,
 	Center,
@@ -91,4 +92,4 @@ const VerifyEmailPage = ({ currentUser }: VerifyEmailPageProps) => {
 	);
 };
 
-export default VerifyEmail;
+export default withProtected(VerifyEmail);

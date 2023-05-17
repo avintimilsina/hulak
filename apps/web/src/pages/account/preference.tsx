@@ -1,4 +1,5 @@
 import AccountPreference from "@/components/pages/account/AccountPreference";
+import withProtected from "@/routes/withProtected";
 import { Heading, Stack } from "@chakra-ui/react";
 
 const PreferencePage = () => (
@@ -8,4 +9,4 @@ const PreferencePage = () => (
 	</Stack>
 );
 
-export default PreferencePage;
+export default withProtected(PreferencePage);

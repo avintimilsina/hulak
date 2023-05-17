@@ -1,4 +1,5 @@
 import Result from "@/components/shared/Result";
+import withProtected from "@/routes/withProtected";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -32,4 +33,4 @@ const SuccessPage = () => {
 	);
 };
 
-export default SuccessPage;
+export default withProtected(SuccessPage);

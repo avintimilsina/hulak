@@ -1,4 +1,5 @@
 import LoginForm from "@/components/auth/LoginForm";
+import withAuthPages from "@/routes/withAuthPages";
 import { Button, Grid, useToast } from "@chakra-ui/react";
 import { Form, Formik, FormikProps } from "formik";
 import { useRouter } from "next/router";
@@ -117,4 +118,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default withAuthPages(Login);

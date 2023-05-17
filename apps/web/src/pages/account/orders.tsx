@@ -2,6 +2,7 @@
 import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
 import { PriceTag } from "@/components/shared/PriceTag";
 import Result from "@/components/shared/Result";
+import withProtected from "@/routes/withProtected";
 import {
 	Badge,
 	Box,
@@ -287,7 +288,7 @@ const OrdersPage = () => {
 	);
 };
 
-export default OrdersPage;
+export default withProtected(OrdersPage);
 
 export const OrderInfo = ({
 	label,

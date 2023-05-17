@@ -1,6 +1,7 @@
 import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
 import { PriceTag } from "@/components/shared/PriceTag";
 import Result from "@/components/shared/Result";
+import withProtected from "@/routes/withProtected";
 import { capitalize } from "@/utils/helpers";
 import { Link } from "@chakra-ui/next-js";
 import {
@@ -37,7 +38,7 @@ const OrderPage = () => {
 			snapshotListenOptions: { includeMetadataChanges: true },
 		}
 	);
-	const { onCopy, hasCopied } = useClipboard("abcedf");
+	const { onCopy, hasCopied } = useClipboard(router?.query?.id as string);
 	if (loading || userLoading) {
 		return <PageLoadingSpinner />;
 	}
@@ -190,7 +191,7 @@ const OrderPage = () => {
 	);
 };
 
-export default OrderPage;
+export default withProtected(OrderPage);
 
 export const OrderInfo = ({
 	label,

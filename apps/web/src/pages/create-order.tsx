@@ -8,6 +8,7 @@ import Step from "@/components/ui/steps/Step";
 import StepContent from "@/components/ui/steps/StepContent";
 import Steps from "@/components/ui/steps/Steps";
 import useSteps from "@/components/ui/steps/useSteps";
+import withProtected from "@/routes/withProtected";
 import { Box, Button, HStack, Stack, Text } from "@chakra-ui/react";
 import {
 	addDoc,
@@ -331,4 +332,4 @@ const CreateOrder = () => {
 	);
 };
 
-export default CreateOrder;
+export default withProtected(CreateOrder);

@@ -1,4 +1,5 @@
 import RegisterForm from "@/components/auth/RegisterForm";
+import withAuthPages from "@/routes/withAuthPages";
 import { Button, Grid, useToast } from "@chakra-ui/react";
 import { Form, Formik, FormikProps } from "formik";
 import { useRouter } from "next/router";
@@ -95,4 +96,4 @@ const Register = () => {
 	);
 };
 
-export default Register;
+export default withAuthPages(Register);

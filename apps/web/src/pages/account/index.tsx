@@ -1,6 +1,7 @@
 import ServiceLink from "@/components/auth/ServiceLink";
 import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
 import FileUploadModal from "@/components/ui/FileUploadModal";
+import withProtected from "@/routes/withProtected";
 import type { StackProps } from "@chakra-ui/react";
 import {
 	Avatar,
@@ -223,7 +224,7 @@ const AccountSetting = () => {
 		</Formik>
 	);
 };
-export default AccountSetting;
+export default withProtected(AccountSetting);
 
 interface FieldGroupProps extends StackProps {
 	title?: string;
