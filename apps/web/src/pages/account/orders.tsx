@@ -16,6 +16,7 @@ import {
 	IconButton,
 	Link,
 	SimpleGrid,
+	Spinner,
 	Stack,
 	Tag,
 	Text,
@@ -29,11 +30,18 @@ import {
 	DocumentData,
 	collection,
 	collectionGroup,
+	orderBy,
 	query,
 	where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { ReactNode, useEffect, useState } from "react";
+import {
+	Dispatch,
+	ReactNode,
+	SetStateAction,
+	useEffect,
+	useState,
+} from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { BsArrowReturnRight } from "react-icons/bs";
@@ -59,7 +67,8 @@ const OrdersPage = () => {
 	const [payment, paymentLoading, paymentError] = useCollectionData(
 		query(
 			collectionGroup(db, "payments"),
-			where("orderId", "==", value?.orderId ?? "-")
+			where("orderId", "==", value?.orderId ?? "-"),
+			orderBy("createdAt", "desc")
 		),
 		{
 			snapshotListenOptions: { includeMetadataChanges: true },
@@ -69,6 +78,8 @@ const OrdersPage = () => {
 	const successPayment = payment?.filter(
 		(singlePayment) => singlePayment.status === "COMPLETED"
 	)[0];
+
+	const latestPayment = successPayment ?? payment?.[0];
 
 	useEffect(() => {
 		setValue(
@@ -119,69 +130,7 @@ const OrdersPage = () => {
 					pr="2"
 				>
 					{values?.map((order) => (
-						<Card
-							onClick={() => {
-								setValue(
-									values?.filter(
-										(singleOrder) => singleOrder.orderId === router.query.id
-									)[0] ?? {}
-								);
-								router.push({ query: { id: order.orderId } });
-							}}
-							key={order.pidx}
-							w="full"
-							_hover={{ textDecoration: "none" }}
-							variant={
-								router.query.id === order.orderId ? "filled" : "elevated"
-							}
-						>
-							<CardHeader pb="1">
-								<HStack justifyContent="space-between">
-									<Text>
-										{dayjs(Number(order.createdAt.seconds * 1000)).format(
-											"DD MMMM, YYYY"
-										)}
-									</Text>
-
-									<Tag colorScheme="green" px={2}>
-										{order?.status?.toUpperCase()}
-									</Tag>
-								</HStack>
-							</CardHeader>
-							<CardBody
-								pt="1"
-								display="flex"
-								flexDirection="column"
-								justifyContent="space-between"
-								alignItems="flex-start"
-								gap={2}
-							>
-								<VStack w="full">
-									<Text alignSelf="flex-start">
-										{order.source.addressLine1}
-									</Text>
-									<HStack w="full" justifyContent="center">
-										<Icon as={BsArrowReturnRight} />
-										<Text alignSelf="flex-end">
-											{order.destination.addressLine1}
-										</Text>
-									</HStack>
-								</VStack>
-							</CardBody>
-							<CardFooter as={HStack} justifyContent="space-between" pt="1">
-								{value?.status?.toUpperCase() === "COMPLETED"
-									? "SUCCESSFUL"
-									: "NOT INITIATED"}
-								<Tag colorScheme="blue" px={2}>
-									{successPayment?.status?.toUpperCase()}
-								</Tag>
-								<HStack>
-									{order.isCarbonNeutral && (
-										<Icon as={FaLeaf} fill="green.500" />
-									)}
-								</HStack>
-							</CardFooter>
-						</Card>
+						<OrderList order={order} values={values} setValue={setValue} />
 					))}
 				</VStack>
 				<Box
@@ -220,8 +169,15 @@ const OrdersPage = () => {
 								<VStack alignItems="flex-start" gap={2}>
 									<HStack alignItems="flex-start">
 										<Tooltip label="Payment Status" closeOnClick={false}>
-											<Badge fontSize="xl" colorScheme="green" px={3} py={1}>
-												PAYMENT {successPayment?.status?.toUpperCase()}
+											<Badge
+												fontSize="xl"
+												colorScheme={getColorFromStatus(
+													latestPayment?.status ?? "PENDING"
+												)}
+												px={3}
+												py={1}
+											>
+												PAYMENT {latestPayment?.status?.toUpperCase()}
 											</Badge>
 										</Tooltip>
 									</HStack>
@@ -400,4 +356,135 @@ export const orderPageTextFromStatus = (status: string) => {
 				footer: "Please contact our suppport team as soon as possible.",
 			};
 	}
+};
+
+export const getColorFromStatus = (status: string) => {
+	switch (status.toUpperCase()) {
+		case "PENDING":
+			return "red";
+		case "PICKED":
+			return "blue.500";
+		case "INITIATED":
+			return "yellow";
+		case "COMPLETED":
+			return "green";
+		case "PLACED":
+			return "blue.500";
+		case "SHIPPED":
+			return "blue.500";
+		case "OUTFORDELIVERY":
+			return "green";
+		case "DELIVERED":
+			return "green";
+		case "REFUNDED":
+			return "green";
+		case "REJECTED":
+			return "red";
+		case "FAILED":
+			return "red";
+		case "EXPIRED":
+			return "red";
+		default:
+			return "gray";
+	}
+};
+
+interface OrderListProps {
+	order: any;
+	setValue: Dispatch<SetStateAction<DocumentData | undefined>>;
+	values: DocumentData[] | undefined;
+}
+const OrderList = ({ order, setValue, values }: OrderListProps) => {
+	const router = useRouter();
+
+	const [payment, paymentLoading, paymentError] = useCollectionData(
+		query(
+			collectionGroup(db, "payments"),
+			where("orderId", "==", order?.orderId ?? "-"),
+			orderBy("createdAt", "desc")
+		),
+		{
+			snapshotListenOptions: { includeMetadataChanges: true },
+		}
+	);
+
+	if (paymentLoading) {
+		return <Spinner />;
+	}
+
+	if (paymentError) {
+		return (
+			<Result
+				heading={paymentError?.name!}
+				type="error"
+				text={paymentError?.message!}
+				dump={paymentError?.stack!}
+			/>
+		);
+	}
+	const successPayment = payment?.filter(
+		(singlePayment) => singlePayment.status === "COMPLETED"
+	)[0];
+
+	const latestPayment = successPayment ?? payment?.[0];
+	return (
+		<Card
+			onClick={() => {
+				setValue(
+					values?.filter(
+						(singleOrder) => singleOrder.orderId === router.query.id
+					)[0] ?? {}
+				);
+				router.push({ query: { id: order.orderId } });
+			}}
+			key={order.pidx}
+			w="full"
+			_hover={{ textDecoration: "none" }}
+			variant={router.query.id === order.orderId ? "filled" : "elevated"}
+		>
+			<CardHeader pb="1">
+				<HStack justifyContent="space-between">
+					<Text>
+						{dayjs(Number(order.createdAt.seconds * 1000)).format(
+							"DD MMMM, YYYY"
+						)}
+					</Text>
+
+					<Tag
+						colorScheme={getColorFromStatus(order?.status ?? "PENDING")}
+						px={2}
+					>
+						{order?.status?.toUpperCase()}
+					</Tag>
+				</HStack>
+			</CardHeader>
+			<CardBody
+				pt="1"
+				display="flex"
+				flexDirection="column"
+				justifyContent="space-between"
+				alignItems="flex-start"
+				gap={2}
+			>
+				<VStack w="full">
+					<Text alignSelf="flex-start">{order.source.addressLine1}</Text>
+					<HStack w="full" justifyContent="center">
+						<Icon as={BsArrowReturnRight} />
+						<Text alignSelf="flex-end">{order.destination.addressLine1}</Text>
+					</HStack>
+				</VStack>
+			</CardBody>
+			<CardFooter as={HStack} justifyContent="space-between" pt="1">
+				<Tag
+					colorScheme={getColorFromStatus(latestPayment?.status ?? "PENDING")}
+					px={2}
+				>
+					PAYMENT {latestPayment?.status?.toUpperCase() ?? "PENDING"}
+				</Tag>
+				<HStack>
+					{order.isCarbonNeutral && <Icon as={FaLeaf} fill="green.500" />}
+				</HStack>
+			</CardFooter>
+		</Card>
+	);
 };

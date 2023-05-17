@@ -188,6 +188,7 @@ const CreateOrder = () => {
 					{
 						orderId: docRef.id,
 						pidx,
+						createdAt: serverTimestamp(),
 					},
 					{ merge: true }
 				);

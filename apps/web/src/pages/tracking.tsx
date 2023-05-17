@@ -21,7 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { doc } from "firebase/firestore";
 import { Form, Formik, FormikProps } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import * as Yup from "yup";
 import { db } from "../../firebase";
@@ -121,10 +121,13 @@ interface TrackingTimelineProps {
 }
 
 const TrackingTimeline = ({ status, orientation }: TrackingTimelineProps) => {
-	const { activeStep } = useSteps({
+	const { activeStep, setActiveStep } = useSteps({
 		index: steps.filter((step) => step.title === status)[0].index,
 		count: steps.length,
 	});
+	useEffect(() => {
+		setActiveStep(steps.filter((step) => step.title === status)[0].index);
+	}, [setActiveStep, status]);
 	return (
 		<SimpleGrid placeItems="center" justifyContent="center" h="70vh" w="full">
 			<Stepper
