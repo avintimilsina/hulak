@@ -22,6 +22,7 @@ interface ConfirmationModalProps extends ButtonProps {
 	headerText: string;
 	bodyText: string;
 	confirmText?: string;
+	colorScheme?: string;
 }
 
 const ConfirmationModal = ({
@@ -29,6 +30,7 @@ const ConfirmationModal = ({
 	headerText,
 	bodyText,
 	confirmText,
+	colorScheme,
 	...rest
 }: ConfirmationModalProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -37,7 +39,7 @@ const ConfirmationModal = ({
 
 	return (
 		<>
-			<Button onClick={onOpen} {...rest}>
+			<Button onClick={onOpen} {...rest} colorScheme={colorScheme}>
 				Delete
 			</Button>
 
@@ -91,6 +93,7 @@ const ConfirmationModal = ({
 
 ConfirmationModal.defaultProps = {
 	confirmText: "",
+	colorScheme: "",
 };
 
 export default ConfirmationModal;
