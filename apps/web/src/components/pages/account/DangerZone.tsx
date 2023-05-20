@@ -44,18 +44,14 @@ const DangerZone = (props: StackProps) => {
 						await router.push("/");
 					}}
 					headerText="Delete Account"
-					bodyText="Are you sure you want to delete your account? (This action cannot be undone)"
+					bodyText="Are you sure you want to delete your account?"
 					colorScheme="red"
+					confirmText={
+						curretUser?.displayName
+							? `Delete ${curretUser?.displayName}`
+							: "Delete Account"
+					}
 				/>
-				{/* <Button
-					size="sm"
-					colorScheme="red"
-					onSubmit={async () => {
-						await deleteDoc(doc(db, "users", curretUser?.uid ?? "-"));
-					}}
-				>
-					Delete account
-				</Button> */}
 			</Card>
 		</Stack>
 	);
