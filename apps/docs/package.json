@@ -18,7 +18,6 @@
 	},
 	"devDependencies": {
 		"@types/node": "18.16.6",
-		"typescript": "^4.9.3",
-		"eslint-config-next": "workspace:*"
+		"typescript": "^4.9.3"
 	}
 }
