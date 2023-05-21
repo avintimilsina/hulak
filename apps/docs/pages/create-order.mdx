@@ -1,22 +1,14 @@
-## Get Order Details By Id
+## Create an Order
 
-Retrieve details of a specific order.
+Create a new order for postal management.
 
-**Endpoint:** `/orders`\
+**Endpoint:** `/create-order`\
 **Method:** `POST`\
 **Authentication:** Required
 
 **Request:**
 
 ```json copy
-{
-	"id": "aRn9wxE3JIgLXypdKeYZ"
-}
-```
-
-**Response:**
-
-```json
 {
 	"order": {
 		"isOversizedPackageIncluded": false,
@@ -28,7 +20,6 @@ Retrieve details of a specific order.
 			"value": 1000,
 			"height": 12
 		},
-		"distance": 214.4806974467091,
 		"destination": {
 			"zip": "44700",
 			"country": "Nepal",
@@ -54,20 +45,21 @@ Retrieve details of a specific order.
 			"state": "Tamilnadu",
 			"email": "amrita@gmail.com"
 		},
-		"userId": "pkiQSgMC20Ydpu4Z9EilCUaDK7Y2",
-		"volume": 2880,
 		"isDryIceIncluded": false,
 		"isCarbonNeutral": false,
 		"isSignatureIncluded": false,
-		"price": 1000,
-		"isLithiumIncluded": false,
-		"createdAt": {
-			"_seconds": 1684166018,
-			"_nanoseconds": 84000000
-		},
-		"orderId": "aRn9wxE3JIgLXypdKeYZ",
-		"pidx": "XgV6aMjfmk56vnXsCGrkRH",
-		"status": "SHIPPED"
+		"isLithiumIncluded": false
 	}
+}
+```
+
+**Response:**
+
+```json
+{
+	"orderId": "S7yOphk0nhRGjYhwMnCX",
+	"price": 1000,
+	"status": "PLACED",
+	"paymentStatus": "COMPLETED"
 }
 ```
