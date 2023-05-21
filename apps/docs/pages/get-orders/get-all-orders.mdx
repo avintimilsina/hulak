@@ -1,0 +1,28 @@
+## Get Order Details By Id
+
+Retrieve details of a specific order.
+
+**Endpoint:** `/orders`
+**Method:** `GET`
+**Authentication:** Required
+
+**Response:**
+
+```json
+{
+	"orders": [
+		{
+			"orderId": "HBD5SVHBqeCwjMsRjlEv",
+			"pidx": "7qmK7xGEM2dEGk8erELVAT",
+			"status": "SHIPPED",
+            ...
+		},
+		{
+			"orderId": "aRn9wxE3JIgLXypdKeYZ",
+			"pidx": "XgV6aMjfmk56vnXsCGrkRH",
+			"status": "SHIPPED",
+            ...
+		}
+	]
+}
+```

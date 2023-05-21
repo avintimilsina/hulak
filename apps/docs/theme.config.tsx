@@ -1,17 +1,17 @@
-import React from "react";
+/* eslint-disable @next/next/no-img-element */
 import { DocsThemeConfig } from "nextra-theme-docs";
 
 const config: DocsThemeConfig = {
-	logo: <span>My Project</span>,
+	logo: <img src="https://hulak.vercel.app/logo.svg" alt="Logo" />,
 	project: {
-		link: "https://github.com/shuding/nextra-docs-template",
+		link: "https://github.com/avintimilsina/hulak",
 	},
-	chat: {
-		link: "https://discord.com",
-	},
-	docsRepositoryBase: "https://github.com/shuding/nextra-docs-template",
+	// chat: {
+	// 	link: "https://discord.com",
+	// },
+	docsRepositoryBase: "https://hulakdocs.vercel.app/",
 	footer: {
-		text: "Nextra Docs Template",
+		text: "Hulak API documentation ©2023 by Avin Timilsina",
 	},
 };
 

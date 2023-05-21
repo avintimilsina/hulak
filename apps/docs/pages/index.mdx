@@ -1,11 +1,43 @@
 # Introduction
 
-Welcome to Nextra! This is a basic docs template. You can use it as a starting point for your own project :)
+Welcome to the Hulak API documentation! This API allows you to manage orders and perform various operations related to postal services. In this document, you will find detailed information about the endpoints, request and response formats, and authentication requirements. This documentation details the process of implementing the logistics management service in your platform released by Hulak. The latest version is accessible through [Hulak](https://hulak.vercel.app).
 
-## What is Nextra?
+## Getting Started
 
-A **simple**, **powerful** and **flexible** site generation framework with everything you love from Next.js.
+### Base URL
 
-## Documentation
+The base URL for accessing the Hulak Service API is:
 
-The documentation is available at [https://nextra.site](https://nextra.site).
+```shell copy
+https://hulak.vercel.com/v1
+```
+
+## Authentication
+
+To authenticate your requests, you need to include an API key in the `Authorization` header of each request. The API key should be provided as a key token. Please contact the service provider to obtain an API key.
+
+Example:
+
+```
+Authorization: Key YOUR_API_KEY
+```
+
+## Error Handling
+
+In case of an error, the API will respond with an appropriate HTTP status code along with an error message in the response body.
+
+Example error response:
+
+```json copy
+{
+	"message": "Unauthorized",
+	"error": "Invalid API Key"
+}
+```
+
+Here are some common error codes:
+
+- `400 Bad Request`: The request is invalid or missing required parameters.
+- `401 Unauthorized:` Invalid or missing API key.
+- `404 Not Found`: The requested resource could not be found.
+- `500 Internal Server` Error: An unexpected error
