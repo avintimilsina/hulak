@@ -87,7 +87,7 @@ const AddressSchema = Yup.object({
 			"Phone number is not valid"
 		),
 });
-const OrderSchema = Yup.object({
+export const OrderSchema = Yup.object({
 	// Source
 	source: AddressSchema,
 	destination: AddressSchema,
