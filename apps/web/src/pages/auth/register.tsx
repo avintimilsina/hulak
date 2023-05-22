@@ -3,7 +3,7 @@ import withAuthPages from "@/routes/withAuthPages";
 import { Link } from "@chakra-ui/next-js";
 import { Button, Grid, HStack, Text, VStack, useToast } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
-import { Form, Formik, FormikProps } from "formik";
+import { Field, FieldProps, Form, Formik, FormikProps } from "formik";
 import { useRouter } from "next/router";
 import {
 	useCreateUserWithEmailAndPassword,
@@ -11,6 +11,9 @@ import {
 	useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import * as Yup from "yup";
+import { ToggleButtonGroup, ToggleButton } from "@/components/ui/ToggleButton";
+import { BsFillPersonFill } from "react-icons/bs";
+import { MdBusiness } from "react-icons/md";
 import { auth, db } from "../../../firebase";
 
 const defaultValues = {
@@ -24,7 +27,7 @@ const defaultValues = {
 
 const RegisterSchema = Yup.object({
 	firstName: Yup.string().required("Required"),
-	isBusiness: Yup.boolean(),
+	isBusiness: Yup.boolean().required("Required"),
 	lastName: Yup.string(),
 	email: Yup.string().email("Invalid email address").required("Required"),
 	password: Yup.string()
@@ -34,10 +37,11 @@ const RegisterSchema = Yup.object({
 	confirmPassword: Yup.string()
 		.required("Please retype your password.")
 		.oneOf([Yup.ref("password")], "Passwords must match"),
-	// panNumber: Yup.string().when("isBusiness", {
-	// 	is: true,
-	// 	then: Yup.string().required("Must enter email address")
-	// }),
+	panNumber: Yup.string().when("isBusiness", {
+		is: true,
+		then: (schema) => schema.required("Required"),
+		otherwise: (schema) => schema.optional(),
+	}),
 });
 
 const Register = () => {
@@ -47,7 +51,6 @@ const Register = () => {
 		useCreateUserWithEmailAndPassword(auth);
 	const [updateProfile] = useUpdateProfile(auth);
 	const [sendEmailVerification] = useSendEmailVerification(auth);
-	// const [type, setType] = useState<"personal" | "business">("personal");
 
 	return (
 		<Formik
@@ -107,28 +110,34 @@ const Register = () => {
 			{(props: FormikProps<any>) => (
 				<Form>
 					<Grid placeItems="center" h="100vh">
-						{/* <ToggleButtonGroup<"personal" | "business">
-							name="isBusiness"
-							value={type}
-							onChange={setType}
-							size="lg"
-							defaultValue="personal"
-							isAttached
-							variant="outline"
-							aria-label="Set Personal or Business"
-						>
-							<ToggleButton
-								value="personal"
-								aria-label="Personal"
-								icon={<BsFillPersonFill />}
-							/>
-							<ToggleButton
-								value="business"
-								aria-label="Business"
-								icon={<MdBusiness />}
-							/>
-						</ToggleButtonGroup>
-						<CheckboxField name="isBusiness" label="Business" /> */}
+						<Field name="isBusiness">
+							{({ field, form }: FieldProps) => (
+								<ToggleButtonGroup<"personal" | "business">
+									{...field}
+									onChange={(value) => {
+										form.setFieldValue("isBusiness", value === "business");
+									}}
+									value={field.value ? "business" : "personal"}
+									size="lg"
+									defaultValue="personal"
+									isAttached
+									variant="outline"
+									aria-label="Set Personal or Business"
+								>
+									<ToggleButton
+										value="personal"
+										aria-label="Personal"
+										icon={<BsFillPersonFill />}
+									/>
+									<ToggleButton
+										value="business"
+										aria-label="Business"
+										icon={<MdBusiness />}
+									/>
+								</ToggleButtonGroup>
+							)}
+						</Field>
+
 						<VStack gap={2}>
 							{props.values.isBusiness ? (
 								<HStack w="full">
@@ -153,7 +162,7 @@ const Register = () => {
 								type="password"
 							/>
 							<Button isLoading={props.isSubmitting} type="submit" w="lg">
-								Sign up
+								{props.values.isBusiness ? "Register as business" : "Sign up"}
 							</Button>
 							<Text align="center">
 								Already a user?{" "}
