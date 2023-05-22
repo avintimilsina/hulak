@@ -1,4 +1,3 @@
-import CheckboxField from "@/components/ui/CheckboxField";
 import InputField from "@/components/ui/InputField";
 import withAuthPages from "@/routes/withAuthPages";
 import { Link } from "@chakra-ui/next-js";
@@ -48,6 +47,8 @@ const Register = () => {
 		useCreateUserWithEmailAndPassword(auth);
 	const [updateProfile] = useUpdateProfile(auth);
 	const [sendEmailVerification] = useSendEmailVerification(auth);
+	// const [type, setType] = useState<"personal" | "business">("personal");
+
 	return (
 		<Formik
 			initialValues={defaultValues}
@@ -106,7 +107,28 @@ const Register = () => {
 			{(props: FormikProps<any>) => (
 				<Form>
 					<Grid placeItems="center" h="100vh">
-						<CheckboxField name="isBusiness" label="Business" />
+						{/* <ToggleButtonGroup<"personal" | "business">
+							name="isBusiness"
+							value={type}
+							onChange={setType}
+							size="lg"
+							defaultValue="personal"
+							isAttached
+							variant="outline"
+							aria-label="Set Personal or Business"
+						>
+							<ToggleButton
+								value="personal"
+								aria-label="Personal"
+								icon={<BsFillPersonFill />}
+							/>
+							<ToggleButton
+								value="business"
+								aria-label="Business"
+								icon={<MdBusiness />}
+							/>
+						</ToggleButtonGroup>
+						<CheckboxField name="isBusiness" label="Business" /> */}
 						<VStack gap={2}>
 							{props.values.isBusiness ? (
 								<HStack w="full">

@@ -53,16 +53,19 @@ interface ToggleButtonGroupProps<T> extends Omit<ButtonGroupProps, "onChange"> {
 	name?: string;
 	defaultValue?: string;
 	onChange?: (value: T) => void;
+	value?: T;
 }
 
 export const ToggleButtonGroup = <T extends string>(
 	props: ToggleButtonGroupProps<T>
 ) => {
-	const { children, name, defaultValue, onChange, isDisabled, ...rest } = props;
+	const { children, name, defaultValue, onChange, isDisabled, value, ...rest } =
+		props;
 	const { getRootProps, getRadioProps } = useRadioGroup({
 		name,
 		defaultValue,
 		onChange,
+		value,
 	});
 
 	const buttons = useMemo(
@@ -97,4 +100,5 @@ ToggleButtonGroup.defaultProps = {
 	name: null,
 	defaultValue: null,
 	onChange: () => {},
+	value: null,
 };

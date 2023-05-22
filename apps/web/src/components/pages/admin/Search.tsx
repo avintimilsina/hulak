@@ -7,9 +7,15 @@ import { db } from "../../../../firebase";
 
 const Search = () => {
 	const id = useId();
-	const [values, , error] = useCollectionData(query(collection(db, "users")), {
-		snapshotListenOptions: { includeMetadataChanges: true },
-	});
+	const [values, loading, error] = useCollectionData(
+		query(collection(db, "users")),
+		{
+			snapshotListenOptions: { includeMetadataChanges: true },
+		}
+	);
+	if (loading) {
+		return <div>Loading...</div>;
+	}
 	if (error) {
 		return <div>Error: {error.message}</div>;
 	}
@@ -28,14 +34,17 @@ const Search = () => {
 				placeholder="🔍 Search Someone"
 				closeMenuOnSelect={false}
 				size="md"
+				onChange={(selected) => {
+					console.log("Selected", selected);
+				}}
 				loadOptions={(inputValue, callback) => {
 					const filteredValues = values
 						?.filter((i) =>
-							i.displayName.toLowerCase().includes(inputValue.toLowerCase())
+							i?.displayName?.toLowerCase()?.includes(inputValue.toLowerCase())
 						)
 						.map((i) => ({
-							label: i.displayName as string,
-							value: i.uid as string,
+							label: i?.displayName as string,
+							value: i?.uid as string,
 						}));
 					callback(filteredValues!);
 				}}
