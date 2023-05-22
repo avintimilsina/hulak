@@ -11,9 +11,10 @@ interface InputFieldProps {
 	label: string;
 	name: string;
 	type?: string;
+	placeholder?: string;
 }
 
-const InputField = ({ label, name, type }: InputFieldProps) => (
+const InputField = ({ label, name, type, placeholder }: InputFieldProps) => (
 	<Field name={name}>
 		{({ field, meta }: any) => (
 			<FormControl isInvalid={meta.error && meta.touched}>
@@ -21,7 +22,12 @@ const InputField = ({ label, name, type }: InputFieldProps) => (
 					<FormLabel>{label}</FormLabel>
 					<FormErrorMessage>{meta.error}</FormErrorMessage>
 				</HStack>
-				<Input {...field} type={type} maxLength={255} />
+				<Input
+					{...field}
+					type={type}
+					maxLength={255}
+					placeholder={placeholder}
+				/>
 			</FormControl>
 		)}
 	</Field>
@@ -29,6 +35,7 @@ const InputField = ({ label, name, type }: InputFieldProps) => (
 
 InputField.defaultProps = {
 	type: "text",
+	placeholder: "",
 };
 
 export default InputField;

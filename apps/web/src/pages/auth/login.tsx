@@ -1,6 +1,7 @@
 import LoginForm from "@/components/auth/LoginForm";
 import withAuthPages from "@/routes/withAuthPages";
-import { Button, Grid, useToast } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/next-js";
+import { Button, Grid, Stack, Text, useToast } from "@chakra-ui/react";
 import { Form, Formik, FormikProps } from "formik";
 import { useRouter } from "next/router";
 import {
@@ -111,6 +112,14 @@ const Login = () => {
 						>
 							Sign-in with Google
 						</Button>
+						<Stack pt={1}>
+							<Text align="center">
+								Don&apos;t have an account?{" "}
+								<Link href="/auth/register" color="blue.400">
+									Register
+								</Link>
+							</Text>
+						</Stack>
 					</Grid>
 				</Form>
 			)}

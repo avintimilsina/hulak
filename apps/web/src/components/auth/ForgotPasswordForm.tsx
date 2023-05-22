@@ -2,8 +2,10 @@ import {
 	Button,
 	FormControl,
 	FormErrorMessage,
+	Heading,
 	Input,
 	Stack,
+	Text,
 	VStack,
 	useToast,
 } from "@chakra-ui/react";
@@ -42,6 +44,12 @@ const ForgotPasswordForm = () => {
 			{(props: FormikProps<any>) => (
 				<Form>
 					<VStack gap={2}>
+						<Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
+							Forgot your password?
+						</Heading>
+						<Text fontSize={{ base: "sm", sm: "md" }}>
+							You&apos;ll get an email with a reset link.
+						</Text>
 						<Field name="email">
 							{({ field, form }: any) => (
 								<FormControl

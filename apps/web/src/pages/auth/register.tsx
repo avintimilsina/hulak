@@ -1,7 +1,8 @@
 import CheckboxField from "@/components/ui/CheckboxField";
 import InputField from "@/components/ui/InputField";
 import withAuthPages from "@/routes/withAuthPages";
-import { Button, Grid, HStack, VStack, useToast } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/next-js";
+import { Button, Grid, HStack, Text, VStack, useToast } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import { Form, Formik, FormikProps } from "formik";
 import { useRouter } from "next/router";
@@ -108,7 +109,7 @@ const Register = () => {
 						<CheckboxField name="isBusiness" label="Business" />
 						<VStack gap={2}>
 							{props.values.isBusiness ? (
-								<HStack>
+								<HStack w="full">
 									<InputField
 										name="firstName"
 										label="Company Name"
@@ -117,7 +118,7 @@ const Register = () => {
 									<InputField name="panNumber" label="PAN Number" type="text" />
 								</HStack>
 							) : (
-								<HStack>
+								<HStack w="full">
 									<InputField name="firstName" label="First Name" type="text" />
 									<InputField name="lastName" label="Last Name" type="text" />
 								</HStack>
@@ -129,10 +130,16 @@ const Register = () => {
 								label="Confirm Password"
 								type="password"
 							/>
+							<Button isLoading={props.isSubmitting} type="submit" w="lg">
+								Sign up
+							</Button>
+							<Text align="center">
+								Already a user?{" "}
+								<Link href="/auth/login" color="blue.400">
+									Login
+								</Link>
+							</Text>
 						</VStack>
-						<Button isLoading={props.isSubmitting} type="submit" w="lg">
-							Sign up
-						</Button>
 					</Grid>
 				</Form>
 			)}
