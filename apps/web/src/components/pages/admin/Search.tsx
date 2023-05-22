@@ -1,11 +1,17 @@
-import { FormControl, FormLabel } from "@chakra-ui/react";
-import { AsyncSelect } from "chakra-react-select";
+import { FormControl } from "@chakra-ui/react";
+import { ActionMeta, AsyncSelect } from "chakra-react-select";
 import { collection, query } from "firebase/firestore";
 import { useId } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "../../../../firebase";
 
-const Search = () => {
+interface SearchProps {
+	onChange:
+		| ((newValue: unknown, actionMeta: ActionMeta<unknown>) => void)
+		| undefined;
+}
+
+const Search = ({ onChange }: SearchProps) => {
 	const id = useId();
 	const [values, loading, error] = useCollectionData(
 		query(collection(db, "users")),
@@ -20,10 +26,12 @@ const Search = () => {
 		return <div>Error: {error.message}</div>;
 	}
 	return (
-		<FormControl p={4}>
-			<FormLabel fontSize="2xl" htmlFor="Users">
+		<FormControl
+		// p={4}
+		>
+			{/* <FormLabel fontSize="2xl" htmlFor="Users">
 				Users
-			</FormLabel>
+			</FormLabel> */}
 			<AsyncSelect
 				components={{
 					DropdownIndicator: () => null,
@@ -33,10 +41,8 @@ const Search = () => {
 				name="Users"
 				placeholder="🔍 Search Someone"
 				closeMenuOnSelect={false}
-				size="md"
-				onChange={(selected) => {
-					console.log("Selected", selected);
-				}}
+				size="lg"
+				onChange={onChange}
 				loadOptions={(inputValue, callback) => {
 					const filteredValues = values
 						?.filter((i) =>

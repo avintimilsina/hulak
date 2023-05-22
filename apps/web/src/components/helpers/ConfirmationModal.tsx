@@ -39,9 +39,7 @@ const ConfirmationModal = ({
 
 	return (
 		<>
-			<Button onClick={onOpen} {...rest} colorScheme={colorScheme}>
-				Delete
-			</Button>
+			<Button onClick={onOpen} {...rest} colorScheme={colorScheme} />
 
 			<Modal isCentered isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
