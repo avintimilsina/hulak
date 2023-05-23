@@ -51,7 +51,10 @@ const DangerZone = (props: StackProps) => {
 							? `Delete ${curretUser?.displayName}`
 							: "Delete Account"
 					}
-				/>
+				>
+					{" "}
+					Delete Account
+				</ConfirmationModal>
 			</Card>
 		</Stack>
 	);

@@ -12,8 +12,12 @@ import { useRouter } from "next/router";
 import Logo from "@/components/logo";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BiPackage } from "react-icons/bi";
+import { BsFillClipboardCheckFill } from "react-icons/bs";
 import { FaShippingFast, FaUser } from "react-icons/fa";
 import { GiCardPickup } from "react-icons/gi";
+import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
+import { MdShoppingCartCheckout } from "react-icons/md";
+import { RiAdminLine } from "react-icons/ri";
 import { TbTruckReturn } from "react-icons/tb";
 import NavLink from "./NavLink";
 import UserProfile from "./UserProfile";
@@ -44,7 +48,7 @@ const AdminSidebar = ({ onClose, ...rest }: SidebarProps) => {
 					display={{ base: "block", md: "none" }}
 				/>
 			</HStack>
-			<Stack spacing={6}>
+			<Stack spacing={3}>
 				<Stack>
 					{ORDER_NAV_LINKS.map((link) => (
 						<NavLink
@@ -79,9 +83,9 @@ export default AdminSidebar;
 
 export const ORDER_NAV_LINKS = [
 	{
-		label: "Orders",
-		href: "/admin/orders/orders",
-		icon: BiPackage,
+		label: "Manage Admin",
+		href: "/admin",
+		icon: RiAdminLine,
 	},
 	{
 		label: "Placed",
@@ -101,12 +105,17 @@ export const ORDER_NAV_LINKS = [
 	{
 		label: "Out for Delivery",
 		href: "/admin/orders/out-for-delivery",
-		icon: TbTruckReturn,
+		icon: MdShoppingCartCheckout,
 	},
 	{
-		label: "Deliverd",
+		label: "Delivered",
 		href: "/admin/orders/delivered",
-		icon: TbTruckReturn,
+		icon: BsFillClipboardCheckFill,
+	},
+	{
+		label: "Completed",
+		href: "/admin/orders/completed",
+		icon: IoCheckmarkDoneCircleSharp,
 	},
 	{
 		label: "Returns",
@@ -118,12 +127,12 @@ export const ORDER_NAV_LINKS = [
 export const ACCOUNT_NAV_LINKS = [
 	{
 		label: "Account",
-		href: "/account",
+		href: "/admin/account",
 		icon: FaUser,
 	},
 	{
 		label: "Preference",
-		href: "/account/preference",
+		href: "/admin/preference",
 		icon: AiOutlineSetting,
 	},
 ];

@@ -2,7 +2,6 @@
 import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
 import { PriceTag } from "@/components/shared/PriceTag";
 import Result from "@/components/shared/Result";
-import { TrackingTimeline } from "@/pages/tracking";
 import {
 	Badge,
 	Box,
@@ -10,12 +9,10 @@ import {
 	CardBody,
 	CardFooter,
 	CardHeader,
-	Divider,
 	HStack,
 	Heading,
 	Icon,
 	IconButton,
-	Link,
 	SimpleGrid,
 	Spinner,
 	Stack,
@@ -43,19 +40,18 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { BsArrowReturnRight } from "react-icons/bs";
 import { FaLeaf } from "react-icons/fa";
 import { MdOutlineContentCopy } from "react-icons/md";
-import { auth, db } from "../../../../firebase";
+import { db } from "../../../../firebase";
+import OrderActions from "./OrderActions";
 
 interface OrderLayoutProps {
 	status: string;
 }
 const OrderLayout = ({ status }: OrderLayoutProps) => {
 	const router = useRouter();
-	const [currentUser] = useAuthState(auth);
 	const [value, setValue] = useState<DocumentData | undefined>({});
 	const [values, loading, error] = useCollectionData(
 		query(
@@ -167,8 +163,7 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 							gap={8}
 							alignItems="flex-start"
 							justifyContent="space-between"
-							maxW="3xl"
-							w={{ base: "unset", lg: "3xl" }}
+							w={{ base: "unset", lg: "full" }}
 						>
 							<VStack alignItems="flex-start" gap={6}>
 								<VStack alignItems="flex-start" gap={2}>
@@ -185,51 +180,60 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 												PAYMENT {latestPayment?.status?.toUpperCase()}
 											</Badge>
 										</Tooltip>
-									</HStack>
-
-									<Heading fontSize="5xl" fontWeight="extrabold" lineHeight={1}>
-										Your Order is{" "}
 										<Tooltip label="Order Status" closeOnClick={false}>
-											<Text as="span">
+											<Badge
+												fontSize="xl"
+												colorScheme={getColorFromStatus(
+													value?.status ?? "PENDING"
+												)}
+												px={3}
+												py={1}
+											>
+												ORDER{" "}
 												{
 													orderPageTextFromStatus(value?.status?.toUpperCase())
 														.info
 												}
-											</Text>
+											</Badge>
 										</Tooltip>
-									</Heading>
+									</HStack>
 								</VStack>
 							</VStack>
-							<Box>
-								<Text>Hi {currentUser?.displayName},</Text>
-								<Text>
-									{orderPageTextFromStatus(value?.status?.toUpperCase()).header}
-								</Text>
-							</Box>
+							<VStack>
+								<HStack>
+									<Text fontSize="lg" fontWeight="semibold">
+										Tracking Number
+									</Text>
+									<Tooltip
+										label={hasCopied ? "Copied!" : "Copy"}
+										closeOnClick={false}
+									>
+										<IconButton
+											aria-label="Copy Tracking Number"
+											variant="ghost"
+											icon={<MdOutlineContentCopy size={20} />}
+											onClick={onCopy}
+										/>
+									</Tooltip>
+								</HStack>
+								<Text>{value?.orderId}</Text>
+							</VStack>
 							<HStack
-								justifyContent="space-around"
+								justifyContent="space-between"
 								w="full"
 								alignItems="flex-start"
 							>
-								<VStack>
-									<HStack>
-										<Text fontSize="lg" fontWeight="semibold">
-											Tracking Number
-										</Text>
-										<Tooltip
-											label={hasCopied ? "Copied!" : "Copy"}
-											closeOnClick={false}
-										>
-											<IconButton
-												aria-label="Copy Tracking Number"
-												variant="ghost"
-												icon={<MdOutlineContentCopy size={20} />}
-												onClick={onCopy}
-											/>
-										</Tooltip>
-									</HStack>
-									<Text>{value?.orderId}</Text>
-								</VStack>
+								<OrderInfo label="Delivering From">
+									<Text>
+										{value?.source.addressLine1}, {value?.source.addressLine2}
+									</Text>
+									<Text>
+										{value?.source.city},{value?.source.state}
+									</Text>
+									<Text>
+										{value?.source.zip},{value?.source.country}
+									</Text>
+								</OrderInfo>
 								<OrderInfo label="Delivering To">
 									<Text>
 										{value?.destination.addressLine1},{" "}
@@ -243,34 +247,16 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 									</Text>
 								</OrderInfo>
 							</HStack>
-
-							<TrackingTimeline status={value?.status} orientation="vertical" />
-
-							<VStack w="full" px={{ base: 2, lg: 8 }} gap={2} py={4}>
-								<Divider />
-								<HStack
-									justify="space-between"
-									w="full"
-									fontWeight="bold"
-									fontSize="xl"
-								>
-									<Text color={mode("gray.500", "gray.300")}>Order Total</Text>
-									<PriceTag price={value?.price ?? 0} currency="NPR" />
-								</HStack>
-							</VStack>
-							<Box>
-								<Text>
-									{orderPageTextFromStatus(value?.status?.toUpperCase()).footer}
-								</Text>
-							</Box>
-							<Box>
-								<Text>Thank you,</Text>
-								<Text>Hulak Team</Text>
-							</Box>
-							<Text w="full" fontSize="lg">
-								Have a Problem? Contact our{" "}
-								<Link href="/support">Customer Support </Link>
-							</Text>
+							<HStack
+								justify="space-between"
+								w="full"
+								fontWeight="bold"
+								fontSize="xl"
+							>
+								<Text color={mode("gray.500", "gray.300")}>Order Total</Text>
+								<PriceTag price={value?.price ?? 0} currency="NPR" />
+							</HStack>
+							<OrderActions status={status} orderId={value?.orderId} />
 						</Stack>
 					)}
 				</Box>
@@ -335,11 +321,17 @@ export const orderPageTextFromStatus = (status: string) => {
 				footer:
 					"Do checkout our other products and dont forget to leave a review.",
 			};
-		case "REJECTED":
+		case "RETURNED":
 			return {
 				info: "Rejected",
 				header: "Your order has been rejected!",
 				footer: "Please contact our support team for further details.",
+			};
+		case "COMPLETED":
+			return {
+				info: "Completed",
+				header: "Your order is complete!",
+				footer: "Thank you for using our service.",
 			};
 		default:
 			return {
@@ -355,22 +347,22 @@ export const getColorFromStatus = (status: string) => {
 		case "PENDING":
 			return "red";
 		case "PICKED":
-			return "blue.500";
+			return "blue";
 		case "INITIATED":
 			return "yellow";
 		case "COMPLETED":
 			return "green";
 		case "PLACED":
-			return "blue.500";
+			return "blue";
 		case "SHIPPED":
-			return "blue.500";
+			return "blue";
 		case "OUTFORDELIVERY":
 			return "green";
 		case "DELIVERED":
 			return "green";
 		case "REFUNDED":
 			return "green";
-		case "REJECTED":
+		case "RETURNED":
 			return "red";
 		case "FAILED":
 			return "red";
