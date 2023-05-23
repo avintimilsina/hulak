@@ -5,6 +5,7 @@ import {
 	Box,
 	Button,
 	HStack,
+	Heading,
 	SimpleGrid,
 	Step,
 	StepDescription,
@@ -113,6 +114,11 @@ const steps = [
 		description:
 			"Its delivered. If you are still checking here, go check your mail",
 	},
+	{
+		index: 6,
+		title: "RETURNED",
+		description: "Returned to the sender. The order is returned to the sender.",
+	},
 ];
 
 interface TrackingTimelineProps {
@@ -130,39 +136,43 @@ const TrackingTimeline = ({ status, orientation }: TrackingTimelineProps) => {
 	}, [setActiveStep, status]);
 	return (
 		<SimpleGrid placeItems="center" justifyContent="center" h="70vh" w="full">
-			<Stepper
-				size="lg"
-				colorScheme="red"
-				w="full"
-				maxW={{ base: "unset", lg: "2xl" }}
-				orientation={orientation}
-				index={activeStep}
-				h="70vh"
-				mx="4"
-			>
-				{steps.map((step, index) => (
-					<Step key={`step-${index + 1}`}>
-						<StepIndicator>
-							<StepStatus
-								complete={<StepIcon />}
-								incomplete={<StepNumber />}
-								active={<StepNumber />}
-							/>
-						</StepIndicator>
+			{status !== "RETURNED" ? (
+				<Stepper
+					size="lg"
+					colorScheme="red"
+					w="full"
+					maxW={{ base: "unset", lg: "2xl" }}
+					orientation={orientation}
+					index={activeStep}
+					h="70vh"
+					mx="4"
+				>
+					{steps.map((step, index) => (
+						<Step key={`step-${index + 1}`}>
+							<StepIndicator>
+								<StepStatus
+									complete={<StepIcon />}
+									incomplete={<StepNumber />}
+									active={<StepNumber />}
+								/>
+							</StepIndicator>
 
-						<Box w="full">
-							<StepTitle>{step.title}</StepTitle>
-							{activeStep === index + 1 && (
-								<StepDescription as={Text} textAlign="justify">
-									{step.description}
-								</StepDescription>
-							)}
-						</Box>
+							<Box w="full">
+								<StepTitle>{step.title}</StepTitle>
+								{activeStep === index + 1 && (
+									<StepDescription as={Text} textAlign="justify">
+										{step.description}
+									</StepDescription>
+								)}
+							</Box>
 
-						<StepSeparator />
-					</Step>
-				))}
-			</Stepper>
+							<StepSeparator />
+						</Step>
+					))}
+				</Stepper>
+			) : (
+				<Heading>Order Returned. Please Contact Support!</Heading>
+			)}
 		</SimpleGrid>
 	);
 };
