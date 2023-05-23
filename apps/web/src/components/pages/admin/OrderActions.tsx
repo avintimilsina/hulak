@@ -53,15 +53,7 @@ const OrderActions = ({ status, orderId }: OrderActionsProps) => {
 			{ merge: true }
 		);
 	};
-	const handleCompleted = async () => {
-		await setDoc(
-			doc(db, "orders", orderId),
-			{
-				status: "COMPLETED",
-			},
-			{ merge: true }
-		);
-	};
+
 	const handleReturned = async () => {
 		await setDoc(
 			doc(db, "orders", orderId),
@@ -167,9 +159,6 @@ const OrderActions = ({ status, orderId }: OrderActionsProps) => {
 	if (status === "DELIVERED") {
 		return (
 			<HStack>
-				<Button colorScheme="green" onClick={handleCompleted}>
-					Completed
-				</Button>
 				<ConfirmationModal
 					colorScheme="purple"
 					onSuccess={handleOutForDelivery}

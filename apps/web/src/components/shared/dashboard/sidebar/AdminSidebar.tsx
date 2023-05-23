@@ -10,12 +10,10 @@ import {
 import { useRouter } from "next/router";
 
 import Logo from "@/components/logo";
-import { AiOutlineSetting } from "react-icons/ai";
 import { BiPackage } from "react-icons/bi";
 import { BsFillClipboardCheckFill } from "react-icons/bs";
-import { FaShippingFast, FaUser } from "react-icons/fa";
+import { FaShippingFast } from "react-icons/fa";
 import { GiCardPickup } from "react-icons/gi";
-import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import { MdShoppingCartCheckout } from "react-icons/md";
 import { RiAdminLine } from "react-icons/ri";
 import { TbTruckReturn } from "react-icons/tb";
@@ -61,19 +59,8 @@ const AdminSidebar = ({ onClose, ...rest }: SidebarProps) => {
 					))}
 				</Stack>
 				<Divider />
-				<Stack>
-					{ACCOUNT_NAV_LINKS.map((link) => (
-						<NavLink
-							key={link.label}
-							href={link.href}
-							label={link.label}
-							icon={link.icon}
-							isActive={router.pathname === link.href}
-						/>
-					))}
-				</Stack>
-				<Spacer />
 			</Stack>
+			<Spacer />
 			<UserProfile />
 		</Flex>
 	);
@@ -113,26 +100,8 @@ export const ORDER_NAV_LINKS = [
 		icon: BsFillClipboardCheckFill,
 	},
 	{
-		label: "Completed",
-		href: "/admin/orders/completed",
-		icon: IoCheckmarkDoneCircleSharp,
-	},
-	{
 		label: "Returns",
 		href: "/admin/orders/returns",
 		icon: TbTruckReturn,
-	},
-];
-
-export const ACCOUNT_NAV_LINKS = [
-	{
-		label: "Account",
-		href: "/admin/account",
-		icon: FaUser,
-	},
-	{
-		label: "Preference",
-		href: "/admin/preference",
-		icon: AiOutlineSetting,
 	},
 ];

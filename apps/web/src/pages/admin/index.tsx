@@ -44,8 +44,6 @@ const AdminPage = () => {
 
 	return (
 		<VStack>
-			<h1>Admin Page</h1>
-
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
@@ -60,13 +58,13 @@ const AdminPage = () => {
 				</ModalContent>
 			</Modal>
 
-			<Box as="section" py="12">
+			<Box as="section" py="12" w="full">
 				<Box
 					maxW={{ base: "xl", md: "7xl" }}
 					mx="auto"
 					px={{ base: "6", md: "8" }}
 				>
-					<Box overflowX="auto">
+					<Box>
 						<Stack
 							spacing="4"
 							direction={{ base: "column", md: "row" }}
@@ -107,12 +105,14 @@ const AdminPage = () => {
 								New Admin
 							</Button>
 						</Stack>
-						<TableContent
-							admins={snapshot?.docs.map((document) => ({
-								id: document.id,
-								...document.data(),
-							}))}
-						/>
+						<Box overflowX="auto">
+							<TableContent
+								admins={snapshot?.docs.map((document) => ({
+									id: document.id,
+									...document.data(),
+								}))}
+							/>
+						</Box>
 					</Box>
 				</Box>
 			</Box>
