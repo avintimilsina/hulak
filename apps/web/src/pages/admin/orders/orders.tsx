@@ -56,10 +56,7 @@ const OrdersPage = () => {
 	const [currentUser] = useAuthState(auth);
 	const [value, setValue] = useState<DocumentData | undefined>({});
 	const [values, loading, error] = useCollectionData(
-		query(
-			collection(db, "orders"),
-			where("userId", "==", currentUser?.uid ?? "-")
-		),
+		query(collection(db, "orders")),
 		{
 			snapshotListenOptions: { includeMetadataChanges: true },
 		}
