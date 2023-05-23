@@ -1,4 +1,5 @@
 import SidebarWrapper from "@/components/shared/dashboard/sidebar";
+import AdminSidebarWrapper from "@/components/shared/dashboard/sidebar/AdminSidebarWrapper";
 import theme from "@/config/theme";
 import "@/styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -41,16 +42,29 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 		setUser();
 	}, [currentUser]);
+	if (router.pathname.startsWith("/admin")) {
+		return (
+			<ChakraProvider theme={theme}>
+				<AdminSidebarWrapper>
+					<Component {...pageProps} />
+				</AdminSidebarWrapper>
+			</ChakraProvider>
+		);
+	}
 
-	return (
-		<ChakraProvider theme={theme}>
-			{router.pathname.startsWith("/account") ? (
+	if (router.pathname.startsWith("/account")) {
+		return (
+			<ChakraProvider theme={theme}>
 				<SidebarWrapper>
 					<Component {...pageProps} />
 				</SidebarWrapper>
-			) : (
-				<Component {...pageProps} />
-			)}
+			</ChakraProvider>
+		);
+	}
+
+	return (
+		<ChakraProvider theme={theme}>
+			<Component {...pageProps} />
 		</ChakraProvider>
 	);
 };
