@@ -49,7 +49,6 @@ import { BsArrowReturnRight } from "react-icons/bs";
 import { FaLeaf } from "react-icons/fa";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { auth, db } from "../../../firebase";
-import { TrackingTimeline } from "../tracking";
 
 const OrdersPage = () => {
 	const router = useRouter();
@@ -59,7 +58,7 @@ const OrdersPage = () => {
 		query(
 			collection(db, "orders"),
 			where("userId", "==", currentUser?.uid ?? "-"),
-			where("status", "!=", "RETURNED")
+			where("status", "==", "RETURNED")
 		),
 		{
 			snapshotListenOptions: { includeMetadataChanges: true },
@@ -182,6 +181,22 @@ const OrdersPage = () => {
 												PAYMENT {latestPayment?.status?.toUpperCase()}
 											</Badge>
 										</Tooltip>
+										<Tooltip label="Order Status" closeOnClick={false}>
+											<Badge
+												fontSize="xl"
+												colorScheme={getColorFromStatus(
+													value?.status ?? "PENDING"
+												)}
+												px={3}
+												py={1}
+											>
+												ORDER{" "}
+												{
+													orderPageTextFromStatus(value?.status?.toUpperCase())
+														.info
+												}
+											</Badge>
+										</Tooltip>
 									</HStack>
 
 									<Heading fontSize="5xl" fontWeight="extrabold" lineHeight={1}>
@@ -240,10 +255,20 @@ const OrdersPage = () => {
 									</Text>
 								</OrderInfo>
 							</HStack>
-
-							<TrackingTimeline status={value?.status} orientation="vertical" />
-
 							<VStack w="full" px={{ base: 2, lg: 8 }} gap={2} py={4}>
+								{/* <HStack justify="space-between" w="full" fontSize="lg">
+									<Text color={mode("gray.600", "gray.400")}>Sub Total</Text>
+									<PriceTag price={123} currency="NPR" />
+								</HStack>
+								<HStack justify="space-between" w="full" fontSize="lg">
+									<Text color={mode("gray.600", "gray.400")}>
+										Shipping Cost
+									</Text>
+									<HStack>
+										<Text>+</Text>
+										<PriceTag price={200} currency="NPR" />
+									</HStack>
+								</HStack> */}
 								<Divider />
 								<HStack
 									justify="space-between"
@@ -295,6 +320,22 @@ export const OrderInfo = ({
 
 export const orderPageTextFromStatus = (status: string) => {
 	switch (status) {
+		case "PICKED":
+			return {
+				info: "Picked Up",
+				header:
+					"Your order has been picked! We'll send you shipping confirmation once your order is on the way! ",
+				footer:
+					"We appreciate your business, and hope you enjoy your purchase.",
+			};
+		case "SHIPPED":
+			return {
+				info: "Shipped",
+				header:
+					"Your order has been shipped! We'll send you shipping confirmation once your order is on the way! ",
+				footer:
+					"We appreciate your business, and hope you enjoy your purchase.",
+			};
 		case "PLACED":
 			return {
 				info: "Placed",
@@ -302,23 +343,6 @@ export const orderPageTextFromStatus = (status: string) => {
 				footer:
 					"We'll send you shipping confirmation once your order is on the way! We appreciate your business, and hope you enjoy your purchase.",
 			};
-		case "PICKED":
-			return {
-				info: "Picked Up",
-				header:
-					"Your order has been picked! We'll send you shipping confirmation once your order is shipped! ",
-				footer:
-					"We appreciate your business, and thank you for using our service.",
-			};
-		case "SHIPPED":
-			return {
-				info: "Shipped",
-				header:
-					"Your order has been shipped! We'll send you out for delivery confirmation once your order is on the way! ",
-				footer:
-					"We appreciate your business, and hope you enjoy your purchase.",
-			};
-
 		case "OUTFORDELIVERY":
 			return {
 				info: "Out for delivery",
@@ -330,12 +354,13 @@ export const orderPageTextFromStatus = (status: string) => {
 			return {
 				info: "Delivered",
 				header: "Your order has been delivered!",
-				footer: "Thank you for using our service.",
+				footer:
+					"Do checkout our other products and dont forget to leave a review.",
 			};
 		case "RETURNED":
 			return {
-				info: "RETURNED",
-				header: "Your order has been canceled!",
+				info: "Returned",
+				header: "Your order has been cancelled!",
 				footer: "Please contact our support team for further details.",
 			};
 		default:
@@ -367,7 +392,7 @@ export const getColorFromStatus = (status: string) => {
 			return "green";
 		case "REFUNDED":
 			return "green";
-		case "REJECTED":
+		case "RETURNED":
 			return "red";
 		case "FAILED":
 			return "red";

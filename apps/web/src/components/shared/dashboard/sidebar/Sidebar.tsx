@@ -122,7 +122,7 @@ export const ACCOUNT_NAV_LINKS = [
 
 export const SUPPORT_NAV_LINKS = [
 	{
-		label: "Go Back Shopping",
+		label: "Go Home",
 		href: "/",
 		icon: BsArrowReturnLeft,
 	},
