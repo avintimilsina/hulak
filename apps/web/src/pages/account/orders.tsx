@@ -309,7 +309,7 @@ export const orderPageTextFromStatus = (status: string) => {
 	switch (status) {
 		case "PICKED":
 			return {
-				info: "Order Picked",
+				info: "Picked Up",
 				header:
 					"Your order has been picked! We'll send you shipping confirmation once your order is on the way! ",
 				footer:
@@ -317,7 +317,7 @@ export const orderPageTextFromStatus = (status: string) => {
 			};
 		case "SHIPPED":
 			return {
-				info: "Order Shipped",
+				info: "Shipped",
 				header:
 					"Your order has been shipped! We'll send you shipping confirmation once your order is on the way! ",
 				footer:
@@ -325,7 +325,7 @@ export const orderPageTextFromStatus = (status: string) => {
 			};
 		case "PLACED":
 			return {
-				info: "Order Placed",
+				info: "Placed",
 				header: "Your order has been placed!",
 				footer:
 					"We'll send you shipping confirmation once your order is on the way! We appreciate your business, and hope you enjoy your purchase.",
@@ -346,13 +346,13 @@ export const orderPageTextFromStatus = (status: string) => {
 			};
 		case "REJECTED":
 			return {
-				info: "Couldn't delivery the package.",
+				info: "Rejected",
 				header: "Your order has been rejected!",
 				footer: "Please contact our support team for further details.",
 			};
 		default:
 			return {
-				info: "Something seems wrong.",
+				info: "Not Available",
 				header: "Something went wrong!",
 				footer: "Please contact our suppport team as soon as possible.",
 			};
