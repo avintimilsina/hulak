@@ -7,10 +7,10 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 
+import Logo from "@/components/logo";
 import type { ReactNode } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import Sidebar from "./Sidebar";
-import Logo from "./Logo";
 
 interface SidebarWrapperProps {
 	children?: ReactNode;
@@ -69,7 +69,7 @@ const MobileNav = ({ onOpen }: MobileNavProps) => (
 			variant="ghost"
 		/>
 		<HStack w="full" justifyContent="center">
-			<Logo iconColor="blue.500" h={8} />
+			<Logo height="8" />
 		</HStack>
 	</HStack>
 );

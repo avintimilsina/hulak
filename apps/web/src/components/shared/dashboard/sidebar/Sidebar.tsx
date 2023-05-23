@@ -1,22 +1,22 @@
 import {
 	BoxProps,
+	CloseButton,
+	Divider,
 	Flex,
 	HStack,
-	CloseButton,
-	Stack,
-	Divider,
 	Spacer,
+	Stack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
-import { FaUser } from "react-icons/fa";
-import { BiPackage, BiHomeAlt, BiSupport } from "react-icons/bi";
-import { TbTruckReturn } from "react-icons/tb";
+import Logo from "@/components/logo";
 import { AiOutlineSetting } from "react-icons/ai";
+import { BiHomeAlt, BiPackage, BiSupport } from "react-icons/bi";
 import { BsArrowReturnLeft } from "react-icons/bs";
-import Logo from "./Logo";
-import UserProfile from "./UserProfile";
+import { FaUser } from "react-icons/fa";
+import { TbTruckReturn } from "react-icons/tb";
 import NavLink from "./NavLink";
+import UserProfile from "./UserProfile";
 
 interface SidebarProps extends BoxProps {
 	onClose: () => void;
@@ -38,7 +38,7 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
 			{...rest}
 		>
 			<HStack mb={8} justifyContent="space-between">
-				<Logo iconColor="blue.600" h="8" />
+				<Logo height="8" />
 				<CloseButton
 					onClick={onClose}
 					display={{ base: "block", md: "none" }}

@@ -9,14 +9,14 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
+import Logo from "@/components/logo";
 import { AiOutlineSetting } from "react-icons/ai";
-import { BiPackage, BiSupport } from "react-icons/bi";
-import { BsArrowReturnLeft } from "react-icons/bs";
-import { FaUser } from "react-icons/fa";
+import { BiPackage } from "react-icons/bi";
+import { FaShippingFast, FaUser } from "react-icons/fa";
+import { GiCardPickup } from "react-icons/gi";
 import { TbTruckReturn } from "react-icons/tb";
 import NavLink from "./NavLink";
 import UserProfile from "./UserProfile";
-import Logo from "./Logo";
 
 interface SidebarProps extends BoxProps {
 	onClose: () => void;
@@ -38,7 +38,7 @@ const AdminSidebar = ({ onClose, ...rest }: SidebarProps) => {
 			{...rest}
 		>
 			<HStack mb={8} justifyContent="space-between">
-				<Logo iconColor="blue.500" h="8" />
+				<Logo height="8" />
 				<CloseButton
 					onClick={onClose}
 					display={{ base: "block", md: "none" }}
@@ -68,20 +68,8 @@ const AdminSidebar = ({ onClose, ...rest }: SidebarProps) => {
 						/>
 					))}
 				</Stack>
-				<Divider />
-				<Stack>
-					{SUPPORT_NAV_LINKS.map((link) => (
-						<NavLink
-							key={link.label}
-							href={link.href}
-							label={link.label}
-							icon={link.icon}
-							isActive={router.pathname === link.href}
-						/>
-					))}
-				</Stack>
+				<Spacer />
 			</Stack>
-			<Spacer />
 			<UserProfile />
 		</Flex>
 	);
@@ -98,17 +86,17 @@ export const ORDER_NAV_LINKS = [
 	{
 		label: "Placed",
 		href: "/admin/orders/placed",
-		icon: TbTruckReturn,
+		icon: BiPackage,
 	},
 	{
 		label: "Picked",
 		href: "/admin/orders/picked",
-		icon: TbTruckReturn,
+		icon: GiCardPickup,
 	},
 	{
 		label: "Shipped",
 		href: "/admin/orders/shipped",
-		icon: TbTruckReturn,
+		icon: FaShippingFast,
 	},
 	{
 		label: "Out for Delivery",
@@ -137,18 +125,5 @@ export const ACCOUNT_NAV_LINKS = [
 		label: "Preference",
 		href: "/account/preference",
 		icon: AiOutlineSetting,
-	},
-];
-
-export const SUPPORT_NAV_LINKS = [
-	{
-		label: "Go Back Shopping",
-		href: "/",
-		icon: BsArrowReturnLeft,
-	},
-	{
-		label: "Help Center",
-		href: "/account/helpcenter",
-		icon: BiSupport,
 	},
 ];

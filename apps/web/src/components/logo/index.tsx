@@ -5,7 +5,8 @@ const Logo = (props: HTMLChakraProps<"svg">) => (
 	<Link href="/">
 		<chakra.svg
 			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 244 100"
+			fill="none"
+			viewBox="0 0 176 32"
 			{...props}
 		>
 			<path
