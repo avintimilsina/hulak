@@ -42,7 +42,14 @@ import {
 } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { BsArrowReturnRight } from "react-icons/bs";
-import { FaLeaf } from "react-icons/fa";
+import {
+	FaBoxOpen,
+	FaHandHoldingHeart,
+	FaLeaf,
+	FaSignature,
+	FaSnowflake,
+} from "react-icons/fa";
+import { IoMdBatteryCharging } from "react-icons/io";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { db } from "../../../../firebase";
 import OrderActions from "./OrderActions";
@@ -463,10 +470,21 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 					colorScheme={getColorFromStatus(latestPayment?.status ?? "PENDING")}
 					px={2}
 				>
-					PAYMENT {latestPayment?.status?.toUpperCase() ?? "PENDING"}
+					$ {latestPayment?.status?.toUpperCase() ?? "PENDING"}
 				</Tag>
 				<HStack>
 					{order.isCarbonNeutral && <Icon as={FaLeaf} fill="green.500" />}
+					{order.isLithiumIncluded && (
+						<Icon as={IoMdBatteryCharging} fill="red.500" />
+					)}
+					{order.isSignatureIncluded && <Icon as={FaSignature} />}
+					{order.isDryIceIncluded && <Icon as={FaSnowflake} fill="blue.500" />}
+					{order.deliverOnlyToReceiver && (
+						<Icon as={FaHandHoldingHeart} fill="yellow.500" />
+					)}
+					{order.isOversizedPackageIncluded && (
+						<Icon as={FaBoxOpen} fill="brown" />
+					)}
 				</HStack>
 			</CardFooter>
 		</Card>

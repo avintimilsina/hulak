@@ -46,7 +46,14 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { BsArrowReturnRight } from "react-icons/bs";
-import { FaLeaf } from "react-icons/fa";
+import {
+	FaBoxOpen,
+	FaHandHoldingHeart,
+	FaLeaf,
+	FaSignature,
+	FaSnowflake,
+} from "react-icons/fa";
+import { IoMdBatteryCharging } from "react-icons/io";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { auth, db } from "../../../firebase";
 import { TrackingTimeline } from "../tracking";
@@ -91,7 +98,7 @@ const OrdersPage = () => {
 
 	const { onCopy, hasCopied } = useClipboard(value?.orderId ?? "");
 
-	if (loading) {
+	if (loading || paymentLoading) {
 		return <PageLoadingSpinner />;
 	}
 
@@ -295,6 +302,22 @@ export const OrderInfo = ({
 
 export const orderPageTextFromStatus = (status: string) => {
 	switch (status) {
+		case "PICKED":
+			return {
+				info: "Picked Up",
+				header:
+					"Your order has been picked! We'll send you shipping confirmation once your order is on the way! ",
+				footer:
+					"We appreciate your business, and hope you enjoy your purchase.",
+			};
+		case "SHIPPED":
+			return {
+				info: "Shipped",
+				header:
+					"Your order has been shipped! We'll send you shipping confirmation once your order is on the way! ",
+				footer:
+					"We appreciate your business, and hope you enjoy your purchase.",
+			};
 		case "PLACED":
 			return {
 				info: "Placed",
@@ -302,23 +325,6 @@ export const orderPageTextFromStatus = (status: string) => {
 				footer:
 					"We'll send you shipping confirmation once your order is on the way! We appreciate your business, and hope you enjoy your purchase.",
 			};
-		case "PICKED":
-			return {
-				info: "Picked Up",
-				header:
-					"Your order has been picked! We'll send you shipping confirmation once your order is shipped! ",
-				footer:
-					"We appreciate your business, and thank you for using our service.",
-			};
-		case "SHIPPED":
-			return {
-				info: "Shipped",
-				header:
-					"Your order has been shipped! We'll send you out for delivery confirmation once your order is on the way! ",
-				footer:
-					"We appreciate your business, and hope you enjoy your purchase.",
-			};
-
 		case "OUTFORDELIVERY":
 			return {
 				info: "Out for delivery",
@@ -330,13 +336,20 @@ export const orderPageTextFromStatus = (status: string) => {
 			return {
 				info: "Delivered",
 				header: "Your order has been delivered!",
-				footer: "Thank you for using our service.",
+				footer:
+					"Do checkout our other products and dont forget to leave a review.",
 			};
 		case "RETURNED":
 			return {
-				info: "RETURNED",
-				header: "Your order has been canceled!",
+				info: "Rejected",
+				header: "Your order has been rejected!",
 				footer: "Please contact our support team for further details.",
+			};
+		case "COMPLETED":
+			return {
+				info: "Completed",
+				header: "Your order is complete!",
+				footer: "Thank you for using our service.",
 			};
 		default:
 			return {
@@ -352,22 +365,22 @@ export const getColorFromStatus = (status: string) => {
 		case "PENDING":
 			return "red";
 		case "PICKED":
-			return "blue.500";
+			return "blue";
 		case "INITIATED":
 			return "yellow";
 		case "COMPLETED":
 			return "green";
 		case "PLACED":
-			return "blue.500";
+			return "blue";
 		case "SHIPPED":
-			return "blue.500";
+			return "blue";
 		case "OUTFORDELIVERY":
 			return "green";
 		case "DELIVERED":
 			return "green";
 		case "REFUNDED":
 			return "green";
-		case "REJECTED":
+		case "RETURNED":
 			return "red";
 		case "FAILED":
 			return "red";
@@ -443,7 +456,7 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 						colorScheme={getColorFromStatus(order?.status ?? "PENDING")}
 						px={2}
 					>
-						{order?.status?.toUpperCase()}
+						ORDER {order?.status?.toUpperCase()}
 					</Tag>
 				</HStack>
 			</CardHeader>
@@ -467,11 +480,23 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 				<Tag
 					colorScheme={getColorFromStatus(latestPayment?.status ?? "PENDING")}
 					px={2}
+					m="0"
 				>
-					PAYMENT {latestPayment?.status?.toUpperCase() ?? "PENDING"}
+					$ {latestPayment?.status?.toUpperCase() ?? "PENDING"}
 				</Tag>
-				<HStack>
+				<HStack p="0" m="0">
 					{order.isCarbonNeutral && <Icon as={FaLeaf} fill="green.500" />}
+					{order.isLithiumIncluded && (
+						<Icon as={IoMdBatteryCharging} fill="red.500" />
+					)}
+					{order.isSignatureIncluded && <Icon as={FaSignature} />}
+					{order.isDryIceIncluded && <Icon as={FaSnowflake} fill="blue.500" />}
+					{order.deliverOnlyToReceiver && (
+						<Icon as={FaHandHoldingHeart} fill="yellow.500" />
+					)}
+					{order.isOversizedPackageIncluded && (
+						<Icon as={FaBoxOpen} fill="brown" />
+					)}
 				</HStack>
 			</CardFooter>
 		</Card>

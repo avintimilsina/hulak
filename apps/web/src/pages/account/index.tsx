@@ -1,5 +1,6 @@
 import ServiceLink from "@/components/auth/ServiceLink";
 import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
+import Result from "@/components/shared/Result";
 import FileUploadModal from "@/components/ui/FileUploadModal";
 import withProtected from "@/routes/withProtected";
 import type { StackProps } from "@chakra-ui/react";
@@ -45,7 +46,14 @@ const AccountSetting = () => {
 		return <PageLoadingSpinner />;
 	}
 	if (bioError || userError || updateError) {
-		return <PageLoadingSpinner />;
+		return (
+			<Result
+				heading="Account Error"
+				text=""
+				dump={userError?.message || updateError?.message}
+				type="error"
+			/>
+		);
 	}
 	return (
 		<Formik
