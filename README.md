@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://hulak.vercel.app">
-    <img src="./apps/web/public/logo.svg" alt="Logo" width="160" height="80">
+    <img src="./apps/web/public/logo.svg" alt="Logo" width="160" height="80"/>
   </a>
 
   <h3 align="center">Hulak</h3>
