@@ -98,7 +98,7 @@ const OrdersPage = () => {
 
 	const { onCopy, hasCopied } = useClipboard(value?.orderId ?? "");
 
-	if (loading || paymentLoading) {
+	if (loading) {
 		return <PageLoadingSpinner />;
 	}
 
