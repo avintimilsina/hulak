@@ -6,14 +6,16 @@ import {
 	Button,
 	Card,
 	CardBody,
+	CardFooter,
 	CardHeader,
+	Center,
 	Divider,
 	Flex,
 	Grid,
 	GridItem,
 	GridItemProps,
-	HStack,
 	Heading,
+	Icon,
 	Img,
 	SimpleGrid,
 	Stack,
@@ -22,7 +24,12 @@ import {
 	useColorModeValue,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { BiDollarCircle } from "react-icons/bi";
+import { IconType } from "react-icons";
+import { BiDollarCircle, BiWorld } from "react-icons/bi";
+import { BsTruck } from "react-icons/bs";
+import { FaPlane } from "react-icons/fa";
+import * as Brand from "@/config/brands";
+import Footer from "@/components/ui/Footer";
 
 const HomePage = () => (
 	<Box>
@@ -212,10 +219,14 @@ const HomePage = () => (
 			my={8}
 			px={{ base: "6", md: "8" }}
 		>
-			<HStack justifyContent="space-between">
+			<Stack
+				justifyContent="space-between"
+				alignItems="center"
+				direction={{ base: "column", lg: "row" }}
+			>
 				<Heading
 					fontFamily="monospace"
-					fontSize={{ base: "2xl", md: "4xl", lg: "7xl" }}
+					fontSize={{ base: "4xl", lg: "7xl" }}
 					fontWeight="normal"
 					textAlign="justify"
 				>
@@ -227,14 +238,14 @@ const HomePage = () => (
 				</Heading>
 				<Text
 					maxW="xs"
-					textAlign="start"
+					textAlign={{ base: "center", lg: "start" }}
 					fontSize={{ base: "sm", lg: "md" }}
 					color={useColorModeValue("blackAlpha.600", "blackAlpha.400")}
 				>
 					we treat costumer like KING. everything you need. everything is in us,
 					Come with Hulak guaranteed fast!
 				</Text>
-			</HStack>
+			</Stack>
 			<Grid
 				w="full"
 				templateColumns={{ base: "repeat(1,1fr)", lg: "repeat(4, 1fr)" }}
@@ -246,6 +257,79 @@ const HomePage = () => (
 				))}
 			</Grid>
 		</Box>
+
+		<Box
+			as="section"
+			maxW={{ base: "xl", md: "7xl" }}
+			mx="auto"
+			my={16}
+			px={{ base: "6", md: "8" }}
+		>
+			<Stack
+				justifyContent="space-between"
+				alignItems="center"
+				direction={{ base: "column", lg: "row" }}
+			>
+				<Heading
+					fontFamily="monospace"
+					fontSize={{ base: "4xl", lg: "7xl" }}
+					fontWeight="normal"
+					textAlign="justify"
+				>
+					Delivery of
+					<br />
+					your{" "}
+					<Text as="span" color="brand.500">
+						package
+					</Text>{" "}
+				</Heading>
+				<Text
+					maxW="xs"
+					textAlign={{ base: "center", lg: "start" }}
+					fontSize={{ base: "sm", lg: "md" }}
+					color={useColorModeValue("blackAlpha.600", "blackAlpha.400")}
+				>
+					We provide all access to simplify and expedite your package delivery
+					Hulak will give you the best!
+				</Text>
+			</Stack>
+			<Grid
+				w="full"
+				templateColumns={{ base: "repeat(1,1fr)", lg: "repeat(3, 1fr)" }}
+				my={4}
+				gap={12}
+			>
+				{SHIPPING_CARDS.map((shipping, index) => (
+					<ShippingCard key={shipping.title} {...shipping} index={index} />
+				))}
+			</Grid>
+			<SimpleGrid
+				columns={{ base: 2, sm: 4, md: 6 }}
+				mt="8"
+				spacing="6"
+				color={useColorModeValue("inherit", "white")}
+			>
+				<Center py="4" px="8" rounded={{ md: "lg" }}>
+					<Brand.ChatMonkey h="6" opacity={0.64} />
+				</Center>
+				<Center py="4" px="8" rounded={{ md: "lg" }}>
+					<Brand.Finnik h="4" opacity={0.64} />
+				</Center>
+				<Center py="4" px="8" rounded={{ md: "lg" }}>
+					<Brand.Lighthouse h="5" opacity={0.64} />
+				</Center>
+				<Center py="4" px="8" rounded={{ md: "lg" }}>
+					<Brand.Plumtic h="5" opacity={0.64} />
+				</Center>
+				<Center py="4" px="8" rounded={{ md: "lg" }}>
+					<Brand.Wakanda h="5" opacity={0.64} />
+				</Center>
+				<Center py="4" px="8" rounded={{ md: "lg" }}>
+					<Brand.WorkScout h="5" opacity={0.64} />
+				</Center>
+			</SimpleGrid>
+		</Box>
+		<Footer />
 	</Box>
 );
 
@@ -375,5 +459,54 @@ const FEATURE_CARDS = [
 				we will send your package non-stop so that it arrives quickly!
 			</Text>
 		),
+	},
+];
+
+interface ShippingCardProps extends GridItemProps {
+	icon: IconType;
+	title: string;
+	index: number;
+}
+
+const ShippingCard = ({ icon, title, index, ...rest }: ShippingCardProps) => {
+	const isSpecial = index === 2 || index === 3;
+	const backgroundColor = useColorModeValue("gray.100", "gray.700");
+	const textColor = useColorModeValue("gray.700", "gray.200");
+
+	return (
+		<GridItem
+			as={Card}
+			{...rest}
+			bg={isSpecial ? "brand.500" : backgroundColor}
+			color={isSpecial ? "white" : textColor}
+			borderRadius="3xl"
+			py={6}
+			// h="40vh"
+			justifyContent="space-between"
+		>
+			<CardHeader>
+				<Icon as={icon} boxSize={12} />
+			</CardHeader>
+			<CardFooter>
+				<Heading fontSize="4xl" fontWeight="normal">
+					{title} <br /> Shipping
+				</Heading>
+			</CardFooter>
+		</GridItem>
+	);
+};
+
+const SHIPPING_CARDS = [
+	{
+		icon: BiWorld,
+		title: "Worldwide",
+	},
+	{
+		icon: BsTruck,
+		title: "Ground",
+	},
+	{
+		icon: FaPlane,
+		title: "Air",
 	},
 ];
