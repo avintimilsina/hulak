@@ -40,7 +40,7 @@ const AdminSidebar = ({ onClose, ...rest }: SidebarProps) => {
 			{...rest}
 		>
 			<HStack mb={8} justifyContent="space-between">
-				<Logo height="8" />
+				<Logo height="14" />
 				<CloseButton
 					onClick={onClose}
 					display={{ base: "block", md: "none" }}
