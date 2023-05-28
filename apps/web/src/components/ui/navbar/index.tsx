@@ -27,109 +27,108 @@ const Navbar = () => {
 	const [currentUser] = useAuthState(auth);
 	const [signOut] = useSignOut(auth);
 	const toast = useToast();
-	return (
-		<Box>
-			<Box as="header" bg={mode("white", "gray.800")}>
-				<Box maxW="7xl" mx="auto" py="4" px={{ base: "6", md: "8" }}>
-					<Flex as="nav" justify="space-between" alignItems="center">
-						<Logo />
-						<HStack spacing="8">
-							<HStack display={{ base: "none", lg: "flex" }} spacing="8">
-								{NAVLINKS.map((link) => {
-									const { label, href } = link;
-									return (
-										<NavLink.Desktop
-											key={label}
-											href={href}
-											active={router.asPath === href}
-										>
-											{label}
-										</NavLink.Desktop>
-									);
-								})}
-							</HStack>
-							{currentUser ? (
-								<HStack display={{ base: "none", lg: "flex" }} gap="2">
-									<Button
-										as={Link}
-										colorScheme="blue"
-										rounded="xl"
-										href="/account/orders"
-										_hover={{ textDecoration: "none" }}
-										w="full"
-										px="8"
-									>
-										Dashboard
-									</Button>
 
-									<Menu placement="bottom">
-										<MenuButton _focus={{ boxShadow: "none" }} w="full">
-											<Avatar
-												name={currentUser.displayName ?? "name"}
-												src={
-													currentUser.photoURL ??
-													`https://api.dicebear.com/6.x/micah/svg?size=256&seed=${currentUser?.displayName}`
-												}
-												size="sm"
-											/>
-										</MenuButton>
-										<MenuList p="0" m="0" zIndex={2} minW="0" w="200px">
-											<MenuItem
-												as={Button}
-												p="0"
-												leftIcon={<BsPersonCircle />}
-												variant="ghost"
-												onClick={() => {
-													router.push("/account");
-												}}
-											>
-												Account
-											</MenuItem>
-											<MenuItem
-												borderColor="red.500"
-												textColor="red.500"
-												as={Button}
-												p="0"
-												leftIcon={<BiLogOut />}
-												colorScheme="red"
-												variant="ghost"
-												onClick={async () => {
-													// signOut() hook react-firebase-hooks/auth
-													const success = await signOut();
-													if (success) {
-														if (!toast.isActive("login")) {
-															toast({
-																title: `Logged out`,
-																status: "success",
-																isClosable: true,
-																id: "login",
-															});
-														}
-													}
-												}}
-											>
-												Sign out
-											</MenuItem>
-										</MenuList>
-									</Menu>
-								</HStack>
-							) : (
+	return (
+		<Box as="header" bg={mode("white", "gray.800")}>
+			<Box maxW="7xl" mx="auto" py="4" borderBottom="2px solid black">
+				<Flex as="nav" justify="space-between" alignItems="center" my={4}>
+					<Logo h="12" />
+					<HStack display={{ base: "none", lg: "flex" }} spacing="8">
+						{NAVLINKS.map((link) => {
+							const { label, href } = link;
+							return (
+								<NavLink.Desktop
+									key={label}
+									href={href}
+									active={router.asPath === href}
+								>
+									{label}
+								</NavLink.Desktop>
+							);
+						})}
+					</HStack>
+					<HStack>
+						{currentUser ? (
+							<HStack display={{ base: "none", lg: "flex" }}>
 								<Button
 									as={Link}
-									colorScheme="blue"
+									colorScheme="brand"
 									rounded="xl"
-									href="/auth/register"
+									href="/account/orders"
 									_hover={{ textDecoration: "none" }}
+									w="full"
+									px="10"
+									size="lg"
 								>
-									Start Shipping
+									Dashboard
 								</Button>
-							)}
-							<Box ml="5">
-								<MobileNav />
-							</Box>
-						</HStack>
-					</Flex>
-				</Box>
+
+								<Menu placement="bottom">
+									<MenuButton _focus={{ boxShadow: "none" }} w="full">
+										<Avatar
+											name={currentUser.displayName ?? "name"}
+											src={
+												currentUser.photoURL ??
+												`https://api.dicebear.com/6.x/micah/svg?size=256&seed=${currentUser?.displayName}`
+											}
+											size="md"
+										/>
+									</MenuButton>
+									<MenuList p="0" m="0" zIndex={2} minW="0" w="200px">
+										<MenuItem
+											as={Button}
+											p="0"
+											leftIcon={<BsPersonCircle />}
+											variant="ghost"
+											onClick={() => {
+												router.push("/account");
+											}}
+										>
+											Account
+										</MenuItem>
+										<MenuItem
+											borderColor="red.500"
+											textColor="red.500"
+											as={Button}
+											p="0"
+											leftIcon={<BiLogOut />}
+											colorScheme="red"
+											variant="ghost"
+											onClick={async () => {
+												const success = await signOut();
+												if (success) {
+													if (!toast.isActive("login")) {
+														toast({
+															title: `Logged out`,
+															status: "success",
+															isClosable: true,
+															id: "login",
+														});
+													}
+												}
+											}}
+										>
+											Sign out
+										</MenuItem>
+									</MenuList>
+								</Menu>
+							</HStack>
+						) : (
+							<Button
+								as={Link}
+								colorScheme="brand"
+								rounded="xl"
+								href="/auth/register"
+								_hover={{ textDecoration: "none" }}
+							>
+								Start Shipping
+							</Button>
+						)}
+						<Box ml="5">
+							<MobileNav />
+						</Box>
+					</HStack>
+				</Flex>
 			</Box>
 		</Box>
 	);

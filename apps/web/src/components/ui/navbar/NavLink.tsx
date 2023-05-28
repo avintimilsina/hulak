@@ -18,12 +18,12 @@ const DesktopNavLink = (props: DesktopNavLinkProps) => {
 		<Link
 			href="/"
 			aria-current={active ? "page" : undefined}
-			fontWeight="semibold"
-			color={mode("gray.600", "gray.300")}
+			fontSize="lg"
+			color={mode("black", "gray.300")}
 			{...rest}
 			_activeLink={{
-				color: mode("blue.600", "blue.300"),
-				fontWeight: "bold",
+				color: mode("brand.500", "brand.300"),
+				fontWeight: "semibold",
 			}}
 			_hover={{ textDecoration: "none" }}
 		/>
@@ -53,7 +53,7 @@ const MobileNavLink = (props: MobileNavLinkProps) => {
 			cursor="pointer"
 			_hover={{ bg: mode("gray.50", "gray.600"), textDecoration: "none" }}
 		>
-			<Icon as={icon} color={mode("blue.600", "blue.400")} fontSize="xl" />
+			<Icon as={icon} color={mode("brand.600", "brand.400")} fontSize="xl" />
 			<Box marginStart="3" fontWeight="medium">
 				{children}
 			</Box>

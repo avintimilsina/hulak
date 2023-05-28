@@ -1,22 +1,36 @@
 import Logo from "@/components/logo";
 import NAVLINKS from "@/config/navbar";
 import {
+	Avatar,
 	Box,
 	Button,
 	Center,
 	Flex,
+	HStack,
+	Menu,
+	MenuButton,
+	MenuItem,
+	MenuList,
 	Portal,
 	SimpleGrid,
 	VStack,
 	useColorModeValue as mode,
 	useBoolean,
 	useFocusOnShow,
+	useToast,
+	Text,
 } from "@chakra-ui/react";
 import { HTMLMotionProps, Variants, motion } from "framer-motion";
 import * as React from "react";
 import FocusLock from "react-focus-lock";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { RemoveScroll } from "react-remove-scroll";
+import { Link } from "@chakra-ui/next-js";
+import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
+import router from "next/router";
+import { BiLogOut } from "react-icons/bi";
+import { BsPersonCircle } from "react-icons/bs";
+import { auth } from "../../../../firebase";
 import NavLink from "./NavLink";
 
 const variants: Variants = {
@@ -84,6 +98,9 @@ Transition.defaultProps = {
 };
 
 const MobileNav = () => {
+	const toast = useToast();
+	const [currentUser] = useAuthState(auth);
+	const [signOut] = useSignOut(auth);
 	const [show, { toggle, off }] = useBoolean();
 	const ref = React.useRef<HTMLDivElement>(null);
 	useFocusOnShow(ref, { visible: show, shouldFocus: true });
@@ -117,7 +134,7 @@ const MobileNav = () => {
 					>
 						<Box pt="5" pb="6" px="5">
 							<Flex justify="space-between" align="center">
-								<Logo h="6" />
+								<Logo h="10" />
 								<Box mr="-2" mt="-2">
 									<Center
 										as="button"
@@ -143,17 +160,106 @@ const MobileNav = () => {
 									);
 								})}
 							</SimpleGrid>
-							<VStack mt="8" spacing="4">
-								<Button w="full" colorScheme="blue">
-									Start Free Trial
-								</Button>
-								<Box textAlign="center" fontWeight="medium">
-									Have an account?{" "}
-									<Box as="a" color={mode("blue.600", "blue.400")}>
-										Log in
+							{!currentUser ? (
+								<VStack mt="8" spacing="4">
+									<Button
+										w="full"
+										colorScheme="brand"
+										as={Link}
+										href="/create-order"
+									>
+										Start Shipping
+									</Button>
+									<Box textAlign="center" fontWeight="medium">
+										Have an account?{" "}
+										<Box as="a" color={mode("blue.600", "blue.400")}>
+											Log in
+										</Box>
 									</Box>
-								</Box>
-							</VStack>
+								</VStack>
+							) : (
+								<VStack>
+									<Button
+										as={Link}
+										colorScheme="brand"
+										rounded="xl"
+										href="/account/orders"
+										_hover={{ textDecoration: "none" }}
+										w="full"
+										px="10"
+										my="4"
+										size="lg"
+									>
+										Dashboard
+									</Button>
+
+									<Menu placement="bottom">
+										<MenuButton _focus={{ boxShadow: "none" }} w="full">
+											<HStack justify="center" w="full" gap={4}>
+												<VStack align="flex-start">
+													<Text
+														fontWeight="medium"
+														fontSize="lg"
+														lineHeight={0.4}
+														color={mode("gray.600", "gray.400")}
+													>
+														{currentUser.displayName ?? "name"}
+													</Text>
+													<Text fontWeight="normal">
+														{currentUser.email ?? "name"}
+													</Text>
+												</VStack>
+
+												<Avatar
+													name={currentUser.displayName ?? "name"}
+													src={
+														currentUser.photoURL ??
+														`https://api.dicebear.com/6.x/micah/svg?size=256&seed=${currentUser?.displayName}`
+													}
+													size="md"
+												/>
+											</HStack>
+										</MenuButton>
+										<MenuList p="0" m="0" zIndex={2} minW="0" w="200px">
+											<MenuItem
+												as={Button}
+												p="0"
+												leftIcon={<BsPersonCircle />}
+												variant="ghost"
+												onClick={() => {
+													router.push("/account");
+												}}
+											>
+												Account
+											</MenuItem>
+											<MenuItem
+												borderColor="red.500"
+												textColor="red.500"
+												as={Button}
+												p="0"
+												leftIcon={<BiLogOut />}
+												colorScheme="red"
+												variant="ghost"
+												onClick={async () => {
+													const success = await signOut();
+													if (success) {
+														if (!toast.isActive("login")) {
+															toast({
+																title: `Logged out`,
+																status: "success",
+																isClosable: true,
+																id: "login",
+															});
+														}
+													}
+												}}
+											>
+												Sign out
+											</MenuItem>
+										</MenuList>
+									</Menu>
+								</VStack>
+							)}
 						</Box>
 					</Box>
 				</FocusLock>

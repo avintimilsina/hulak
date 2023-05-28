@@ -1,4 +1,5 @@
 import Navbar from "@/components/ui/navbar";
+import { Link } from "@chakra-ui/next-js";
 import {
 	Box,
 	BoxProps,
@@ -15,12 +16,13 @@ import {
 	Heading,
 	Img,
 	SimpleGrid,
+	Stack,
 	Text,
 	VStack,
 	useColorModeValue,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { FaPlay } from "react-icons/fa";
+import { BiDollarCircle } from "react-icons/bi";
 
 const HomePage = () => (
 	<Box>
@@ -32,116 +34,158 @@ const HomePage = () => (
 			my={8}
 			px={{ base: "6", md: "8" }}
 		>
-			<HStack justifyContent="space-between">
+			<Stack
+				justifyContent="space-between"
+				alignItems="center"
+				direction={{ base: "column", lg: "row" }}
+			>
 				<Heading
-					fontSize={{ base: "xl", md: "8xl" }}
+					fontSize={{ base: "5xl", md: "8xl" }}
 					fontWeight="normal"
-					textAlign="justify"
+					textAlign={{ base: "center", lg: "justify" }}
 				>
 					We will{" "}
-					<Text as="span" color="#ff6913">
+					<Text as="span" color="brand.500">
 						Deliver
 					</Text>{" "}
 					<br /> your{" "}
-					<Text as="span" color="#ff6913">
+					<Text as="span" color="brand.500">
 						Package!
 					</Text>
 				</Heading>
 				<Text
 					maxW="2xs"
-					textAlign="end"
+					textAlign={{ base: "center", lg: "end" }}
 					color={useColorModeValue("blackAlpha.600", "blackAlpha.400")}
 				>
 					Trust your package to us, we have been trusted by the whole world.
 					your package must be safe
 				</Text>
-			</HStack>
-			<HStack justifyContent="space-between" alignItems="flex-start">
-				<VStack>
-					<Button
-						bgColor="#ff6913"
-						size="lg"
-						color="white"
-						my={8}
-						fontSize="xl"
-						p={8}
-						rounded="full"
-					>
-						Get In Touch
-					</Button>
-					<Stat
-						title="years of experience"
-						value="10+"
-						accentColor={useColorModeValue("#ff6913", "green.300")}
-					/>
-					<Stat title="Offices" value="18K+" />
+			</Stack>
+			<VStack
+				justifyContent="space-between"
+				alignItems={{ base: "center", lg: "flex-start" }}
+				w={{ base: "full", lg: "unset" }}
+			>
+				<Button
+					as={Link}
+					colorScheme="brand"
+					size="lg"
+					my={8}
+					p={8}
+					fontSize="xl"
+					rounded="full"
+					href="/create-order"
+					_hover={{ textDecoration: "none" }}
+				>
+					Start Shipping
+				</Button>
+				<Stack
+					direction={{ base: "row", lg: "column" }}
+					alignItems="flex-end"
+					justifyContent="space-between"
+					w={{ base: "full", lg: "unset" }}
+				>
+					<Stat title="Years" value="10+" />
+					<Stat title="Offices" value="18K+" accentColor="brand.500" />
 					<Stat title="Vehicles" value="23K+" />
-				</VStack>
+				</Stack>
 				<Img
+					display={{ base: "none", lg: "block" }}
 					pos="absolute"
 					top={-18}
 					right={44}
 					zIndex="-1"
 					filter={useColorModeValue("sepia(0.9)", "none")}
 					src="/assets/container.png"
-					alt="Screening talent"
+					alt="Shipping"
 				/>
-			</HStack>
+			</VStack>
 		</Box>
 		<Box
 			as="section"
 			maxW={{ base: "xl", md: "7xl" }}
-			my={8}
+			my={{ base: 0, lg: 8 }}
 			mx="auto"
 			px={{ base: "6", md: "8" }}
 			bg={useColorModeValue("black", "gray.800")}
 			borderRadius="xl"
 		>
-			<HStack gap={16} p={16} my={16} alignItems="flex-end">
+			<Stack
+				gap={{ base: 4, lg: 16 }}
+				p={{ base: 4, lg: 16 }}
+				my={{ base: 0, lg: 16 }}
+				alignItems="flex-end"
+				direction={{ base: "column", lg: "row" }}
+			>
 				<SimpleGrid columns={2} gap={4}>
 					<Img
 						borderRadius="xl"
 						aspectRatio={1 / 1}
-						src="https://images.unsplash.com/photo-1605732562742-3023a888e56e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1935&q=80"
-						alt="Screening talent"
+						objectFit="cover"
+						src="https://images.unsplash.com/photo-1473445730015-841f29a9490b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=450&q=80"
+						alt="Shipping"
 					/>
 					<Img
 						borderRadius="xl"
 						aspectRatio={1 / 1}
 						src="https://images.unsplash.com/photo-1605732562742-3023a888e56e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1935&q=80"
-						alt="Screening talent"
+						alt="Shipping"
 					/>
 					<Img
 						borderRadius="xl"
 						aspectRatio={1 / 1}
-						src="https://images.unsplash.com/photo-1605732562742-3023a888e56e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1935&q=80"
-						alt="Screening talent"
+						objectFit="cover"
+						objectPosition="bottom"
+						src="https://images.unsplash.com/photo-1582902281043-69c645f40cd5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80"
+						alt="Shipping"
+					/>
+					<Img
+						borderRadius="xl"
+						aspectRatio={1 / 1}
+						objectFit="cover"
+						src="https://images.unsplash.com/photo-1492168732976-2676c584c675?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=580&q=80"
+						alt="Shipping"
 					/>
 				</SimpleGrid>
 				<VStack>
-					<Heading fontSize="7xl" color={useColorModeValue("white", "black")}>
+					<Heading
+						fontSize={{ base: "4xl", lg: "7xl" }}
+						fontWeight="normal"
+						color={useColorModeValue("white", "black")}
+						textAlign={{ base: "center", lg: "start" }}
+					>
 						We are
-						<Text color="#ff6913">#1 Logistics</Text> WORLDWIDE
+						<Text color="brand.500">#1 Logistics</Text> WORLDWIDE
 					</Heading>
-					<Text color={useColorModeValue("whiteAlpha.600", "whiteAlpha.400")}>
+					<Text
+						color={useColorModeValue("whiteAlpha.600", "whiteAlpha.400")}
+						textAlign={{ base: "center", lg: "start" }}
+					>
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
 						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
 						ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
 					</Text>
 
-					<HStack>
+					<Stack direction={{ base: "column", lg: "row" }} alignItems="center">
 						<Button
-							bgColor="#ff6913"
+							as={Link}
+							href="/support"
+							colorScheme="brand"
 							size="lg"
-							color="white"
 							my={8}
 							fontSize="xl"
 							p={8}
 							rounded="full"
+							_hover={{
+								textDecoration: "none",
+							}}
 						>
-							Get In Touch
+							Contact Us
 						</Button>
 						<Button
+							as={Link}
+							href="/quote"
 							size="lg"
 							color="white"
 							my={8}
@@ -149,13 +193,17 @@ const HomePage = () => (
 							p={8}
 							rounded="full"
 							variant="outline"
-							leftIcon={<FaPlay />}
+							leftIcon={<BiDollarCircle size="32" />}
+							_hover={{
+								bg: "brand.500",
+								textDecoration: "none",
+							}}
 						>
-							Watch Video
+							Get a Quote
 						</Button>
-					</HStack>
+					</Stack>
 				</VStack>
-			</HStack>
+			</Stack>
 		</Box>
 		<Box
 			as="section"
@@ -167,11 +215,11 @@ const HomePage = () => (
 			<HStack justifyContent="space-between">
 				<Heading
 					fontFamily="monospace"
-					fontSize={{ base: "xl", md: "7xl" }}
+					fontSize={{ base: "2xl", md: "4xl", lg: "7xl" }}
 					fontWeight="normal"
 					textAlign="justify"
 				>
-					<Text as="span" color="#ff6913">
+					<Text as="span" color="brand.500">
 						Everything
 					</Text>{" "}
 					you <br />
@@ -180,106 +228,24 @@ const HomePage = () => (
 				<Text
 					maxW="xs"
 					textAlign="start"
+					fontSize={{ base: "sm", lg: "md" }}
 					color={useColorModeValue("blackAlpha.600", "blackAlpha.400")}
 				>
 					we treat costumer like KING. everything you need. everything is in us,
 					Come with Hulak guaranteed fast!
 				</Text>
 			</HStack>
-			<Grid w="full" templateColumns="repeat(4, 1fr)" my={4} gap={4}>
+			<Grid
+				w="full"
+				templateColumns={{ base: "repeat(1,1fr)", lg: "repeat(4, 1fr)" }}
+				my={4}
+				gap={4}
+			>
 				{FEATURE_CARDS.map((feature, index) => (
 					<FeatureCard key={feature.title} {...feature} index={index} />
 				))}
 			</Grid>
 		</Box>
-		{/* <Box as="section">
-			<Box
-				maxW={{ base: "xl", md: "7xl" }}
-				mx="auto"
-				px={{ base: "6", md: "8" }}
-			>
-				<Stack
-					direction={{ base: "column", lg: "row" }}
-					spacing={{ base: "3rem", lg: "2rem" }}
-					mt="8"
-					align={{ lg: "center" }}
-					justify="space-between"
-				>
-					<Box flex="1" maxW={{ lg: "520px" }}>
-						<Text
-							size="xs"
-							textTransform="uppercase"
-							fontWeight="semibold"
-							color={mode("blue.600", "blue.300")}
-							letterSpacing="wide"
-						>
-							Hire Talents
-						</Text>
-						<Heading
-							as="h1"
-							size="3xl"
-							color={mode("blue.600", "blue.300")}
-							mt="8"
-							fontWeight="extrabold"
-							letterSpacing="tight"
-						>
-							Get world class talents for your project
-						</Heading>
-						<Text
-							color={mode("gray.600", "gray.400")}
-							mt="4"
-							fontSize="lg"
-							fontWeight="medium"
-						>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-							eiusmod tempor incididunt ut labore et dolore magna aliqua.
-						</Text>
-						<Stack direction={{ base: "column", md: "row" }} spacing="4" mt="8">
-							<Button
-								size="lg"
-								minW="210px"
-								colorScheme="blue"
-								height="14"
-								px="8"
-							>
-								Get Started
-							</Button>
-							<Button
-								size="lg"
-								bg="white"
-								color="gray.900"
-								_hover={{ bg: "gray.50" }}
-								height="14"
-								px="8"
-								shadow="base"
-								leftIcon={<Box as={HiPlay} fontSize="2xl" />}
-							>
-								Watch Demo
-							</Button>
-						</Stack>
-						<Text mt="8" color={mode("gray.600", "gray.400")}>
-							Already have an account store?{" "}
-						</Text>
-					</Box>
-					<Box
-						pos="relative"
-						w={{ base: "full", lg: "700px" }}
-						h={{ base: "auto", lg: "560px" }}
-					>
-						<Img
-							w="full"
-							pos="relative"
-							zIndex="1"
-							h={{ lg: "100%" }}
-							objectFit="cover"
-							src="https://img.freepik.com/free-vector/hand-drawn-transport-truck-with-location_23-2149153179.jpg?w=996&t=st=1685031782~exp=1685032382~hmac=1897955ee09207352a5fd6d0bea72dc5a5077b5e015031c01a5fcf8a053d0620"
-							alt="Screening talent"
-						/>
-					</Box>
-				</Stack>
-			</Box>
-			SectionSection
-		</Box> */}
 	</Box>
 );
 
@@ -294,15 +260,25 @@ export const Stat = (props: StatProps) => {
 	const { title, value, children, accentColor, ...rest } = props;
 	return (
 		<Box {...rest} w="full">
-			<Flex as="dl" direction="column-reverse" w="full">
-				<Box as="dt" fontWeight="bold">
+			<Flex
+				as="dl"
+				direction="column-reverse"
+				w="full"
+				alignItems={{ base: "center", lg: "flex-start" }}
+			>
+				<Heading
+					as="dt"
+					fontWeight="semibold"
+					fontSize="2xl"
+					color={accentColor}
+				>
 					{title}
-				</Box>
+				</Heading>
 				<Box
 					order={1}
 					as="dd"
 					fontSize={{ base: "3xl", md: "4xl" }}
-					fontWeight="extrabold"
+					fontWeight="bold"
 					color={accentColor}
 				>
 					{value}
@@ -336,8 +312,8 @@ const FeatureCard = ({ title, children, index, ...rest }: FeatureCardProps) => {
 		<GridItem
 			as={Card}
 			{...rest}
-			colSpan={isSpecial ? 2 : 1}
-			bg={isSpecial ? "#ff6913" : backgroundColor}
+			colSpan={{ base: 1, lg: isSpecial ? 2 : 1 }}
+			bg={isSpecial ? "brand.500" : backgroundColor}
 			color={isSpecial ? "white" : textColor}
 			borderRadius="2xl"
 			py={6}
