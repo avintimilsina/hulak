@@ -1,6 +1,7 @@
 import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
 import Result from "@/components/shared/Result";
 import InputField from "@/components/ui/InputField";
+import Navbar from "@/components/ui/navbar";
 import {
 	Box,
 	Button,
@@ -46,41 +47,48 @@ const TrackingPage = () => {
 	}
 
 	return (
-		<Formik
-			initialValues={{
-				orderId: "",
-			}}
-			validationSchema={Yup.object({
-				orderId: Yup.string().required("Required"),
-			})}
-			onSubmit={async (values, actions) => {
-				setTrackingId(values.orderId);
-				actions.setSubmitting(false);
-			}}
-		>
-			{(props: FormikProps<any>) => (
-				<Form>
-					<VStack m={8} gap={8}>
-						<HStack
-							alignItems="flex-end"
-							gap={8}
-							w="full"
-							maxW={{ base: "unset", lg: "2xl" }}
-						>
-							<InputField label="Tracking Number" name="orderId" />
-							<Button type="submit" isLoading={props.isSubmitting}>
-								Search
-							</Button>
-						</HStack>
-						{loading ? (
-							<PageLoadingSpinner />
-						) : (
-							value && <TrackingTimeline status={value?.status} />
-						)}
-					</VStack>
-				</Form>
-			)}
-		</Formik>
+		<>
+			<Navbar />
+			<Formik
+				initialValues={{
+					orderId: "",
+				}}
+				validationSchema={Yup.object({
+					orderId: Yup.string().required("Required"),
+				})}
+				onSubmit={async (values, actions) => {
+					setTrackingId(values.orderId);
+					actions.setSubmitting(false);
+				}}
+			>
+				{(props: FormikProps<any>) => (
+					<Form>
+						<VStack m={8} gap={8}>
+							<HStack
+								alignItems="flex-end"
+								gap={8}
+								w="full"
+								maxW={{ base: "unset", lg: "2xl" }}
+							>
+								<InputField label="Tracking Number" name="orderId" />
+								<Button
+									type="submit"
+									isLoading={props.isSubmitting}
+									colorScheme="brand"
+								>
+									Search
+								</Button>
+							</HStack>
+							{loading ? (
+								<PageLoadingSpinner />
+							) : (
+								value && <TrackingTimeline status={value?.status} />
+							)}
+						</VStack>
+					</Form>
+				)}
+			</Formik>
+		</>
 	);
 };
 

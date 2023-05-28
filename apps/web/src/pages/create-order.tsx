@@ -4,6 +4,7 @@ import DestinationForm from "@/components/pages/create/DestinationForm";
 import SourceForm from "@/components/pages/create/SourceForm";
 import SustinableForm from "@/components/pages/create/SustinableForm";
 import WhatForm from "@/components/pages/create/WhatForm";
+import Navbar from "@/components/ui/navbar";
 import Step from "@/components/ui/steps/Step";
 import StepContent from "@/components/ui/steps/StepContent";
 import Steps from "@/components/ui/steps/Steps";
@@ -109,226 +110,229 @@ const CreateOrder = () => {
 		initialStep: 0,
 	});
 	return (
-		<Formik
-			initialValues={defaultValues}
-			validationSchema={OrderSchema}
-			onSubmit={async (values, action) => {
-				if (!currentUser?.displayName || !currentUser?.email) {
-					router.push("/auth/login");
-					return;
-				}
-
-				const {
-					postageCost,
-					distance: calculatedDistance,
-					volume: calculatedVolume,
-				} = await calculatePostage(
-					values.package.height!,
-					values.package.weight!,
-					values.package.length!,
-					values.package.width!,
-					values.source.city!,
-					values.destination.city!,
-					{
-						isDryIceIncluded: values.isDryIceIncluded,
-						isLithiumIncluded: values.isLithiumIncluded,
-						isOversizedPackageIncluded: values.isOversizedPackageIncluded,
-						isSignatureIncluded: values.isSignatureIncluded,
+		<>
+			<Navbar />
+			<Formik
+				initialValues={defaultValues}
+				validationSchema={OrderSchema}
+				onSubmit={async (values, action) => {
+					if (!currentUser?.displayName || !currentUser?.email) {
+						router.push("/auth/login");
+						return;
 					}
-				);
 
-				const docRef = await addDoc(collection(db, "orders"), {
-					...values,
-					status: "INITIATED",
-					price: postageCost,
-					distance: calculatedDistance,
-					volume: calculatedVolume,
-					userId: currentUser.uid,
-					createdAt: serverTimestamp(),
-				});
+					const {
+						postageCost,
+						distance: calculatedDistance,
+						volume: calculatedVolume,
+					} = await calculatePostage(
+						values.package.height!,
+						values.package.weight!,
+						values.package.length!,
+						values.package.width!,
+						values.source.city!,
+						values.destination.city!,
+						{
+							isDryIceIncluded: values.isDryIceIncluded,
+							isLithiumIncluded: values.isLithiumIncluded,
+							isOversizedPackageIncluded: values.isOversizedPackageIncluded,
+							isSignatureIncluded: values.isSignatureIncluded,
+						}
+					);
 
-				const response = await fetch("/api/payment", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						amount: postageCost,
-						purchase_order_id: docRef.id ?? "order-failed",
-						purchase_order_name: "Payment for delivery charges",
-						customer_info: {
-							name: currentUser.displayName,
-							email: currentUser.email,
-							phone:
-								currentUser?.phoneNumber ??
-								values.source.phoneNumber ??
-								"9800000000",
-						},
-						amount_breakdown: [
-							{
-								label: "Order Sub Total",
-								amount: postageCost,
-							},
-						],
-						product_details: [
-							{
-								identity: docRef.id ?? "order-failed",
-								name: "Package Order",
-								total_price: postageCost,
-								quantity: 1,
-								unit_price: postageCost,
-							},
-						],
-					}),
-				});
-
-				const { pidx, payment_url } = await response.json();
-
-				await setDoc(
-					doc(db, "orders", docRef.id ?? "-"),
-					{
-						orderId: docRef.id,
-						pidx,
+					const docRef = await addDoc(collection(db, "orders"), {
+						...values,
+						status: "INITIATED",
+						price: postageCost,
+						distance: calculatedDistance,
+						volume: calculatedVolume,
+						userId: currentUser.uid,
 						createdAt: serverTimestamp(),
-					},
-					{ merge: true }
-				);
+					});
 
-				await setDoc(doc(db, "orders", docRef.id, "payments", pidx), {
-					status: "PENDING",
-					orderId: docRef.id,
-					userId: currentUser.uid,
-				});
+					const response = await fetch("/api/payment", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							amount: postageCost,
+							purchase_order_id: docRef.id ?? "order-failed",
+							purchase_order_name: "Payment for delivery charges",
+							customer_info: {
+								name: currentUser.displayName,
+								email: currentUser.email,
+								phone:
+									currentUser?.phoneNumber ??
+									values.source.phoneNumber ??
+									"9800000000",
+							},
+							amount_breakdown: [
+								{
+									label: "Order Sub Total",
+									amount: postageCost,
+								},
+							],
+							product_details: [
+								{
+									identity: docRef.id ?? "order-failed",
+									name: "Package Order",
+									total_price: postageCost,
+									quantity: 1,
+									unit_price: postageCost,
+								},
+							],
+						}),
+					});
 
-				window.location.assign(payment_url);
-				action.resetForm();
-			}}
-		>
-			{(props: FormikProps<any>) => (
-				<Form>
-					<Box
-						mx="auto"
-						maxW="4xl"
-						py="10"
-						px={{ base: "6", md: "8" }}
-						minH="400px"
-					>
-						<Steps activeStep={activeStep}>
-							<Step title="Where are you shipping from?">
-								<StepContent>
-									<Stack shouldWrapChildren spacing="4">
-										<Text>
-											For each ad campaign that you create, you can control how
-											much you&apos;re willing to spend on clicks and
-											conversions, which networks and geographical locations you
-											want your ads to show on, and more.
-										</Text>
-										<SourceForm />
-										<HStack>
-											<Button size="sm" variant="ghost" isDisabled>
-												Back
-											</Button>
-											<Button size="sm" onClick={nextStep}>
-												Next
-											</Button>
-										</HStack>
-									</Stack>
-								</StepContent>
-							</Step>
-							<Step title="Where is your shipping going?">
-								<StepContent>
-									<Stack shouldWrapChildren spacing="4">
-										<Text>
-											An ad group contains one or more ads which target a shared
-											set of keywords.
-										</Text>
-										<DestinationForm />
-										<HStack>
-											<Button size="sm" onClick={prevStep} variant="ghost">
-												Back
-											</Button>
-											<Button size="sm" onClick={nextStep}>
-												Next
-											</Button>
-										</HStack>
-									</Stack>
-								</StepContent>
-							</Step>
-							<Step title="What kind of packaging are you using?">
-								<StepContent>
-									<Stack shouldWrapChildren spacing="4">
-										<Text>
-											Try out different ad text to see what brings in the most
-											customers, and learn how to enhance your ads using
-											features like ad extensions. If you run into any problems
-											with your ads, find out how to tell if they&apos;re
-											running and how to resolve approval issues.
-										</Text>
-										<WhatForm />
-										<HStack>
-											<Button size="sm" onClick={prevStep} variant="ghost">
-												Back
-											</Button>
-											<Button size="sm" onClick={nextStep}>
-												Next
-											</Button>
-										</HStack>
-									</Stack>
-								</StepContent>
-							</Step>
-							<Step title="Almost Done. Let's check a few more details.">
-								<StepContent>
-									<Stack shouldWrapChildren spacing="4">
-										<Text>
-											Try out different ad text to see what brings in the most
-											customers, and learn how to enhance your ads using
-											features like ad extensions. If you run into any problems
-											with your ads, find out how to tell if they&apos;re
-											running and how to resolve approval issues.
-										</Text>
-										<SustinableForm />
-										<HStack>
-											<Button size="sm" onClick={prevStep} variant="ghost">
-												Back
-											</Button>
-											<Button size="sm" onClick={nextStep}>
-												Finish
-											</Button>
-										</HStack>
-									</Stack>
-								</StepContent>
-							</Step>
-						</Steps>
-						<HStack
-							display={activeStep === 4 ? "flex" : "none"}
-							mt="10"
-							spacing="4"
-							shouldWrapChildren
+					const { pidx, payment_url } = await response.json();
+
+					await setDoc(
+						doc(db, "orders", docRef.id ?? "-"),
+						{
+							orderId: docRef.id,
+							pidx,
+							createdAt: serverTimestamp(),
+						},
+						{ merge: true }
+					);
+
+					await setDoc(doc(db, "orders", docRef.id, "payments", pidx), {
+						status: "PENDING",
+						orderId: docRef.id,
+						userId: currentUser.uid,
+					});
+
+					window.location.assign(payment_url);
+					action.resetForm();
+				}}
+			>
+				{(props: FormikProps<any>) => (
+					<Form>
+						<Box
+							mx="auto"
+							maxW="4xl"
+							py="10"
+							px={{ base: "6", md: "8" }}
+							minH="400px"
 						>
-							<Text>All steps completed - you&apos;re finished</Text>
-							<Button
-								size="sm"
-								onClick={prevStep}
-								variant="outline"
-								verticalAlign="baseline"
+							<Steps activeStep={activeStep}>
+								<Step title="Where are you shipping from?">
+									<StepContent>
+										<Stack shouldWrapChildren spacing="4">
+											<Text>
+												For each ad campaign that you create, you can control
+												how much you&apos;re willing to spend on clicks and
+												conversions, which networks and geographical locations
+												you want your ads to show on, and more.
+											</Text>
+											<SourceForm />
+											<HStack>
+												<Button size="sm" variant="ghost" isDisabled>
+													Back
+												</Button>
+												<Button size="sm" onClick={nextStep}>
+													Next
+												</Button>
+											</HStack>
+										</Stack>
+									</StepContent>
+								</Step>
+								<Step title="Where is your shipping going?">
+									<StepContent>
+										<Stack shouldWrapChildren spacing="4">
+											<Text>
+												An ad group contains one or more ads which target a
+												shared set of keywords.
+											</Text>
+											<DestinationForm />
+											<HStack>
+												<Button size="sm" onClick={prevStep} variant="ghost">
+													Back
+												</Button>
+												<Button size="sm" onClick={nextStep}>
+													Next
+												</Button>
+											</HStack>
+										</Stack>
+									</StepContent>
+								</Step>
+								<Step title="What kind of packaging are you using?">
+									<StepContent>
+										<Stack shouldWrapChildren spacing="4">
+											<Text>
+												Try out different ad text to see what brings in the most
+												customers, and learn how to enhance your ads using
+												features like ad extensions. If you run into any
+												problems with your ads, find out how to tell if
+												they&apos;re running and how to resolve approval issues.
+											</Text>
+											<WhatForm />
+											<HStack>
+												<Button size="sm" onClick={prevStep} variant="ghost">
+													Back
+												</Button>
+												<Button size="sm" onClick={nextStep}>
+													Next
+												</Button>
+											</HStack>
+										</Stack>
+									</StepContent>
+								</Step>
+								<Step title="Almost Done. Let's check a few more details.">
+									<StepContent>
+										<Stack shouldWrapChildren spacing="4">
+											<Text>
+												Try out different ad text to see what brings in the most
+												customers, and learn how to enhance your ads using
+												features like ad extensions. If you run into any
+												problems with your ads, find out how to tell if
+												they&apos;re running and how to resolve approval issues.
+											</Text>
+											<SustinableForm />
+											<HStack>
+												<Button size="sm" onClick={prevStep} variant="ghost">
+													Back
+												</Button>
+												<Button size="sm" onClick={nextStep}>
+													Finish
+												</Button>
+											</HStack>
+										</Stack>
+									</StepContent>
+								</Step>
+							</Steps>
+							<HStack
+								display={activeStep === 4 ? "flex" : "none"}
+								mt="10"
+								spacing="4"
+								shouldWrapChildren
 							>
-								Back
-							</Button>
+								<Text>All steps completed - you&apos;re finished</Text>
+								<Button
+									size="sm"
+									onClick={prevStep}
+									variant="outline"
+									verticalAlign="baseline"
+								>
+									Back
+								</Button>
 
-							<Button
-								type="submit"
-								colorScheme="blue"
-								size="sm"
-								fontSize="md"
-								isLoading={props.isSubmitting}
-							>
-								Create Order
-							</Button>
-						</HStack>
-					</Box>
-				</Form>
-			)}
-		</Formik>
+								<Button
+									type="submit"
+									colorScheme="blue"
+									size="sm"
+									fontSize="md"
+									isLoading={props.isSubmitting}
+								>
+									Create Order
+								</Button>
+							</HStack>
+						</Box>
+					</Form>
+				)}
+			</Formik>
+		</>
 	);
 };
 
