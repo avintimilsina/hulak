@@ -35,7 +35,7 @@ const NavLink = (props: NavLinkProps) => {
 				color: mode("black", "white"),
 			}}
 			_activeLink={{
-				bg: mode("blue.500", "blue.300"),
+				bg: mode("#ff6913", "orange.300"),
 				color: mode("white", "black"),
 			}}
 			{...rest}

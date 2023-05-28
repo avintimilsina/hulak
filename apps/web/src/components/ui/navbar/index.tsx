@@ -32,7 +32,7 @@ const Navbar = () => {
 			<Box as="header" bg={mode("white", "gray.800")}>
 				<Box maxW="7xl" mx="auto" py="4" px={{ base: "6", md: "8" }}>
 					<Flex as="nav" justify="space-between" alignItems="center">
-						<Logo h="6" />
+						<Logo />
 						<HStack spacing="8">
 							<HStack display={{ base: "none", lg: "flex" }} spacing="8">
 								{NAVLINKS.map((link) => {
