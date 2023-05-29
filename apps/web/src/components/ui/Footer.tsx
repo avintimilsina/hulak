@@ -38,7 +38,6 @@ const Footer = () => (
 				fontFamily="monospace"
 				fontSize={{ base: "4xl", lg: "6xl" }}
 				fontWeight="normal"
-				width="4xl"
 			>
 				<Text as="span" color="brand.500">
 					Let&apos;s{" "}

@@ -111,11 +111,11 @@ const HomePage = () => {
 						src="/assets/container.png"
 						alt="Shipping"
 						// initial={{
-						// 	// y: "-20%",
+						// 	y: "-5%",
 						// }}
 						// animate={{
 						// 	y: 0,
-						// 	rotate: [0, 20, -20],
+						// 	rotate: [0, 5, -5],
 						// 	scale: [1, 1.05, 1.05],
 						// 	stiffness: 100,
 						// 	type: "spring",
