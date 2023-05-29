@@ -80,7 +80,7 @@ const SupportPage = () => {
 						>
 							<Flex>
 								<Box
-									bg="brand.400"
+									bg="brand.600"
 									color="white"
 									borderRadius="lg"
 									m={{ sm: 4, md: 16, lg: 10 }}
@@ -99,35 +99,33 @@ const SupportPage = () => {
 															<Button
 																size="md"
 																height="48px"
-																width="200px"
+																width="full"
+																pl="0"
 																variant="ghost"
 																_hover={{ border: "2px solid " }}
-																leftIcon={
-																	<MdPhone color="#1970F1" size="20px" />
-																}
+																leftIcon={<MdPhone color="black" size="20px" />}
 															>
 																+977-988888888
 															</Button>
 															<Button
 																size="md"
 																height="48px"
-																width="200px"
+																width="full"
 																variant="ghost"
 																_hover={{ border: "2px solid " }}
-																leftIcon={
-																	<MdEmail color="#1970F1" size="20px" />
-																}
+																leftIcon={<MdEmail color="black" size="20px" />}
 															>
 																support@hulak.com
 															</Button>
 															<Button
 																size="md"
 																height="48px"
-																width="200px"
+																width="full"
+																pl="0"
 																variant="ghost"
 																_hover={{ border: "2px solid" }}
 																leftIcon={
-																	<MdLocationOn color="#1970F1" size="20px" />
+																	<MdLocationOn color="black" size="20px" />
 																}
 															>
 																Kathmandu, Nepal
@@ -145,7 +143,7 @@ const SupportPage = () => {
 															variant="ghost"
 															size="lg"
 															isRound
-															_hover={{ bg: "#0D74FF" }}
+															_hover={{ bg: "black" }}
 															icon={<MdFacebook size="28px" />}
 														/>
 														<IconButton
@@ -153,7 +151,7 @@ const SupportPage = () => {
 															variant="ghost"
 															size="lg"
 															isRound
-															_hover={{ bg: "#0D74FF" }}
+															_hover={{ bg: "black" }}
 															icon={<BsGithub size="28px" />}
 														/>
 														<IconButton
@@ -161,7 +159,7 @@ const SupportPage = () => {
 															variant="ghost"
 															size="lg"
 															isRound
-															_hover={{ bg: "#0D74FF" }}
+															_hover={{ bg: "black" }}
 															icon={<BsDiscord size="28px" />}
 														/>
 													</HStack>
@@ -274,10 +272,10 @@ const SupportPage = () => {
 															<FormControl id="name" float="right">
 																<Button
 																	variant="solid"
-																	bg="brand.400"
-																	color="white"
+																	colorScheme="brand"
 																	type="submit"
 																	isLoading={props.isSubmitting}
+																	_hover={{ bg: "black" }}
 																>
 																	Open Issue
 																</Button>
