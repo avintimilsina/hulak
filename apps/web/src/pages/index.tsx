@@ -138,7 +138,7 @@ const HomePage = () => {
 				mx="auto"
 				px={{ base: "6", md: "8" }}
 				bg={useColorModeValue("black", "gray.800")}
-				borderRadius="xl"
+				borderRadius="3xl"
 			>
 				<Stack
 					gap={{ base: 4, lg: 16 }}
@@ -268,8 +268,8 @@ const HomePage = () => {
 						fontSize={{ base: "sm", lg: "md" }}
 						color={useColorModeValue("blackAlpha.600", "blackAlpha.400")}
 					>
-						we treat costumer like KING. everything you need. everything is in
-						us, Come with Hulak guaranteed fast!
+						we treat costumer like KING. everything you need, everything is in
+						us. Come with Hulak guaranteed fast!
 					</Text>
 				</Stack>
 				<Grid

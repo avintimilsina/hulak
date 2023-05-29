@@ -21,9 +21,9 @@ const Footer = () => (
 	<Box
 		as="section"
 		mt={{ base: 0, lg: 8 }}
-		px={{ base: "6", md: "8" }}
+		px={{ base: "6", md: "36" }}
 		bg={useColorModeValue("black", "gray.800")}
-		borderTopRadius="xl"
+		borderTopRadius="3xl"
 		color="white"
 	>
 		<Stack
@@ -38,9 +38,10 @@ const Footer = () => (
 				fontFamily="monospace"
 				fontSize={{ base: "4xl", lg: "6xl" }}
 				fontWeight="normal"
+				width="4xl"
 			>
 				<Text as="span" color="brand.500">
-					Lets{" "}
+					Let&apos;s{" "}
 				</Text>{" "}
 				start with us in{" "}
 				<Text as="span" color="brand.500">
@@ -48,16 +49,17 @@ const Footer = () => (
 				</Text>{" "}
 				your goods!
 			</Heading>
-
-			<IconButton
-				aria-label="Icon"
-				size="lg"
-				p={12}
-				icon={<FiArrowUpRight size="128" />}
-				colorScheme="brand"
-				variant="ghost"
-				_hover={{ bg: "gray.900", opcaity: "0.8" }}
-			/>
+			<Box bg="gray.900" borderRadius="3xl" py="10">
+				<IconButton
+					aria-label="Icon"
+					size="lg"
+					p={8}
+					icon={<FiArrowUpRight size="128" />}
+					colorScheme="brand"
+					variant="ghost"
+					_hover={{ bg: "gray.900", opcaity: "0.8" }}
+				/>
+			</Box>
 		</Stack>
 
 		<Stack spacing="10" divider={<StackDivider />}>
