@@ -43,7 +43,7 @@ const withAdminProtected = (Component: any) =>
 			);
 			return <PageLoadingSpinner />;
 		}
-		if (!value) {
+		if (!value?.isActive) {
 			router.replace("/");
 			if (!toast.isActive("admin")) {
 				toast({
