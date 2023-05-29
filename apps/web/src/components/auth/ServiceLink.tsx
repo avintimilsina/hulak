@@ -71,7 +71,7 @@ const ServiceLink = ({
 				p="0"
 				m="0"
 				minW="0"
-				w="300px"
+				w="200px"
 				borderColor="red.500"
 				textColor="red.500"
 			>

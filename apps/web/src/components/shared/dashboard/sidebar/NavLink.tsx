@@ -31,11 +31,11 @@ const NavLink = (props: NavLinkProps) => {
 			aria-current={isActive ? "page" : undefined}
 			color={mode("blackAlpha.800", "whiteAlpha.800")}
 			_hover={{
-				bg: mode("gray.100", "gray.700"),
+				bg: mode("brand.100", "brand.700"),
 				color: mode("black", "white"),
 			}}
 			_activeLink={{
-				bg: mode("#ff6913", "orange.300"),
+				bg: mode("brand.500", "brand.300"),
 				color: mode("white", "black"),
 			}}
 			{...rest}

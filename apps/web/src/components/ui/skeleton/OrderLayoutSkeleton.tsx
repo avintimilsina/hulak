@@ -97,14 +97,13 @@ const OrderLayoutSkeleton = () => (
 		</VStack>
 		<HStack>
 			<Skeleton>
-				<Button colorScheme="primary" variant="outline">
-					Order Placed
-				</Button>
+				<Button>Order Placed</Button>
 			</Skeleton>
 			<Skeleton>
-				<Button colorScheme="primary" variant="outline">
-					Order Placed
-				</Button>
+				<Button>Order Placed</Button>
+			</Skeleton>
+			<Skeleton>
+				<Button>Order Placed</Button>
 			</Skeleton>
 		</HStack>
 	</Stack>

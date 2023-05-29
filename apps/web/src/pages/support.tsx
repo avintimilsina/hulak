@@ -20,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { Field, Form, Formik, FormikProps } from "formik";
+import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { BsDiscord, BsGithub } from "react-icons/bs";
 import { MdEmail, MdFacebook, MdLocationOn, MdPhone } from "react-icons/md";
@@ -46,9 +47,11 @@ const defaultValues = {
 const SupportPage = () => {
 	const toast = useToast();
 	const [currentUser] = useAuthState(auth);
+	const router = useRouter();
+
 	return (
 		<>
-			<Navbar />
+			{router.pathname === "/support" && <Navbar />}
 			<Formik
 				initialValues={defaultValues}
 				validationSchema={SupportPageSchema}

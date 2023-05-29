@@ -3,16 +3,13 @@ import {
 	Badge,
 	Box,
 	Heading,
-	Img,
 	Skeleton,
 	SkeletonCircle,
 	Stack,
 	StackDivider,
 	Text,
-	VStack,
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
-import { BiTrash } from "react-icons/bi";
 import { FaHome } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { MdWorkOutline } from "react-icons/md";
@@ -32,6 +29,7 @@ import {
 import { useRef } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { RiDeleteBin2Line } from "react-icons/ri";
 import { auth, db } from "../../../../../firebase";
 import ConfirmationModal from "../../../helpers/ConfirmationModal";
 import ModalButton from "../../../ui/ModalButton";
@@ -91,20 +89,12 @@ const AddressSection = () => {
 								<AddressSkeleton key={`${address}-${index + 1}`} />
 							))
 					) : !values?.length ? (
-						<VStack py={8} gap={2}>
-							<Box textAlign="center">
-								<Heading as="h3" fontSize="2xl" lineHeight="1">
-									No Address Found
-								</Heading>
-								<Text>You dont have any addresses yet.</Text>
-							</Box>
-							<Img
-								width="50%"
-								placeholder="blur"
-								alt="App screenshot"
-								src="/assets/bad-gateway.svg"
-							/>
-						</VStack>
+						<Box textAlign="center" py={8}>
+							<Heading as="h3" fontSize="2xl" lineHeight="1">
+								No Address Found
+							</Heading>
+							<Text>You dont have any addresses yet.</Text>
+						</Box>
 					) : (
 						values?.map((address) => (
 							<Address key={address.id} address={address} />
@@ -193,7 +183,7 @@ export const Address = ({ address }: AddressProps) => {
 					leftIcon={<FiEdit />}
 					buttonText="Edit"
 					modalHeader="Edit Address"
-					modalFooter=" "
+					modalFooter=""
 				>
 					<AddressForm
 						onSubmissionSuccess={closeModal}
@@ -204,7 +194,7 @@ export const Address = ({ address }: AddressProps) => {
 
 				<ConfirmationModal
 					colorScheme="red"
-					leftIcon={<BiTrash />}
+					leftIcon={<RiDeleteBin2Line />}
 					onSuccess={async () => {
 						await deleteDoc(
 							doc(db, "users", currentUser?.uid ?? "-", "addresses", address.id)
@@ -212,7 +202,9 @@ export const Address = ({ address }: AddressProps) => {
 					}}
 					bodyText="Are you sure you want to delete this address?"
 					headerText="Delete Address?"
-				/>
+				>
+					Delete
+				</ConfirmationModal>
 			</Stack>
 		</Stack>
 	);

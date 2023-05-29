@@ -97,8 +97,9 @@ const AdminPage = () => {
 							</HStack>
 							<Button
 								size="sm"
-								variant="outline"
+								variant="solid"
 								iconSpacing="1"
+								colorScheme="brand"
 								leftIcon={<RiAddFill fontSize="1.25em" />}
 								onClick={onOpen}
 							>

@@ -25,7 +25,7 @@ const AccountPage = () => {
 			>
 				<ModalButton
 					ref={modalRef}
-					colorScheme="blue"
+					colorScheme="brand"
 					leftIcon={<IoAdd />}
 					w={{ base: "full", md: "unset" }}
 					buttonText="Add Address"

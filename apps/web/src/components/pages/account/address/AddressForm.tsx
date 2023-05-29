@@ -119,6 +119,7 @@ const AddressForm = ({
 								isLoading={autoFillLoading}
 								type="button"
 								variant="solid"
+								// colorScheme="brand"
 								onClick={() => {
 									setAutoFillLoading(true);
 									if (navigator?.geolocation) {
@@ -158,26 +159,6 @@ const AddressForm = ({
 									</FormControl>
 								)}
 							</Field>
-							{/* <ToggleButtonGroup<"home" | "work">
-								name={register("type").name}
-								onChange={(value) => setValue("type", value)}
-								size="lg"
-								defaultValue={defaultValues?.type ?? "home"}
-								isAttached
-								variant="outline"
-								aria-label="Set Home or Work"
-							>
-								<ToggleButton
-									value="home"
-									aria-label="Home"
-									icon={<AiOutlineHome />}
-								/>
-								<ToggleButton
-									value="work"
-									aria-label="Work"
-									icon={<MdWorkOutline />}
-								/>
-							</ToggleButtonGroup> */}
 						</HStack>
 						<Field name="phone_number">
 							{({ field, form }: any) => (
@@ -253,7 +234,7 @@ const AddressForm = ({
 							</Field>
 						</HStack>
 
-						<Button type="submit" colorScheme="blue" size="lg" fontSize="md">
+						<Button type="submit" colorScheme="brand" size="lg" fontSize="md">
 							{defaultValues ? "Update Address" : "Create Address"}
 						</Button>
 					</Stack>

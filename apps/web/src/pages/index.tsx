@@ -110,24 +110,24 @@ const HomePage = () => {
 						filter={useColorModeValue("sepia(0.9)", "none")}
 						src="/assets/container.png"
 						alt="Shipping"
-						initial={{
-							y: "-20%",
-						}}
-						animate={{
-							y: 0,
-							rotate: [0, 20, -20],
-							scale: [1, 1.05, 1.05],
-							stiffness: 100,
-							type: "spring",
-						}}
-						transition={{
-							duration: 5,
-							ease: "easeInOut",
-							times: [0, 0.2, 0.5, 0.8, 1],
-							repeat: Infinity,
-							repeatType: "reverse",
-						}}
-						layout
+						// initial={{
+						// 	// y: "-20%",
+						// }}
+						// animate={{
+						// 	y: 0,
+						// 	rotate: [0, 20, -20],
+						// 	scale: [1, 1.05, 1.05],
+						// 	stiffness: 100,
+						// 	type: "spring",
+						// }}
+						// transition={{
+						// 	duration: 5,
+						// 	ease: "easeInOut",
+						// 	times: [0, 0.2, 0.5, 0.8, 1],
+						// 	repeat: Infinity,
+						// 	repeatType: "reverse",
+						// }}
+						// layout
 					/>
 				</VStack>
 			</Box>
@@ -191,10 +191,9 @@ const HomePage = () => {
 							color={useColorModeValue("whiteAlpha.600", "whiteAlpha.400")}
 							textAlign={{ base: "center", lg: "start" }}
 						>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-							enim ad minim veniam, quis nostrud exercitation ullamco laboris
-							nisi ut
+							We are an international scale company that has been trusted by all
+							corners of the world. Use our company to expedite your package
+							delivery!
 						</Text>
 
 						<Stack

@@ -154,7 +154,6 @@ const AccountSetting = () => {
 						</FieldGroup>
 						<FieldGroup title="Location">
 							<VStack width="full" spacing="6" alignItems="flex-start">
-								{/* <LanguageSelect /> */}
 								<HStack
 									width="full"
 									alignItems="flex-end"
@@ -195,14 +194,7 @@ const AccountSetting = () => {
 								</HStack>
 							</VStack>
 						</FieldGroup>
-						{/* <FieldGroup title="Notifications">
-							<Stack width="full" spacing="4">
-								<Checkbox>Get updates about the latest meetups.</Checkbox>
-								<Checkbox>
-									Get notifications about your account activities
-								</Checkbox>
-							</Stack>
-						</FieldGroup> */}
+
 						<FieldGroup title="Connect accounts">
 							<HStack width="full">
 								<ServiceLink
@@ -218,7 +210,7 @@ const AccountSetting = () => {
 						<HStack width="full">
 							<Button
 								type="submit"
-								colorScheme="blue"
+								colorScheme="brand"
 								isLoading={props.isSubmitting}
 								isDisabled={!props.dirty}
 							>
@@ -260,15 +252,6 @@ const FieldGroup = (props: FieldGroupProps) => {
 FieldGroup.defaultProps = {
 	title: "",
 };
-
-// const LanguageSelect = (props: SelectProps) => (
-// 	<FormControl id="language">
-// 		<FormLabel>Display Language</FormLabel>
-// 		<Select maxW="2xs" {...props}>
-// 			<option>English</option>
-// 		</Select>
-// 	</FormControl>
-// );
 
 const getCityName = async (lat: number, lng: number) => {
 	const res = await fetch(
