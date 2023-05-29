@@ -2,6 +2,8 @@
 import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
 import { PriceTag } from "@/components/shared/PriceTag";
 import Result from "@/components/shared/Result";
+import OrderInfoSkeleton from "@/components/ui/skeleton/OrderInfoSkeleton";
+import OrderListSkeleton from "@/components/ui/skeleton/OrderListSkeleton";
 import withProtected from "@/routes/withProtected";
 import {
 	Badge,
@@ -17,7 +19,6 @@ import {
 	IconButton,
 	Link,
 	SimpleGrid,
-	Spinner,
 	Stack,
 	Tag,
 	Text,
@@ -144,7 +145,7 @@ const OrdersPage = () => {
 					h="94vh"
 				>
 					{paymentLoading ? (
-						<PageLoadingSpinner />
+						router.query.id && <OrderInfoSkeleton />
 					) : !value?.orderId ? (
 						<SimpleGrid h="100%" placeItems="center">
 							<VStack gap={4}>
@@ -256,19 +257,6 @@ const OrdersPage = () => {
 								</OrderInfo>
 							</HStack>
 							<VStack w="full" px={{ base: 2, lg: 8 }} gap={2} py={4}>
-								{/* <HStack justify="space-between" w="full" fontSize="lg">
-									<Text color={mode("gray.600", "gray.400")}>Sub Total</Text>
-									<PriceTag price={123} currency="NPR" />
-								</HStack>
-								<HStack justify="space-between" w="full" fontSize="lg">
-									<Text color={mode("gray.600", "gray.400")}>
-										Shipping Cost
-									</Text>
-									<HStack>
-										<Text>+</Text>
-										<PriceTag price={200} currency="NPR" />
-									</HStack>
-								</HStack> */}
 								<Divider />
 								<HStack
 									justify="space-between"
@@ -423,7 +411,7 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 	);
 
 	if (paymentLoading) {
-		return <Spinner />;
+		return <OrderListSkeleton />;
 	}
 
 	if (paymentError) {

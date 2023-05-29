@@ -1,7 +1,8 @@
 /* eslint-disable no-nested-ternary */
-import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
 import { PriceTag } from "@/components/shared/PriceTag";
 import Result from "@/components/shared/Result";
+import OrderInfoSkeleton from "@/components/ui/skeleton/OrderInfoSkeleton";
+import OrderListSkeleton from "@/components/ui/skeleton/OrderListSkeleton";
 import withProtected from "@/routes/withProtected";
 import {
 	Badge,
@@ -17,7 +18,6 @@ import {
 	IconButton,
 	Link,
 	SimpleGrid,
-	Spinner,
 	Stack,
 	Tag,
 	Text,
@@ -98,10 +98,6 @@ const OrdersPage = () => {
 
 	const { onCopy, hasCopied } = useClipboard(value?.orderId ?? "");
 
-	if (loading) {
-		return <PageLoadingSpinner />;
-	}
-
 	if (error || paymentError) {
 		return (
 			<Result
@@ -113,7 +109,7 @@ const OrdersPage = () => {
 		);
 	}
 
-	if (!values) {
+	if (!values && !loading) {
 		return (
 			<SimpleGrid w="full" h="94vh" placeItems="center">
 				<VStack textAlign="center">
@@ -152,7 +148,7 @@ const OrdersPage = () => {
 					h="94vh"
 				>
 					{paymentLoading ? (
-						<PageLoadingSpinner />
+						router.query.id && <OrderInfoSkeleton />
 					) : !value?.orderId ? (
 						<SimpleGrid h="100%" placeItems="center">
 							<VStack gap={4}>
@@ -187,6 +183,22 @@ const OrdersPage = () => {
 												py={1}
 											>
 												PAYMENT {latestPayment?.status?.toUpperCase()}
+											</Badge>
+										</Tooltip>
+										<Tooltip label="Order Status" closeOnClick={false}>
+											<Badge
+												fontSize="xl"
+												colorScheme={getColorFromStatus(
+													value?.status ?? "PENDING"
+												)}
+												px={3}
+												py={1}
+											>
+												ORDER{" "}
+												{
+													orderPageTextFromStatus(value?.status?.toUpperCase())
+														.info
+												}
 											</Badge>
 										</Tooltip>
 									</HStack>
@@ -411,7 +423,7 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 	);
 
 	if (paymentLoading) {
-		return <Spinner />;
+		return <OrderListSkeleton />;
 	}
 
 	if (paymentError) {

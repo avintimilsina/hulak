@@ -1,7 +1,8 @@
 /* eslint-disable no-nested-ternary */
-import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
 import { PriceTag } from "@/components/shared/PriceTag";
 import Result from "@/components/shared/Result";
+import OrderLayoutSkeleton from "@/components/ui/skeleton/OrderLayoutSkeleton";
+import OrderListSkeleton from "@/components/ui/skeleton/OrderListSkeleton";
 import {
 	Badge,
 	Box,
@@ -14,7 +15,6 @@ import {
 	Icon,
 	IconButton,
 	SimpleGrid,
-	Spinner,
 	Stack,
 	Tag,
 	Text,
@@ -97,10 +97,6 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 
 	const { onCopy, hasCopied } = useClipboard(value?.orderId ?? "");
 
-	if (loading) {
-		return <PageLoadingSpinner />;
-	}
-
 	if (error || paymentError) {
 		return (
 			<Result
@@ -112,7 +108,7 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 		);
 	}
 
-	if (!values) {
+	if (!values && !loading) {
 		return (
 			<SimpleGrid w="full" h="94vh" placeItems="center">
 				<VStack textAlign="center">
@@ -151,7 +147,7 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 					h="94vh"
 				>
 					{paymentLoading ? (
-						<PageLoadingSpinner />
+						router.query.id && <OrderLayoutSkeleton />
 					) : !value?.orderId ? (
 						<SimpleGrid h="100%" placeItems="center">
 							<VStack gap={4}>
@@ -226,7 +222,7 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 								<Text>{value?.orderId}</Text>
 							</VStack>
 							<HStack
-								justifyContent="space-between"
+								justifyContent="space-around"
 								w="full"
 								alignItems="flex-start"
 							>
@@ -400,7 +396,7 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 	);
 
 	if (paymentLoading) {
-		return <Spinner />;
+		return <OrderListSkeleton />;
 	}
 
 	if (paymentError) {
