@@ -110,24 +110,24 @@ const HomePage = () => {
 						filter={useColorModeValue("sepia(0.9)", "none")}
 						src="/assets/container.png"
 						alt="Shipping"
-						// initial={{
-						// 	y: "-5%",
-						// }}
-						// animate={{
-						// 	y: 0,
-						// 	rotate: [0, 5, -5],
-						// 	scale: [1, 1.05, 1.05],
-						// 	stiffness: 100,
-						// 	type: "spring",
-						// }}
-						// transition={{
-						// 	duration: 5,
-						// 	ease: "easeInOut",
-						// 	times: [0, 0.2, 0.5, 0.8, 1],
-						// 	repeat: Infinity,
-						// 	repeatType: "reverse",
-						// }}
-						// layout
+						initial={{
+							y: "-2%",
+						}}
+						animate={{
+							y: 0,
+							rotate: [0, 2.5, -2.5],
+							scale: [1, 1.05, 1.05],
+							stiffness: 100,
+							type: "spring",
+						}}
+						transition={{
+							duration: 5,
+							ease: "easeInOut",
+							times: [0, 0.2, 0.5, 0.8, 1],
+							repeat: Infinity,
+							repeatType: "reverse",
+						}}
+						layout
 					/>
 				</VStack>
 			</Box>

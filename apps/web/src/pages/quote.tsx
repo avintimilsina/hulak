@@ -107,7 +107,9 @@ const QuotePage = () => {
 								<Text>Distance: {distance} Km</Text>
 								<Text>Postage Volume: {volume}</Text>
 								<Text>Postage Cost: {cost}</Text>
-								<Button type="submit">Submit</Button>
+								<Button type="submit" colorScheme="brand">
+									Submit
+								</Button>
 							</VStack>
 						</Stack>
 					</Form>

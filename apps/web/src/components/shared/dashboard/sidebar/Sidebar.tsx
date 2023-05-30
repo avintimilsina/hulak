@@ -38,7 +38,7 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
 			{...rest}
 		>
 			<HStack mb={8} justifyContent="space-between">
-				<Logo height="14" />
+				<Logo height="10" />
 				<CloseButton
 					onClick={onClose}
 					display={{ base: "block", md: "none" }}
