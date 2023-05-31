@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+// ? This function is used to calculate the postage cost based on the package's weight, dimensions, and distance between the source and destination addresses.
 interface CalculatePostageOption {
 	isLithiumIncluded: boolean;
 	isSignatureIncluded: boolean;
@@ -14,6 +14,7 @@ const calculatePostage = async (
 	destinationAddressLine1: string,
 	options?: CalculatePostageOption
 ) => {
+	// fetch source and destination location data from openweathermap api to calculate distance between the two locations using longitude and latitude
 	const sourceResult = await fetch(
 		`https://api.openweathermap.org/data/2.5/weather?q=${sourceAddressLine1}&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_API_KEY}`
 	);
@@ -24,6 +25,7 @@ const calculatePostage = async (
 	);
 	const destinationData = await destinationResult.json();
 
+	// calculate distance between the two locations using longitude and latitude
 	const R = 6371e3; // metres
 	const φ1 = (sourceData.coord.lat * Math.PI) / 180; // φ, λ in radians
 	const φ2 = (destinationData.coord.lat * Math.PI) / 180;
@@ -41,6 +43,7 @@ const calculatePostage = async (
 
 	const volume = packageHeight * packageLength * packageWidth;
 
+	// calculate postage cost based on distance, package weight, and volume and options
 	const postageCost =
 		distanceToUnitPrice(distance) *
 		packageWeight *
@@ -51,6 +54,7 @@ const calculatePostage = async (
 };
 export default calculatePostage;
 
+// gives a unit price based on distance range
 const distanceToUnitPrice = (distance: number) => {
 	if (distance > 0 && distance < 10) {
 		return 100;
@@ -67,6 +71,7 @@ const distanceToUnitPrice = (distance: number) => {
 	return 500;
 };
 
+// gives a multiplier based on volume range
 const volumeMultiplier = (volume: number) => {
 	if (volume > 0 && volume < 8000) {
 		return 1;
@@ -83,6 +88,7 @@ const volumeMultiplier = (volume: number) => {
 	return 3;
 };
 
+// gives a multiplier based on options
 const optionsMultiplier = (options: CalculatePostageOption | undefined) => {
 	let multiplier = 1;
 	if (options?.isLithiumIncluded) {

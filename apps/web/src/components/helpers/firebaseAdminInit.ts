@@ -6,6 +6,7 @@ import {
 } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 
+// ? Snippet to initialize firebase admin SDK for each API route
 const firebaseAdminInit = () => {
 	if (!getApps()?.length) {
 		initializeApp({

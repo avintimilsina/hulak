@@ -32,7 +32,7 @@ const Navbar = () => {
 		<Box as="header" bg={mode("white", "gray.800")}>
 			<Box maxW="7xl" mx="auto" py="4" borderBottom="2px solid black">
 				<Flex as="nav" justify="space-between" alignItems="center" my={4}>
-					<Logo h="12" />
+					<Logo h="10" />
 					<HStack display={{ base: "none", lg: "flex" }} spacing="8">
 						{NAVLINKS.map((link) => {
 							const { label, href } = link;
@@ -117,6 +117,7 @@ const Navbar = () => {
 							<Button
 								as={Link}
 								colorScheme="brand"
+								display={{ base: "none", lg: "flex" }}
 								rounded="xl"
 								href="/auth/register"
 								_hover={{ textDecoration: "none" }}

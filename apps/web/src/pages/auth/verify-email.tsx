@@ -17,6 +17,8 @@ import {
 } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase";
 
+// ? VerifyEmail is a page where the user can verify their email with firebase authentication
+
 const VerifyEmail = () => {
 	const router = useRouter();
 	const [currentUser, loading, error] = useAuthState(auth);
@@ -26,9 +28,13 @@ const VerifyEmail = () => {
 	if (error) {
 		return <Result type="error" heading={error.name} text={error.message} />;
 	}
+
+	//  if the user is already verified, redirect the user to the home page
 	if (currentUser?.emailVerified) {
 		router.push("/");
 	}
+
+	// if the user is not logged in, redirect the user to the login page
 	if (!currentUser) {
 		router.push("/auth/register");
 	}
@@ -38,10 +44,16 @@ const VerifyEmail = () => {
 		</div>
 	);
 };
+
+// ? Interface allows the user to pass destructured props to a component
+// here we are passing the currentUser prop to the VerifyEmailPage component
 interface VerifyEmailPageProps {
 	currentUser: User | null | undefined;
 }
+
+// while passing a destructured prop to a component, we need to enclose it in curly braces
 const VerifyEmailPage = ({ currentUser }: VerifyEmailPageProps) => {
+	// sendEmailVerification is a authentication hook from react-firebase-hooks/auth where it allows the user to send a email verification to the provided user's email
 	const [sendEmailVerification] = useSendEmailVerification(auth);
 	const toast = useToast();
 	const router = useRouter();
@@ -55,6 +67,7 @@ const VerifyEmailPage = ({ currentUser }: VerifyEmailPageProps) => {
 				<Center>We have sent a verification email to you</Center>
 				<Center>{currentUser?.email}</Center>
 
+				{/* this button checks whether the user is verified or not when it reloads the page and above if(currentUser.emailVerified) is called */}
 				<Button
 					onClick={async () => {
 						router.reload();
@@ -66,6 +79,7 @@ const VerifyEmailPage = ({ currentUser }: VerifyEmailPageProps) => {
 					<Stack>
 						<Text align="center">
 							Didn&apos;t receive a email?{" "}
+							{/* this button allows the user to resend a email verification to the user's email */}
 							<Button
 								variant="link"
 								onClick={async () => {

@@ -1,6 +1,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { chakra, HTMLChakraProps } from "@chakra-ui/react";
 
+// ? Logo is a component where it displays the logo of the app
 interface LogoProps extends HTMLChakraProps<"svg"> {
 	primary?: string;
 	secondary?: string;

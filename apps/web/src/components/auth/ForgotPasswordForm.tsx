@@ -15,7 +15,10 @@ import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import * as Yup from "yup";
 import { auth } from "../../../firebase";
 
+// ? ForgotPasswordForm is a form where the user can reset their password
+
 const ForgotPasswordForm = () => {
+	// sendPasswordResetEmail is a authentication hook from react-firebase-hooks/auth where it allows the user to send a password reset email to the user's email
 	const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
 	const toast = useToast();
 	const router = useRouter();
@@ -26,6 +29,8 @@ const ForgotPasswordForm = () => {
 				email: Yup.string().email("Invalid email address").required("Required"),
 			})}
 			onSubmit={async (values, actions) => {
+				// users can reset their password using the link in the email using firebase default password reset page
+				// if the user successfully sent a password reset email, redirect the user to the login page and display a success toast message
 				const success = await sendPasswordResetEmail(values.email);
 				actions.setSubmitting(false);
 				if (success) {

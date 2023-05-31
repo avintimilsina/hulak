@@ -13,6 +13,8 @@ import {
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
 
+// ? AccountPreference is a component where the user can change their preferences like language and currency
+
 const AccountPreference = () => (
 	<Card p="4">
 		<Stack divider={<StackDivider />} spacing="6">

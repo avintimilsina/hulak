@@ -2,6 +2,8 @@ import { Link } from "@chakra-ui/next-js";
 import { Checkbox, Stack, VStack } from "@chakra-ui/react";
 import InputField from "../ui/InputField";
 
+// ? LoginForm is a form to input the user's email and password to login to their account
+
 const LoginForm = () => (
 	<Stack spacing="4">
 		<VStack gap={2}>

@@ -16,6 +16,9 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { MdBusiness } from "react-icons/md";
 import { auth, db } from "../../../firebase";
 
+// ? Register is a page where the user can register for a new account
+
+// defaultValues indicates the default values of the input fields in the register form
 const defaultValues = {
 	firstName: "",
 	lastName: "",
@@ -25,6 +28,7 @@ const defaultValues = {
 	isBusiness: false,
 };
 
+// RegisterSchema indicates the validation for the register form using Yup library
 const RegisterSchema = Yup.object({
 	firstName: Yup.string().required("Required"),
 	isBusiness: Yup.boolean().required("Required"),
@@ -47,26 +51,36 @@ const RegisterSchema = Yup.object({
 const Register = () => {
 	const router = useRouter();
 	const toast = useToast();
+
+	// createUserWithEmailAndPassword is a authentication hook from react-firebase-hooks/auth where it allows the user to create a new account with email and password
 	const [createUserWithEmailAndPassword, , , error] =
 		useCreateUserWithEmailAndPassword(auth);
+
+	// updateProfile is a authentication hook from react-firebase-hooks/auth where it allows the user to update the user's profile
 	const [updateProfile] = useUpdateProfile(auth);
+
+	// sendEmailVerification is a authentication hook from react-firebase-hooks/auth where it allows the user to send a email verification to the user's email
 	const [sendEmailVerification] = useSendEmailVerification(auth);
 
 	return (
 		<Formik
 			initialValues={defaultValues}
 			validationSchema={RegisterSchema}
+			// onSubmit is a function that allows the user to create a new account with email and password
 			onSubmit={async (values, actions) => {
 				const response = await createUserWithEmailAndPassword(
 					values.email,
 					values.password
 				);
 				if (response) {
+					// if the user is created successfully, update the user's profile with the user's first name, last name and photo URL
+					// phpto URL is generated using DiceBear Avatars API
 					const success = await updateProfile({
 						displayName: `${values.firstName} ${values.lastName}`,
 						photoURL: `https://api.dicebear.com/6.x/adventurer/svg?seed=${values.firstName} ${values.lastName}`,
 					});
 
+					// if the user's profile is created as a business, add additional information to the user's profile like PAN number along with the user's first name, last name and photo URL
 					if (success) {
 						if (values.isBusiness) {
 							await setDoc(
@@ -78,6 +92,8 @@ const Register = () => {
 								{ merge: true }
 							);
 						}
+
+						// send a email verification to the user's email
 						const emailVerification = await sendEmailVerification();
 						if (emailVerification) {
 							if (!toast.isActive("register")) {
@@ -111,6 +127,7 @@ const Register = () => {
 				<Form>
 					<Grid placeItems="center" h="100vh">
 						<Field name="isBusiness">
+							{/* ToggleButtonGroup is a component from Chakra UI where it allows the user to toggle between personal and business account */}
 							{({ field, form }: FieldProps) => (
 								<ToggleButtonGroup<"personal" | "business">
 									{...field}
@@ -139,6 +156,7 @@ const Register = () => {
 						</Field>
 
 						<VStack gap={2}>
+							{/* If the user selects business account, display the company name and PAN number input fields */}
 							{props.values.isBusiness ? (
 								<HStack w="full">
 									<InputField
@@ -149,6 +167,7 @@ const Register = () => {
 									<InputField name="panNumber" label="PAN Number" type="text" />
 								</HStack>
 							) : (
+								// If the user selects personal account, display the first name and last name input fields
 								<HStack w="full">
 									<InputField name="firstName" label="First Name" type="text" />
 									<InputField name="lastName" label="Last Name" type="text" />
@@ -161,6 +180,7 @@ const Register = () => {
 								label="Confirm Password"
 								type="password"
 							/>
+
 							<Button isLoading={props.isSubmitting} type="submit" w="lg">
 								{props.values.isBusiness ? "Register as business" : "Sign up"}
 							</Button>

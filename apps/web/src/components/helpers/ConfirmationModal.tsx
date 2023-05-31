@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
+// ConfirmationModalProps is a type where it defines the props of the ConfirmationModal component
 interface ConfirmationModalProps extends ButtonProps {
 	onSuccess: () => void;
 	headerText: string;
@@ -25,6 +26,7 @@ interface ConfirmationModalProps extends ButtonProps {
 	colorScheme?: string;
 }
 
+// ConfirmationModal is a component where it allows the user to confirm an action
 const ConfirmationModal = ({
 	onSuccess,
 	headerText,
@@ -33,8 +35,10 @@ const ConfirmationModal = ({
 	colorScheme,
 	...rest
 }: ConfirmationModalProps) => {
+	// isOpen, onOpen, onClose are actions where it allows the user to open and close the modal
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
+	// text is a state where it contains the text that the user has to type to confirm the action
 	const [text, setText] = useState("");
 
 	return (
@@ -72,6 +76,7 @@ const ConfirmationModal = ({
 						<Button variant="outline" onClick={onClose}>
 							Cancel
 						</Button>
+						{/* Action is passed to OnSuccess and it can be used to perform other actions in components */}
 						<Button
 							isDisabled={!!confirmText && text !== confirmText}
 							colorScheme="red"

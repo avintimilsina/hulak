@@ -31,11 +31,18 @@ import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
 import { auth, db } from "../../../firebase";
 
+// ? AccountSetting is a page where the user can update their account settings
+
 const AccountSetting = () => {
+	// GoogleAuthProvider is a authentication hook from firebase/auth where it allows the user to link their google account to their account
 	const googleProvider = new GoogleAuthProvider();
 	const [currentUser, userLoading, userError] = useAuthState(auth);
+
+	// useUpdateProfile is a authentication hook from react-firebase-hooks/auth where it allows the user to update their profile
 	const [updateProfile, , updateError] = useUpdateProfile(auth);
 	const router = useRouter();
+
+	// useDocumentData is a firestore hook from react-firebase-hooks/firestore where it used to get the data from the firestore of the current logged in user
 	const [value, loading, bioError] = useDocumentData(
 		doc(db, "users", currentUser?.uid ?? "-"),
 		{
@@ -58,6 +65,7 @@ const AccountSetting = () => {
 	return (
 		<Formik
 			initialValues={{
+				// here default values are set as the current user's name, email, and profile photo in the input fields
 				name: currentUser?.displayName,
 				email: currentUser?.email,
 				profilePhoto: currentUser?.photoURL,
@@ -68,6 +76,7 @@ const AccountSetting = () => {
 				email: Yup.string().email("Invalid email address").required("Required"),
 			})}
 			onSubmit={async (values, actions) => {
+				// it checks if the user has changed their name or location and only updates the user's profile if the user has changed their name or location
 				if (values.name !== currentUser?.displayName) {
 					const success = await updateProfile({ displayName: values.name });
 
@@ -76,6 +85,7 @@ const AccountSetting = () => {
 					}
 				}
 
+				// it allows the user to add their location to their profile
 				if (values.location !== value?.location) {
 					await setDoc(
 						doc(db, "users", currentUser?.uid ?? ""),
@@ -84,8 +94,6 @@ const AccountSetting = () => {
 						},
 						{ merge: true }
 					);
-
-					router.push(`/${currentUser?.email?.split("@")[0]}`);
 				}
 
 				actions.setSubmitting(false);
@@ -134,12 +142,14 @@ const AccountSetting = () => {
 						<FieldGroup title="Profile Photo">
 							<VStack gap={4}>
 								<Stack direction="row" spacing="6" align="center" width="full">
+									{/* Avatar displays the user's profile photo */}
 									<Avatar
 										size="xl"
 										name={currentUser?.displayName ?? "-"}
 										src={currentUser?.photoURL!}
 									/>
 									<Box>
+										{/* FileUploadModal is a component that allows the user to upload their profile photo */}
 										<FileUploadModal
 											onUpload={async (url) => {
 												await updateProfile({ photoURL: url });
@@ -171,6 +181,8 @@ const AccountSetting = () => {
 											</FormControl>
 										)}
 									</Field>
+
+									{/* navigator.geolocation is a web api that allows the user to get their current location */}
 									<IconButton
 										aria-label="locate"
 										icon={<BiCurrentLocation size="24" />}
@@ -181,6 +193,8 @@ const AccountSetting = () => {
 														if (location)
 															props.setFieldValue(
 																"location",
+
+																// getCityName is a function that allows the user to get their current city name
 																await getCityName(
 																	location.coords.latitude,
 																	location.coords.longitude
@@ -197,6 +211,7 @@ const AccountSetting = () => {
 
 						<FieldGroup title="Connect accounts">
 							<HStack width="full">
+								{/* ServiceLink is a component that allows the user to link and unlink their google account or any other additional auth providers to their account */}
 								<ServiceLink
 									providerId="google.com"
 									serviceProvider={googleProvider}
@@ -226,6 +241,7 @@ const AccountSetting = () => {
 };
 export default withProtected(AccountSetting);
 
+// ? FieldGroup is a component that allows the user to group their input fields
 interface FieldGroupProps extends StackProps {
 	title?: string;
 }
@@ -253,6 +269,7 @@ FieldGroup.defaultProps = {
 	title: "",
 };
 
+// ? getCityName is a function that allows the user to get their current city name using api call from bigdatacloud
 const getCityName = async (lat: number, lng: number) => {
 	const res = await fetch(
 		`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`

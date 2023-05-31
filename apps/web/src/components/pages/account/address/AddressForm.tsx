@@ -22,6 +22,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import * as Yup from "yup";
 import { auth, db } from "../../../../../firebase";
 
+// ? AddressForm is a component where it is filled to create or update the address of the user
+
+// type AddressFormValues  exports the type of the data that we are going to use in the address form to be used in other components
 export type AddressFormValues = {
 	name: string;
 	type: string;
@@ -33,6 +36,7 @@ export type AddressFormValues = {
 	phone_number: string;
 };
 
+// AddressFormSchema is used to validate the data that we get from the form
 const AddressFormSchema = Yup.object({
 	name: Yup.string().required("Required"),
 	type: Yup.string().required("Required").oneOf(["work", "home"]),
@@ -47,6 +51,7 @@ const AddressFormSchema = Yup.object({
 	),
 });
 
+// emptyAddressFormValues is used to set the default values of the form
 const emptyAddressFormValues: AddressFormValues = {
 	name: "",
 	type: "home",
@@ -69,6 +74,7 @@ const AddressForm = ({
 	defaultValues,
 	onSubmissionSuccess: closeModal,
 }: AddressFormProps) => {
+	// autoFillLoading is used to show the loading state of the autofill button
 	const [autoFillLoading, setAutoFillLoading] = useState(false);
 	const [currentUser] = useAuthState(auth);
 
@@ -77,6 +83,9 @@ const AddressForm = ({
 			initialValues={defaultValues ?? emptyAddressFormValues}
 			validationSchema={AddressFormSchema}
 			onSubmit={async (values, action) => {
+				// if the user wants to edit the address then it updates the address with the updated data in firestore updateDoc is used
+
+				// here we are checking if the id and defaultValues are present or not to know if the user wants to create a new address or edit the existing address
 				if (id && defaultValues) {
 					await updateDoc(
 						doc(db, "users", currentUser?.uid ?? "-", "addresses", id ?? "-"),
@@ -85,6 +94,7 @@ const AddressForm = ({
 							userId: currentUser?.uid,
 						}
 					);
+					// if the user wants to create a new address then it creates a new address with the data in firestore addDoc is used
 				} else {
 					await addDoc(
 						collection(db, "users", currentUser?.uid ?? "-", "addresses"),
@@ -98,6 +108,7 @@ const AddressForm = ({
 				}
 				action.resetForm();
 
+				// When the action is completed then the onSubmissionSuccess function is called to close the modal
 				if (closeModal) {
 					closeModal();
 				}
@@ -120,6 +131,8 @@ const AddressForm = ({
 								type="button"
 								variant="solid"
 								// colorScheme="brand"
+
+								// When the user clicks on the autofill button then it gets the current location of the user and autofills the address form with the data using the getLocationInformation function same as in AccountForm component
 								onClick={() => {
 									setAutoFillLoading(true);
 									if (navigator?.geolocation) {
@@ -147,6 +160,7 @@ const AddressForm = ({
 								Autofill
 							</Button>
 						</HStack>
+						{/* Input fields for the address form */}
 						<HStack alignItems="flex-end">
 							<Field name="name">
 								{({ field, form }: any) => (
@@ -234,6 +248,7 @@ const AddressForm = ({
 							</Field>
 						</HStack>
 
+						{/* Calls the onSubmissionSuccess function when the form is submitted */}
 						<Button type="submit" colorScheme="brand" size="lg" fontSize="md">
 							{defaultValues ? "Update Address" : "Create Address"}
 						</Button>
@@ -244,6 +259,7 @@ const AddressForm = ({
 	);
 };
 
+// defaultProps is used to set the default values of the props if the props are not passed or is regarded as optional to the component
 AddressForm.defaultProps = {
 	id: null,
 	defaultValues: null,

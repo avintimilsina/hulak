@@ -1,20 +1,17 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import {
-	GithubAuthProvider,
-	GoogleAuthProvider,
-	User,
-	linkWithPopup,
-	unlink,
-} from "firebase/auth";
+import { GoogleAuthProvider, User, linkWithPopup, unlink } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { TbUnlink } from "react-icons/tb";
 import { IconType } from "react-icons";
+import { TbUnlink } from "react-icons/tb";
 import { auth } from "../../../firebase";
 
+// ? ServiceLink is a component where it allows the user to link their google account to their account
+
+// ServiceLinkProps is a type where it defines the props of the ServiceLink component
 interface ServiceLinkProps {
 	providerId: string;
-	serviceProvider: GoogleAuthProvider | GithubAuthProvider;
+	serviceProvider: GoogleAuthProvider;
 	serviceIcon: IconType;
 	serviceName: string;
 }
@@ -27,6 +24,8 @@ const ServiceLink = ({
 }: ServiceLinkProps) => {
 	const [currentUser] = useAuthState(auth);
 	const router = useRouter();
+
+	// filterProvider is a function where it filters the provider data of the current user where it shows whether the user is connected to the service or not
 	const filterProvider = (
 		service: string,
 		providerData: User["providerData"]
@@ -67,6 +66,7 @@ const ServiceLink = ({
 					)?.displayName?.split(" ")[0]
 				}
 			</MenuButton>
+			{/* Opens a menu where it allows the user to unlink their google account from their account */}
 			<MenuList
 				p="0"
 				m="0"

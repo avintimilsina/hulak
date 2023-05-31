@@ -13,7 +13,6 @@ import {
 import { FaHome } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { MdWorkOutline } from "react-icons/md";
-
 import {
 	DocumentData,
 	FirestoreDataConverter,
@@ -35,6 +34,9 @@ import ConfirmationModal from "../../../helpers/ConfirmationModal";
 import ModalButton from "../../../ui/ModalButton";
 import AddressForm from "./AddressForm";
 
+// ? AddressSection is a component where it fetches the list of addresses of the user
+
+// Converter function is little tricky to understand. It is used to convert the data from firestore to the data that we want to use in our app as well as add new data like in this case we are adding id to the data that we get from firestore to recognize and associate the data with the component easily.
 const addressConverter: FirestoreDataConverter<AddressProps["address"]> = {
 	toFirestore(): DocumentData {
 		return {};
@@ -45,6 +47,7 @@ const addressConverter: FirestoreDataConverter<AddressProps["address"]> = {
 	): AddressProps["address"] {
 		const data = snapshot.data(options);
 		return {
+			// id is added to the data that we get from firestore
 			id: snapshot.id,
 			name: data.name,
 			type: data.type,
@@ -61,6 +64,8 @@ const addressConverter: FirestoreDataConverter<AddressProps["address"]> = {
 };
 const AddressSection = () => {
 	const [currentUser] = useAuthState(auth);
+
+	// useCollectionData is a hook from react-firebase-hooks/firestore that allows us to fetch all the data present in the collection "addresses" where the userId is equal to the current user's id and order the data by createdAt in descending order.
 	const [values, loading, error] = useCollectionData(
 		query(
 			collectionGroup(db, "addresses").withConverter(addressConverter),
@@ -82,6 +87,7 @@ const AddressSection = () => {
 				overflow="hidden"
 			>
 				<Stack spacing="6" divider={<StackDivider />} py="5" px="8">
+					{/* AddressSkeleton is a component where it displays the skeleton of the address component */}
 					{loading ? (
 						Array(3)
 							.fill("address")
@@ -89,6 +95,7 @@ const AddressSection = () => {
 								<AddressSkeleton key={`${address}-${index + 1}`} />
 							))
 					) : !values?.length ? (
+						// If there are no addresses then it displays this message
 						<Box textAlign="center" py={8}>
 							<Heading as="h3" fontSize="2xl" lineHeight="1">
 								No Address Found
@@ -96,6 +103,7 @@ const AddressSection = () => {
 							<Text>You dont have any addresses yet.</Text>
 						</Box>
 					) : (
+						// If there are addresses then it displays the list of addresses
 						values?.map((address) => (
 							<Address key={address.id} address={address} />
 						))
@@ -108,6 +116,7 @@ const AddressSection = () => {
 
 export default AddressSection;
 
+// ? Address is a component where it displays the address of the user
 interface AddressProps {
 	address: {
 		id: string;
@@ -135,6 +144,7 @@ export const Address = ({ address }: AddressProps) => {
 	};
 
 	return (
+		// This component displays the address of the user using the data that we get from firestore like address.name give the name of the address, address.city gives the city of the user and so on.
 		<Stack
 			direction={{ base: "column", sm: "row" }}
 			spacing="5"
@@ -191,7 +201,7 @@ export const Address = ({ address }: AddressProps) => {
 						defaultValues={address}
 					/>
 				</ModalButton>
-
+				{/* ConfirmationModal to delete the address if the user confirms the action */}
 				<ConfirmationModal
 					colorScheme="red"
 					leftIcon={<RiDeleteBin2Line />}
@@ -210,6 +220,7 @@ export const Address = ({ address }: AddressProps) => {
 	);
 };
 
+// ? AddressSkeleton is a component where it displays the skeleton of the address component(Loading Component)
 export const AddressSkeleton = () => (
 	<Stack
 		direction={{ base: "column", sm: "row" }}
