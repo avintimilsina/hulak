@@ -13,6 +13,8 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 
+// ? OrderInfoSkeleton is used to display the loading animation when the orderInfo page is being fetched from the database
+
 const OrderInfoSkeleton = () => (
 	<Stack
 		overflowY="scroll"

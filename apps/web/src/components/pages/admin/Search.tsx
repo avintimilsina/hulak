@@ -5,6 +5,7 @@ import { useId } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "../../../../firebase";
 
+// ? Search component is used to search for users that are in the database
 interface SearchProps {
 	onChange:
 		| ((newValue: unknown, actionMeta: ActionMeta<unknown>) => void)
@@ -13,6 +14,7 @@ interface SearchProps {
 
 const Search = ({ onChange }: SearchProps) => {
 	const id = useId();
+	// fetches all users from the database
 	const [values, loading, error] = useCollectionData(
 		query(collection(db, "users")),
 		{
@@ -26,12 +28,9 @@ const Search = ({ onChange }: SearchProps) => {
 		return <div>Error: {error.message}</div>;
 	}
 	return (
-		<FormControl
-		// p={4}
-		>
-			{/* <FormLabel fontSize="2xl" htmlFor="Users">
-				Users
-			</FormLabel> */}
+		<FormControl>
+			{/* AsyncSelect is a component library that allows for suggestions while
+			 searching (basically autocomplete) */}
 			<AsyncSelect
 				components={{
 					DropdownIndicator: () => null,

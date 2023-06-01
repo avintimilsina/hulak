@@ -16,6 +16,8 @@ interface PriceTagProps {
 	salePriceProps?: TextProps;
 }
 
+// ? PriceTag component is used to display the type of the currency that is displayed in the price
+
 export type FormatPriceOptions = { locale?: string; currency?: string };
 
 export function formatPrice(

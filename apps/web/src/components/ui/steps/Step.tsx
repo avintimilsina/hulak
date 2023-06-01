@@ -12,6 +12,8 @@ import {
 import { BsCheck2 } from "react-icons/bs";
 import useStep from "./useStep";
 
+// ? Steps is a component used to display the steps in the create-order page
+
 interface StepProps extends BoxProps {
 	title?: string;
 }

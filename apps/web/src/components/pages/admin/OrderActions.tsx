@@ -3,11 +3,17 @@ import { Button, HStack } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 
+// ? OrderActions is a component where the admin can change the status of the order
+
 interface OrderActionsProps {
 	status: string;
 	orderId: string;
 }
 const OrderActions = ({ status, orderId }: OrderActionsProps) => {
+	// setDoc is a function from firebase/firestore that changes the status of the order in the database
+	// merge: true is used to merge the new data with the old data in the database
+
+	// handle{ORderStatus} is a function that is used to change the status of the order in the database
 	const handlePicked = async () => {
 		await setDoc(
 			doc(db, "orders", orderId),
@@ -64,6 +70,7 @@ const OrderActions = ({ status, orderId }: OrderActionsProps) => {
 		);
 	};
 
+	// To revert a status, ConfirmationModal is called to confirm admin actions
 	if (status === "PLACED") {
 		return (
 			<HStack>

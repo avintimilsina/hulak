@@ -12,6 +12,8 @@ interface DesktopNavLinkProps extends HTMLChakraProps<"a"> {
 	active?: boolean;
 }
 
+// ? NavLink is divided into two components DesktopNavLink and MobileNavLink where different Navigation links are displayed in different views
+
 const DesktopNavLink = (props: DesktopNavLinkProps) => {
 	const { active, ...rest } = props;
 	return (

@@ -2,6 +2,8 @@ import CheckboxField from "@/components/ui/CheckboxField";
 import InputField from "@/components/ui/InputField";
 import { HStack, SimpleGrid, Stack } from "@chakra-ui/react";
 
+// ? WhatForm component is used to display the form for the package details
+
 const WhatForm = () => (
 	<Stack spacing="4">
 		<HStack>

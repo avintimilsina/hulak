@@ -12,6 +12,8 @@ import type { ReactNode } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import AdminSidebar from "./AdminSidebar";
 
+// ? AdminSidebarWrapper component is used to display the sidebar in the admin dashboard.
+// It is render of the URL of the page starts with /admin unlike the user sidebarWrapper which is rendered if the URL starts with /account
 interface SidebarWrapperProps {
 	children?: ReactNode;
 }

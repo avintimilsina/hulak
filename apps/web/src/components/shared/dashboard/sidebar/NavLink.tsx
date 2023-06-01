@@ -8,6 +8,8 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 
+// ? NavLink component is used to display the links in the sidebar
+
 interface NavLinkProps extends LinkProps {
 	isActive?: boolean;
 	href: string;
@@ -19,6 +21,7 @@ const NavLink = (props: NavLinkProps) => {
 	const { icon, isActive, label, href, ...rest } = props;
 	return (
 		<Link
+			// Link from Chakra UI is used to display the links in the sidebar along with the icons and check if the link is active or not
 			as={NextLink}
 			href={href}
 			display="block"
@@ -34,6 +37,7 @@ const NavLink = (props: NavLinkProps) => {
 				bg: mode("brand.100", "brand.700"),
 				color: mode("black", "white"),
 			}}
+			// if the link is active then the background color and text color is changed
 			_activeLink={{
 				bg: mode("brand.500", "brand.300"),
 				color: mode("white", "black"),

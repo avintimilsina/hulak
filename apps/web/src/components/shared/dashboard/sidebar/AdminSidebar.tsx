@@ -20,6 +20,8 @@ import { TbTruckReturn } from "react-icons/tb";
 import NavLink from "./NavLink";
 import UserProfile from "./UserProfile";
 
+// ? AdminSidebar component is used to display the sidebar in the admin dashboard where it same as the user dashboard sidebar but with more control and access
+
 interface SidebarProps extends BoxProps {
 	onClose: () => void;
 }
@@ -68,6 +70,7 @@ const AdminSidebar = ({ onClose, ...rest }: SidebarProps) => {
 
 export default AdminSidebar;
 
+// Order Nav Links are divided into individual links according to the status of the order in order to have the control over to manage it easily
 export const ORDER_NAV_LINKS = [
 	{
 		label: "Manage Admin",

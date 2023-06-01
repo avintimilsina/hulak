@@ -5,6 +5,8 @@ import {
 	HiOutlineQuestionMarkCircle,
 } from "react-icons/hi";
 
+// ? It contains the navbar links with their respective icons, labels and hrefs
+
 const NAVLINKS = [
 	{
 		label: "Home",

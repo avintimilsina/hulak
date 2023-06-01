@@ -18,6 +18,7 @@ import { TbTruckReturn } from "react-icons/tb";
 import NavLink from "./NavLink";
 import UserProfile from "./UserProfile";
 
+// ? Sidebar component is used to display the navigation links and user profile in the sidebar
 interface SidebarProps extends BoxProps {
 	onClose: () => void;
 }
@@ -46,6 +47,8 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
 			</HStack>
 			<Stack spacing={6}>
 				<Stack>
+					{/* NavLink Component is called to display all the pages that are accessible to the user */}
+					{/* Here Order links, account links and support links are divided in different categories for modularity */}
 					{ORDER_NAV_LINKS.map((link) => (
 						<NavLink
 							key={link.label}
@@ -82,6 +85,7 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
 				</Stack>
 			</Stack>
 			<Spacer />
+			{/* UserProfile component is called to display the currentUser information along with the option to logout from the site */}
 			<UserProfile />
 		</Flex>
 	);

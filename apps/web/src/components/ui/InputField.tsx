@@ -7,6 +7,9 @@ import {
 } from "@chakra-ui/react";
 import { Field } from "formik";
 
+// ? InputField is the component that is used to display the input fields for the forms in the app.
+// It takes arguments such as label, name, type, and placeholder which is required for the Formik Library to validate and show errors.
+
 interface InputFieldProps {
 	label: string;
 	name: string;

@@ -1,5 +1,7 @@
 import { chakra, HTMLChakraProps } from "@chakra-ui/react";
 
+// ? BrandIcons is a component that is used to display the brands icons of the app in the footer section of the Landing Page.
+
 export const Finnik = (props: HTMLChakraProps<"svg">) => (
 	<chakra.svg h="0.64em" viewBox="0 0 103 21" fill="none" {...props}>
 		<path

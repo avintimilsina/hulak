@@ -12,6 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { forwardRef, useImperativeHandle, type ReactNode } from "react";
 
+// ? ModalButton is a component used to display the modal when clicked on a button which can be configured like header and footer according to the requirements.
+
 interface ModalButtonProps extends ButtonProps {
 	buttonText: string;
 	modalHeader?: ReactNode;

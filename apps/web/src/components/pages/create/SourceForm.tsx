@@ -1,6 +1,8 @@
 import InputField from "@/components/ui/InputField";
 import { HStack, Stack } from "@chakra-ui/react";
 
+// ? SourceForm component is used to display the form for the source location details
+
 const SourceForm = () => (
 	<Stack spacing="4">
 		<HStack gap={3}>

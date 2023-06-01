@@ -1,6 +1,7 @@
 import InputField from "@/components/ui/InputField";
 import { HStack, Heading, VStack } from "@chakra-ui/react";
 
+// ? SendFrom component is used to display the form for the sender details
 const SendFrom = () => (
 	<VStack spacing="4" w="full">
 		<Heading size="md" w="full">

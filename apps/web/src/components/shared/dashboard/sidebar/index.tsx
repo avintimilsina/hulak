@@ -12,11 +12,14 @@ import type { ReactNode } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import Sidebar from "./Sidebar";
 
+// ? SidebarWrapper component is used to wrap the sidebar component and the content of the page
+
 interface SidebarWrapperProps {
 	children?: ReactNode;
 }
 
 const SidebarWrapper = ({ children }: SidebarWrapperProps) => {
+	// useDisclosure hook from Chakra UI is used to handle the state of the sidebar while opening and closing in mobile devices for modal actions
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
@@ -35,6 +38,7 @@ const SidebarWrapper = ({ children }: SidebarWrapperProps) => {
 				returnFocusOnClose={false}
 				onOverlayClick={onClose}
 			>
+				{/* DrawerContent component from Chakra UI is used to display the content of the sidebar in mobile devices */}
 				<DrawerContent>
 					<Sidebar onClose={onClose} />
 				</DrawerContent>
@@ -59,6 +63,7 @@ interface MobileNavProps {
 	onOpen: () => void;
 }
 
+// ? MobileNav component is used to display the mobile navigation bar
 const MobileNav = ({ onOpen }: MobileNavProps) => (
 	<HStack m={4} display={{ base: "flex", md: "none" }}>
 		<IconButton

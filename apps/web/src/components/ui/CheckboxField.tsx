@@ -1,6 +1,8 @@
 import { Checkbox, FormControl } from "@chakra-ui/react";
 import { Field } from "formik";
 
+// ? CheckboxField is a component used to display the checkbox in the create-order page
+
 interface CheckboxFieldProps {
 	label: string;
 	name: string;

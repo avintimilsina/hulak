@@ -1,9 +1,7 @@
-// pages/_app.js
-
-// 1. Import the extendTheme function
 import { extendTheme } from "@chakra-ui/react";
 
-// 2. Extend the theme to include custom colors, fonts, etc
+// ? This is the theme object that contains the colors of the app and can be used in any component
+
 const colors = {
 	brand: {
 		"50": "#FFEFE5",

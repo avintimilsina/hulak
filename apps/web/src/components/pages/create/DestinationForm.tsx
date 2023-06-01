@@ -1,6 +1,8 @@
 import InputField from "@/components/ui/InputField";
 import { HStack, Stack } from "@chakra-ui/react";
 
+// ? DestinationForm component is used to display the form for the destination location details
+
 const DestinationForm = () => (
 	<Stack spacing="4">
 		<HStack gap={3}>

@@ -22,6 +22,8 @@ import { auth } from "../../../../firebase";
 import MobileNav from "./MobileNav";
 import NavLink from "./NavLink";
 
+// ? Navbar component is used to display the navbar in the website where it is used to navigate to different pages of the website
+
 const Navbar = () => {
 	const router = useRouter();
 	const [currentUser] = useAuthState(auth);
@@ -37,6 +39,7 @@ const Navbar = () => {
 						{NAVLINKS.map((link) => {
 							const { label, href } = link;
 							return (
+								// NavLink.Desktop is used to display the navbar links in the desktop view and display the active link in the navbar if the user is in that page
 								<NavLink.Desktop
 									key={label}
 									href={href}
@@ -48,6 +51,7 @@ const Navbar = () => {
 						})}
 					</HStack>
 					<HStack>
+						{/* if the user is logged in then display the dashboard along with the user Avatar and sign out button else display the start shipping button */}
 						{currentUser ? (
 							<HStack display={{ base: "none", lg: "flex" }}>
 								<Button
@@ -62,7 +66,7 @@ const Navbar = () => {
 								>
 									Dashboard
 								</Button>
-
+								{/* this menu is used to display Account and Sign out button when the user clicks on the user avatar  and lets the user to naviagte to it */}
 								<Menu placement="bottom">
 									<MenuButton _focus={{ boxShadow: "none" }} w="full">
 										<Avatar
@@ -125,6 +129,7 @@ const Navbar = () => {
 								Start Shipping
 							</Button>
 						)}
+						{/* triggers the mobile navbar to open if the user is in mobile view */}
 						<Box ml="5">
 							<MobileNav />
 						</Box>

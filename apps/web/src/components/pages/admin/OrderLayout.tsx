@@ -54,12 +54,16 @@ import { MdOutlineContentCopy } from "react-icons/md";
 import { db } from "../../../../firebase";
 import OrderActions from "./OrderActions";
 
+// ? OrderLayout is a component where the admin can view the details of the order created by various user
+
 interface OrderLayoutProps {
 	status: string;
 }
 const OrderLayout = ({ status }: OrderLayoutProps) => {
 	const router = useRouter();
 	const [value, setValue] = useState<DocumentData | undefined>({});
+
+	// useCollectionData is a function from react-firebase-hooks/firestore that is used to fetch all the orders from the database with the status of the order as the status passed in the props and sort them in descending order of the createdAt field
 	const [values, loading, error] = useCollectionData(
 		query(
 			collection(db, "orders"),
@@ -72,6 +76,7 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 		}
 	);
 
+	// useCollectionData is a function from react-firebase-hooks/firestore that is used to fetch all the payments from the database with the orderId of the payment as the orderId of the order and sort them in descending order of the createdAt field
 	const [payment, paymentLoading, paymentError] = useCollectionData(
 		query(
 			collectionGroup(db, "payments"),
@@ -83,18 +88,22 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 		}
 	);
 
+	// successPayment is a variable that is used to store the payment with the status of the payment as COMPLETED
 	const successPayment = payment?.filter(
 		(singlePayment) => singlePayment.status === "COMPLETED"
 	)[0];
 
+	// latestPayment is a variable that is used to store the payment with the latest createdAt field to catch if the payment did not complete or error occured in previous tries
 	const latestPayment = successPayment ?? payment?.[0];
 
+	// useEffect is a react hook that refreshes the value state whenever the router.query.id(URL) or values changes
 	useEffect(() => {
 		setValue(
 			values?.filter((order) => order.orderId === router.query.id)[0] ?? {}
 		);
 	}, [router.query.id, values]);
 
+	// useClipboard is a react hook that is used to copy the tracking number of the order
 	const { onCopy, hasCopied } = useClipboard(value?.orderId ?? "");
 
 	if (error || paymentError) {
@@ -107,7 +116,7 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 			/>
 		);
 	}
-
+	// checks if the there are no orders placed or the orders are still loading
 	if (!values && !loading) {
 		return (
 			<SimpleGrid w="full" h="94vh" placeItems="center">
@@ -133,6 +142,7 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 					py="4"
 					pr="2"
 				>
+					{/* Displays the list of orders as the format of OrderList component */}
 					{values?.map((order) => (
 						<OrderList order={order} values={values} setValue={setValue} />
 					))}
@@ -147,8 +157,10 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 					h="94vh"
 				>
 					{paymentLoading ? (
+						// Skeleton UI for the OrderLayout component when the payment is still loading
 						router.query.id && <OrderLayoutSkeleton />
 					) : !value?.orderId ? (
+						// Displays the text when the user has not selected any order to preview
 						<SimpleGrid h="100%" placeItems="center">
 							<VStack gap={4}>
 								<Heading as="h3" fontSize="2xl" lineHeight="1">
@@ -160,6 +172,7 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 							</VStack>
 						</SimpleGrid>
 					) : (
+						// Displays the details of the order selected by the user
 						<Stack
 							as={Card}
 							p={8}
@@ -226,6 +239,7 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 								w="full"
 								alignItems="flex-start"
 							>
+								{/* Displays the details of the source and destination of the order */}
 								<OrderInfo label="Delivering From">
 									<Text>
 										{value?.source.addressLine1}, {value?.source.addressLine2}
@@ -270,6 +284,7 @@ const OrderLayout = ({ status }: OrderLayoutProps) => {
 
 export default OrderLayout;
 
+// ? OrderInfo is a component that is used to display the details of the source and destination of the order
 export const OrderInfo = ({
 	label,
 	children,
@@ -285,6 +300,7 @@ export const OrderInfo = ({
 	</VStack>
 );
 
+// ? orderPageTextFromStatus is a function that is used to display the header and footer of the order based on the status of the order
 export const orderPageTextFromStatus = (status: string) => {
 	switch (status) {
 		case "PICKED":
@@ -345,6 +361,7 @@ export const orderPageTextFromStatus = (status: string) => {
 	}
 };
 
+// ? getColorFromStatus is a function that is used to display the color of the status based on the status of the order
 export const getColorFromStatus = (status: string) => {
 	switch (status.toUpperCase()) {
 		case "PENDING":
@@ -376,6 +393,7 @@ export const getColorFromStatus = (status: string) => {
 	}
 };
 
+// ? OrderList is a component to display the list of orders in a card format
 interface OrderListProps {
 	order: any;
 	setValue: Dispatch<SetStateAction<DocumentData | undefined>>;
@@ -384,6 +402,7 @@ interface OrderListProps {
 const OrderList = ({ order, setValue, values }: OrderListProps) => {
 	const router = useRouter();
 
+	// fetches the payment of the order from the database for the order selected by the user
 	const [payment, paymentLoading, paymentError] = useCollectionData(
 		query(
 			collectionGroup(db, "payments"),
@@ -416,6 +435,8 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 	const latestPayment = successPayment ?? payment?.[0];
 	return (
 		<Card
+			// when a user selects a order to preview, the card is highlighted with a different color and the orderId of the order is passed in the URL using the router.query.id
+			// the orderId in the URL is used to display the information about that specific selected order in the Order Info section
 			onClick={() => {
 				setValue(
 					values?.filter(
@@ -432,6 +453,7 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 			<CardHeader pb="1">
 				<HStack justifyContent="space-between">
 					<Text>
+						{/* dayjs is a library used to format the date and time */}
 						{dayjs(Number(order.createdAt.seconds * 1000)).format(
 							"DD MMMM, YYYY"
 						)}
@@ -468,6 +490,7 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 				>
 					$ {latestPayment?.status?.toUpperCase() ?? "PENDING"}
 				</Tag>
+				{/*  Displays the icons of the order based on the options selected by the user while creating the order */}
 				<HStack>
 					{order.isCarbonNeutral && <Icon as={FaLeaf} fill="green.500" />}
 					{order.isLithiumIncluded && (

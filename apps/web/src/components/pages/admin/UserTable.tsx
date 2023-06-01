@@ -30,6 +30,9 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";
 import { db } from "../../../../firebase";
 
+// ? UserTable component displays a table of all admins in the system
+
+// bageEnum maps the status of the admin to the color of the badge
 const badgeEnum: Record<string, string> = {
 	active: "green",
 	reviewing: "orange",
@@ -41,6 +44,7 @@ interface TableContentProps {
 }
 
 export const TableContent = ({ admins }: TableContentProps) => {
+	// useCollectionData hook from react-firebase-hooks/firestore is used to fetch the list of admins from the database where it checks if the document ID is in the list of admins
 	const [data, loading, error] = useCollectionData(
 		query(
 			collection(db, "users"),
@@ -51,6 +55,7 @@ export const TableContent = ({ admins }: TableContentProps) => {
 		}
 	);
 
+	// if the data is still loading, a skeleton table is displayed
 	if (loading) {
 		return (
 			<Table my="8" borderWidth="1px" fontSize="sm">
@@ -137,6 +142,7 @@ export const TableContent = ({ admins }: TableContentProps) => {
 				</Tr>
 			</Thead>
 			<Tbody>
+				{/* For each admin, a row is created with the admin's details like name, email, and status. The status is displayed as a badge with the color depending on the status of the admin. If the admin is active, a button to revoke admin privileges is displayed. If the admin is inactive, a button to enable admin privileges is displayed. A button to remove the admin is also displayed. */}
 				{data?.map((admin) => {
 					const isActive = admins.find(
 						(a: any) => a.id === admin.uid
@@ -195,7 +201,7 @@ export const TableContent = ({ admins }: TableContentProps) => {
 									</Button>
 								</Td>
 							)}
-
+							{/* ConfirmationModal component is used to confirm if the admin should be removed from the system */}
 							<Td textAlign="right">
 								<ConfirmationModal
 									headerText="Remove admin?"

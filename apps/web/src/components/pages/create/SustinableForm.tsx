@@ -10,6 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { Field } from "formik";
 
+// ? SustinableForm component is used to display the form for the sustainable shipping options
+
 const SustinableForm = () => (
 	<Stack spacing="4">
 		<Field name="package.description">

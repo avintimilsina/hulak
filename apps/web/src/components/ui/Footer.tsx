@@ -17,6 +17,8 @@ import { FiArrowUpRight } from "react-icons/fi";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import Logo from "@/components/logo";
 
+// ? Footer is the component that is displayed at the bottom of the Landing page.
+
 const Footer = () => (
 	<Box
 		as="section"

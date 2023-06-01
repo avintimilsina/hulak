@@ -33,6 +33,9 @@ import { BsPersonCircle } from "react-icons/bs";
 import { auth } from "../../../../firebase";
 import NavLink from "./NavLink";
 
+// ? MobileNav component is used to display the navbar in the mobile view where it is used to navigate to different pages of the website
+
+// vairants to animate the navbar according to the user's action
 const variants: Variants = {
 	show: {
 		display: "revert",
@@ -48,6 +51,8 @@ const variants: Variants = {
 	},
 };
 
+// backdrop and transition are the default codes from chakrautopia.vercel.app for the mobile navbar
+// basic idea is to display the backdrop when the navbar is opened and animate the navbar when the navbar is opened and closed
 const Backdrop = ({ show }: { show?: boolean }) => (
 	<Portal>
 		<motion.div
@@ -118,7 +123,7 @@ const MobileNav = () => {
 			>
 				<HiOutlineMenu />
 			</Box>
-
+			{/* when the hamburger menu is clicked then it removes the ability to scroll the page and focuses on the navbar making the background dim  */}
 			<Transition in={show}>
 				<RemoveScroll enabled={show}>
 					<Backdrop show={show} />
@@ -154,12 +159,14 @@ const MobileNav = () => {
 								{NAVLINKS.map((link) => {
 									const { label, href, icon } = link;
 									return (
+										// NavLink.Mobile is used to display the navbar links in the mobile view
 										<NavLink.Mobile key={label} href={href} icon={icon}>
 											{label}
 										</NavLink.Mobile>
 									);
 								})}
 							</SimpleGrid>
+							{/* displays the start shipping button and login button if the user is not logged in else displays the dashboard and sign out button if the user is logged in */}
 							{!currentUser ? (
 								<VStack mt="8" spacing="4">
 									<Button
@@ -172,7 +179,13 @@ const MobileNav = () => {
 									</Button>
 									<Box textAlign="center" fontWeight="medium">
 										Have an account?{" "}
-										<Box as="a" color={mode("blue.600", "blue.400")}>
+										<Box
+											as="a"
+											color={mode("brand.600", "brand.400")}
+											onClick={() => {
+												router.push("/login");
+											}}
+										>
 											Log in
 										</Box>
 									</Box>
@@ -192,7 +205,7 @@ const MobileNav = () => {
 									>
 										Dashboard
 									</Button>
-
+									{/* Same menu as in desktop view  */}
 									<Menu placement="bottom">
 										<MenuButton _focus={{ boxShadow: "none" }} w="full">
 											<HStack justify="center" w="full" gap={4}>

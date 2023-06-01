@@ -13,6 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { BsArrowReturnRight } from "react-icons/bs";
 
+// ? OrderListSkeleton is used to display the loading animation when the orders are being fetched from the database created by the user
+
 const OrderListSkeleton = () => (
 	<Card size="sm">
 		<CardHeader pb="1">

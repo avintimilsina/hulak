@@ -19,7 +19,7 @@ import { HiCloudUpload } from "react-icons/hi";
 import { auth, storage } from "../../../firebase";
 import PageLoadingSpinner from "../shared/PageLoadingSpinner";
 
-// This is the modal that pops up when you click the "Change photo" button in the AccountSetting page.
+// ? FileUploadModal is the component that pops up when you click the "Change photo" button in the AccountSetting page.
 interface FileUploadModalProps {
 	onUpload: (url: string) => void;
 	imageRef: string;
@@ -68,6 +68,7 @@ const FileUploadModal = ({ onUpload, imageRef }: FileUploadModalProps) => {
 							onChange={(e) => setSelectedFile(e?.target.files?.[0])}
 							border={0}
 						/>
+						{/* Displays the progress of the file upload using the Progress component from Chakra UI. */}
 						<Progress size="xs" value={fileUploadProgress} />
 					</ModalBody>
 
@@ -84,6 +85,7 @@ const FileUploadModal = ({ onUpload, imageRef }: FileUploadModalProps) => {
 							isLoading={fileUploadProgress > 0}
 							colorScheme="green"
 							onClick={async () => {
+								// the uploadBytesResumable function uploads the file to the firebase storage where it is stored under the imageRef path.
 								const uploadTask = uploadBytesResumable(
 									ref(storage, imageRef),
 									selectedFile!
@@ -92,6 +94,7 @@ const FileUploadModal = ({ onUpload, imageRef }: FileUploadModalProps) => {
 								uploadTask.on(
 									"state_changed",
 									(snapshot) => {
+										// Set the progress bar to the percentage of the file that has been uploaded.
 										setFileUploadProgress(
 											Math.round(
 												(snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -107,6 +110,7 @@ const FileUploadModal = ({ onUpload, imageRef }: FileUploadModalProps) => {
 											isClosable: true,
 										}),
 									async () => {
+										// When the upload is complete, get the download URL of the image of the user and set it as the user's profile picture.
 										await getDownloadURL(ref(storage, imageRef)).then(
 											(downloadURL) => {
 												onUpload(downloadURL);

@@ -11,6 +11,7 @@ import {
 import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { auth } from "../../../../../firebase";
 
+// ? UserProfile component is used to display the user profile in the sidebar
 const UserProfile = () => {
 	const toast = useToast();
 	const [currentUser, userLoading, userError] = useAuthState(auth);
@@ -21,6 +22,7 @@ const UserProfile = () => {
 	return (
 		<VStack gap={4}>
 			{userLoading ? (
+				// Skeleton is used to display a loading animation while the data is being fetched
 				<UserProfileSkeleton />
 			) : (
 				<>
@@ -43,6 +45,7 @@ const UserProfile = () => {
 						w="full"
 						colorScheme="red"
 						onClick={async () => {
+							// signOut is used to logout the user from the app
 							const success = await signOut();
 							if (success) {
 								toast({
@@ -63,6 +66,8 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+// ? UserProfileSkeleton component is used to display a loading animation while the data is being fetched
 
 const UserProfileSkeleton = () => (
 	<>

@@ -11,6 +11,8 @@ import { AiFillInfoCircle, AiFillWarning } from "react-icons/ai";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { MdError } from "react-icons/md";
 
+// ? Result component is used to display the result of the action that is performed by the user like success, error, info, warn along with the dump of the data that is returned from the server
+
 interface ResultProps {
 	type: "success" | "error" | "info" | "warn";
 	heading: string;

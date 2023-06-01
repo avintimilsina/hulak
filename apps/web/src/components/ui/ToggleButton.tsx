@@ -16,6 +16,10 @@ import {
 import type { ReactElement } from "react";
 import { useMemo, Children, isValidElement, cloneElement } from "react";
 
+// ? ToggleButton is a component used to display the toggle button and switch between the options.
+
+// It can eb configured according to the requirements by passing the props such as value, radioProps, and other IconButtonProps.
+
 export interface ToggleButtonProps extends IconButtonProps {
 	value: string;
 	radioProps?: UseRadioProps;

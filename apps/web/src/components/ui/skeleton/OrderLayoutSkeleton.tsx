@@ -12,6 +12,8 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 
+// ? OrderLayoutSkeleton is used to display the loading animation when the orderlayout page is being fetched from the database for the admin
+
 const OrderLayoutSkeleton = () => (
 	<Stack
 		as={Card}
