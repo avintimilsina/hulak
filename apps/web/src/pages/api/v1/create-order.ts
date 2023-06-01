@@ -6,8 +6,10 @@ import { Timestamp } from "firebase-admin/firestore";
 import { OrderSchema } from "@/pages/create-order";
 import firebaseAdminInit from "../../../components/helpers/firebaseAdminInit";
 
+//  Initializing firebase admin snippet
 const { db } = firebaseAdminInit();
 
+// Defining all the parameters that are required to create an order
 type OrderType = {
 	isOversizedPackageIncluded: boolean;
 	package: {
@@ -44,6 +46,7 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<Data | Errors>
 ) {
+	// Only allow POST requests to this API route (for security)
 	if (req.method === "GET") {
 		res.status(405).json({
 			message: "Method Not Allowed",
@@ -51,7 +54,7 @@ export default async function handler(
 		});
 		return;
 	}
-
+	// validating the API key provided by the admin
 	try {
 		const keyCheck = await db
 			.collection("keys")
@@ -76,6 +79,7 @@ export default async function handler(
 
 		const { userId } = keyCheck.data() as any;
 
+		//  validates the order details provided using OrderSchema from the create-order page
 		try {
 			OrderSchema.validateSync(req.body.order);
 		} catch (err: any) {
@@ -88,6 +92,7 @@ export default async function handler(
 
 		const data = req.body.order satisfies OrderType;
 
+		// if all the value of the order is valid, the order is created and the order details are written to the firestore database along with the payment details and the calculated price using the calculatePostage function
 		const { distance, postageCost, volume } = await calculatePostage(
 			data.package.height!,
 			data.package.weight!,
@@ -102,7 +107,7 @@ export default async function handler(
 				isSignatureIncluded: data.isSignatureIncluded,
 			}
 		);
-
+		// order details are written to the firestore database and the order status is set to PLACED
 		const writeRes = await db.collection("orders").add({
 			...data,
 			userId,
@@ -119,7 +124,7 @@ export default async function handler(
 			},
 			{ merge: true }
 		);
-
+		// payment details are written to the firestore database and the payment status is set to COMPLETED
 		await db
 			.collection("orders")
 			.doc(writeRes.id)

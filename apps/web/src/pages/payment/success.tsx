@@ -3,10 +3,13 @@ import withProtected from "@/routes/withProtected";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
+// ? SuccessPage is a page where the user is redirected after the payment is successful
+
 const SuccessPage = () => {
 	const router = useRouter();
 	useEffect(() => {
 		const runThisNow = async () => {
+			// It fetches the details about the order and displays it to the user
 			if (router.query?.purchase_order_id && router.query?.pidx) {
 				await fetch("/api/update-order", {
 					method: "POST",

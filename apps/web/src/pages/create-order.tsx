@@ -24,6 +24,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import * as Yup from "yup";
 import { auth, db } from "../../firebase";
 
+// ? CreateOrder is a page where the user can place an order
+
+// defaultValues for every field in the form is set to empty string under the defaultValues object
 const defaultValues = {
 	// Source
 	source: {
@@ -71,6 +74,8 @@ const defaultValues = {
 	isCarbonNeutral: false,
 	deliverOnlyToReceiver: false,
 };
+
+// AddressSchema is used to validate the address fields in the form
 const AddressSchema = Yup.object({
 	country: Yup.string().required("Required"),
 	name: Yup.string().required("Required"),
@@ -88,6 +93,8 @@ const AddressSchema = Yup.object({
 			"Phone number is not valid"
 		),
 });
+
+// OrderSchema is used to validate the package details fields in the form
 export const OrderSchema = Yup.object({
 	// Source
 	source: AddressSchema,
@@ -102,10 +109,12 @@ export const OrderSchema = Yup.object({
 		description: Yup.string().required("Required"),
 	}),
 });
+
 const CreateOrder = () => {
 	const [currentUser] = useAuthState(auth);
 	const router = useRouter();
 
+	// steps from the useSteps hook is used to navigate through the steps in the form (from the ui/steps folder)
 	const { nextStep, prevStep, activeStep } = useSteps({
 		initialStep: 0,
 	});
@@ -116,11 +125,12 @@ const CreateOrder = () => {
 				initialValues={defaultValues}
 				validationSchema={OrderSchema}
 				onSubmit={async (values, action) => {
+					// if the user is not logged in, the user is redirected to the login page
 					if (!currentUser?.displayName || !currentUser?.email) {
 						router.push("/auth/login");
 						return;
 					}
-
+					// when all the fields are filled, the postage cost, distance and volume of the package is calculated using the calculatePostage function
 					const {
 						postageCost,
 						distance: calculatedDistance,
@@ -140,6 +150,10 @@ const CreateOrder = () => {
 						}
 					);
 
+					// * For the new Payment API, the order details are added to the orders collection in the database along with the user details only when the payment is successful
+
+					// ! The newly created order is added to the orders collection in the database along with the user details of the user who created the order (for Deprecated Payment API)
+
 					const docRef = await addDoc(collection(db, "orders"), {
 						...values,
 						status: "INITIATED",
@@ -150,6 +164,8 @@ const CreateOrder = () => {
 						createdAt: serverTimestamp(),
 					});
 
+					// Payment is initiated using the payment api before writing the order details to the database
+					// If the payment is successful, the order details are written to the database
 					const response = await fetch("/api/payment", {
 						method: "POST",
 						headers: {
@@ -186,7 +202,7 @@ const CreateOrder = () => {
 					});
 
 					const { pidx, payment_url } = await response.json();
-
+					// the order detail is updated with the payment details
 					await setDoc(
 						doc(db, "orders", docRef.id ?? "-"),
 						{
@@ -197,6 +213,7 @@ const CreateOrder = () => {
 						{ merge: true }
 					);
 
+					// the payment details are added to the payments collection inside of the order collection in the database
 					await setDoc(doc(db, "orders", docRef.id, "payments", pidx), {
 						status: "PENDING",
 						orderId: docRef.id,
@@ -216,6 +233,7 @@ const CreateOrder = () => {
 							px={{ base: "6", md: "8" }}
 							minH="400px"
 						>
+							{/* Steps are used to navigate through the form one form at a time */}
 							<Steps activeStep={activeStep}>
 								<Step title="Where are you shipping from?">
 									<StepContent>
@@ -226,6 +244,7 @@ const CreateOrder = () => {
 												conversions, which networks and geographical locations
 												you want your ads to show on, and more.
 											</Text>
+											{/* Source form is called to enter details about the source location and sender details */}
 											<SourceForm />
 											<HStack>
 												<Button size="sm" variant="ghost" isDisabled>
@@ -245,6 +264,7 @@ const CreateOrder = () => {
 												An ad group contains one or more ads which target a
 												shared set of keywords.
 											</Text>
+											{/* Destination form is called to enter details about the destination location and reciever details */}
 											<DestinationForm />
 											<HStack>
 												<Button size="sm" onClick={prevStep} variant="ghost">
@@ -267,6 +287,7 @@ const CreateOrder = () => {
 												problems with your ads, find out how to tell if
 												they&apos;re running and how to resolve approval issues.
 											</Text>
+											{/* What form is called to enter details about the package */}
 											<WhatForm />
 											<HStack>
 												<Button size="sm" onClick={prevStep} variant="ghost">
@@ -289,6 +310,7 @@ const CreateOrder = () => {
 												problems with your ads, find out how to tell if
 												they&apos;re running and how to resolve approval issues.
 											</Text>
+											{/* Sustinable form is called to enter details about the sustainability of the package */}
 											<SustinableForm />
 											<HStack>
 												<Button size="sm" onClick={prevStep} variant="ghost">
@@ -317,7 +339,6 @@ const CreateOrder = () => {
 								>
 									Back
 								</Button>
-
 								<Button
 									type="submit"
 									colorScheme="blue"

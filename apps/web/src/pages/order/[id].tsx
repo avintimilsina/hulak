@@ -29,6 +29,8 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { auth, db } from "../../../firebase";
 
+// ? Order Detail Page where the user can view the order details (not used currently as a full page)
+
 const OrderPage = () => {
 	const router = useRouter();
 	const [currentUser, userLoading, userError] = useAuthState(auth);

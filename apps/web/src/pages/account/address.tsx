@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { IoAdd } from "react-icons/io5";
 
 // ? AddressPage is a page where the user can add their addresses
+
 const AddressPage = () => {
 	// useRef is a react hook where it allows the user to reference a component
 	const modalRef: any = useRef();

@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
 
+// NProgress is a minimal progress bar that is shown at the top when the page is loading
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
@@ -21,6 +22,8 @@ const App = ({ Component, pageProps }: AppProps) => {
 	const router = useRouter();
 	useEffect(() => {
 		const setUser = async () => {
+			// When a new user is created, the user details are stored in the database under the users collection using setDoc hook from firebase
+			// if the user already exists, the user details are updated
 			if (currentUser) {
 				await setDoc(
 					doc(db, "users", currentUser?.uid),
@@ -42,6 +45,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 		setUser();
 	}, [currentUser]);
+	// This allows to render AdminSidebarWrapper component when the route starts with /admin as the admin and users have different dashboards
 	if (router.pathname.startsWith("/admin")) {
 		return (
 			<ChakraProvider theme={theme}>
@@ -51,7 +55,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 			</ChakraProvider>
 		);
 	}
-
+	// This allows to render SidebarWrapper component when the route starts with /account as the admin and users have different dashboards
 	if (router.pathname.startsWith("/account")) {
 		return (
 			<ChakraProvider theme={theme}>
@@ -63,6 +67,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 	}
 
 	return (
+		// This is the default component that is rendered when the app is loaded
 		<ChakraProvider theme={theme}>
 			<Component {...pageProps} />
 		</ChakraProvider>

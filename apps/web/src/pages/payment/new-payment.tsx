@@ -2,14 +2,20 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Button, Grid, Heading, VStack } from "@chakra-ui/react";
 
+// ! NEW PAYMENT GATEWAY
+
+// ? PaymentPage is a page where the user can pay for the order (made for testing purposes)
+
 const PaymentPage = () => {
 	const handleSubmission = async () => {
+		// Here the request is made from the server side via api call
 		const response = await fetch("/api/payment", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
+				// amount, purchase_order_id, purchase_order_name, customer_info, amount_breakdown, product_details are the required fields for the request which can be changed according to the order details but for testing purposes, I have used the default values
 				amount: 1300,
 				purchase_order_id: "test12",
 				purchase_order_name: "test",
@@ -40,7 +46,9 @@ const PaymentPage = () => {
 			}),
 		});
 
+		// pidx is the payment id provided by the payment gateway and payment_url is the url where the user can pay for the order
 		const { pidx, payment_url } = await response.json();
+
 		console.log("PIXD", pidx);
 		window.location.assign(payment_url);
 	};

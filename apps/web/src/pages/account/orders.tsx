@@ -58,10 +58,14 @@ import { MdOutlineContentCopy } from "react-icons/md";
 import { auth, db } from "../../../firebase";
 import { TrackingTimeline } from "../tracking";
 
+// ? OrderPage is the page where all the orders are listed created by the user and the user can view the details of each order.
+
 const OrdersPage = () => {
 	const router = useRouter();
 	const [currentUser] = useAuthState(auth);
 	const [value, setValue] = useState<DocumentData | undefined>({});
+
+	//  useCollectionData is a hook provided by react-firebase-hooks/firestore where it fetches all the orders from the database that is made by the currentUser and excludes the orders that are returned.
 	const [values, loading, error] = useCollectionData(
 		query(
 			collection(db, "orders"),
@@ -73,6 +77,7 @@ const OrdersPage = () => {
 		}
 	);
 
+	// It fetches the payment information of the order that is selected by the user.
 	const [payment, paymentLoading, paymentError] = useCollectionData(
 		query(
 			collectionGroup(db, "payments"),
@@ -84,10 +89,12 @@ const OrdersPage = () => {
 		}
 	);
 
+	// it filters the payment information and returns the payment that is completed.
 	const successPayment = payment?.filter(
 		(singlePayment) => singlePayment.status === "COMPLETED"
 	)[0];
 
+	// only the latest payment is used because the payment might be initiated multiple times and only the latest completed payment is used.
 	const latestPayment = successPayment ?? payment?.[0];
 
 	useEffect(() => {
@@ -134,6 +141,7 @@ const OrdersPage = () => {
 					py="4"
 					pr="2"
 				>
+					{/* all the orders are displayed in the form of a list and the user can select the order from the list to view the details of the order. */}
 					{values?.map((order) => (
 						<OrderList order={order} values={values} setValue={setValue} />
 					))}
@@ -161,6 +169,7 @@ const OrdersPage = () => {
 							</VStack>
 						</SimpleGrid>
 					) : (
+						// Order details of a specific order is displayed here.
 						<Stack
 							as={Card}
 							p={8}
@@ -312,6 +321,8 @@ export const OrderInfo = ({
 	</VStack>
 );
 
+// This function returns the text that is displayed in the order details page based on the status of the order.
+
 export const orderPageTextFromStatus = (status: string) => {
 	switch (status) {
 		case "PICKED":
@@ -372,6 +383,8 @@ export const orderPageTextFromStatus = (status: string) => {
 	}
 };
 
+// This function returns the color of the badge based on the status of the order.
+
 export const getColorFromStatus = (status: string) => {
 	switch (status.toUpperCase()) {
 		case "PENDING":
@@ -403,6 +416,7 @@ export const getColorFromStatus = (status: string) => {
 	}
 };
 
+// This is the order list component that is used to display the list of orders in the order page in card format.
 interface OrderListProps {
 	order: any;
 	setValue: Dispatch<SetStateAction<DocumentData | undefined>>;

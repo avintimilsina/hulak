@@ -25,8 +25,12 @@ import { BsSearch } from "react-icons/bs";
 import { RiAddFill } from "react-icons/ri";
 import { db } from "../../../firebase";
 
+// ? AdminPage is a page where the admin can view and manage all the admin profiles
+
 const AdminPage = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	// useCollectionData hook from react-firebase-hooks is used to fetch all the users who have isAdmin set to true
 	const [, adminLoading, adminError, snapshot] = useCollectionData(
 		collection(db, "admins"),
 		{

@@ -51,7 +51,10 @@ import { FaLeaf } from "react-icons/fa";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { auth, db } from "../../../firebase";
 
-const OrdersPage = () => {
+// ? Return page is a page where the user can view their returned or cancelled orders
+// It follows the same format as the other pages in the account folder
+
+const ReturnPage = () => {
 	const router = useRouter();
 	const [currentUser] = useAuthState(auth);
 	const [value, setValue] = useState<DocumentData | undefined>({});
@@ -289,7 +292,7 @@ const OrdersPage = () => {
 	);
 };
 
-export default withProtected(OrdersPage);
+export default withProtected(ReturnPage);
 
 export const OrderInfo = ({
 	label,
