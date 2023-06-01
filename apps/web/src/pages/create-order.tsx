@@ -18,10 +18,12 @@ import {
 	serverTimestamp,
 	setDoc,
 } from "firebase/firestore";
-import { Form, Formik, FormikProps } from "formik";
+import { Form, Formik, FormikProps, useFormikContext } from "formik";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import * as Yup from "yup";
+import { useEffect } from "react";
+import useLocalStorage from "@/components/hooks/useLocalStorage";
 import { auth, db } from "../../firebase";
 
 // ? CreateOrder is a page where the user can place an order
@@ -111,6 +113,8 @@ export const OrderSchema = Yup.object({
 });
 
 const CreateOrder = () => {
+	const [data, setData] = useLocalStorage("order", defaultValues);
+
 	const [currentUser] = useAuthState(auth);
 	const router = useRouter();
 
@@ -118,11 +122,13 @@ const CreateOrder = () => {
 	const { nextStep, prevStep, activeStep } = useSteps({
 		initialStep: 0,
 	});
+
 	return (
 		<>
 			<Navbar />
 			<Formik
-				initialValues={defaultValues}
+				enableReinitialize
+				initialValues={{ ...defaultValues, ...data }}
 				validationSchema={OrderSchema}
 				onSubmit={async (values, action) => {
 					// if the user is not logged in, the user is redirected to the login page
@@ -163,6 +169,10 @@ const CreateOrder = () => {
 						userId: currentUser.uid,
 						createdAt: serverTimestamp(),
 					});
+
+					if (docRef.id) {
+						setData(defaultValues as any);
+					}
 
 					// Payment is initiated using the payment api before writing the order details to the database
 					// If the payment is successful, the order details are written to the database
@@ -350,6 +360,7 @@ const CreateOrder = () => {
 								</Button>
 							</HStack>
 						</Box>
+						<FormObserver />
 					</Form>
 				)}
 			</Formik>
@@ -358,3 +369,14 @@ const CreateOrder = () => {
 };
 
 export default withProtected(CreateOrder);
+
+const FormObserver = () => {
+	const { values } = useFormikContext();
+	const [value, setData] = useLocalStorage("order", defaultValues);
+
+	useEffect(() => {
+		setData(values as any);
+	}, [setData, value, values]);
+
+	return null;
+};
