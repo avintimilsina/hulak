@@ -351,7 +351,7 @@ const CreateOrder = () => {
 								</Button>
 								<Button
 									type="submit"
-									colorScheme="blue"
+									colorScheme="brand"
 									size="sm"
 									fontSize="md"
 									isLoading={props.isSubmitting}

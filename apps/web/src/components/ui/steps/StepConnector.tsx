@@ -1,14 +1,13 @@
-import { Box, useColorModeValue } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import useStep from "./useStep";
 
 const StepConnector = () => {
 	const { isCompleted, isActive } = useStep();
-	const accentColor = useColorModeValue("blue.500", "blue.300");
 
 	return (
 		<Box
 			borderStartWidth="1px"
-			borderStartColor={isCompleted ? accentColor : "inherit"}
+			borderStartColor={isCompleted ? "brand.500" : "inherit"}
 			height="6"
 			mt={isActive ? "0" : "2"}
 			mb="2"

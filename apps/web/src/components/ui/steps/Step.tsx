@@ -22,7 +22,7 @@ const Step = (props: StepProps) => {
 	const { title, children, ...boxProps } = props;
 	const { isActive, isCompleted, step } = useStep();
 
-	const accentColor = useColorModeValue("blue.500", "blue.300");
+	const accentColor = "brand.500";
 	const mutedColor = useColorModeValue("gray.600", "whiteAlpha.800");
 	const activeColor = useColorModeValue("white", "black");
 
