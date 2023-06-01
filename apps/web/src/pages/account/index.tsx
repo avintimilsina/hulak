@@ -15,17 +15,36 @@ import {
 	Heading,
 	IconButton,
 	Input,
+	InputGroup,
+	InputRightElement,
+	Spinner,
 	Stack,
 	StackDivider,
 	VStack,
 } from "@chakra-ui/react";
-import { GoogleAuthProvider } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { GoogleAuthProvider, User } from "firebase/auth";
+import {
+	DocumentData,
+	FirestoreDataConverter,
+	QueryDocumentSnapshot,
+	SnapshotOptions,
+	addDoc,
+	collection,
+	deleteDoc,
+	doc,
+	query,
+	setDoc,
+	where,
+} from "firebase/firestore";
 import { Field, Form, Formik, FormikProps } from "formik";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useAuthState, useUpdateProfile } from "react-firebase-hooks/auth";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import {
+	useCollectionData,
+	useDocumentData,
+} from "react-firebase-hooks/firestore";
 import { BiCurrentLocation } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
@@ -70,6 +89,7 @@ const AccountSetting = () => {
 				email: currentUser?.email,
 				profilePhoto: currentUser?.photoURL,
 				location: value?.location ?? "",
+				panNumber: value?.panNumber ?? "",
 			}}
 			validationSchema={Yup.object({
 				name: Yup.string().required("Required"),
@@ -116,28 +136,27 @@ const AccountSetting = () => {
 								<Field name="name">
 									{({ field, form }: any) => (
 										<FormControl>
-											<FormLabel>Name</FormLabel>
+											<FormLabel>
+												{value?.isBusiness ? "Company Name" : "Name"}
+											</FormLabel>
 											<Input {...field} type="text" maxLength={255} />
 											<FormErrorMessage>{form.errors.name}</FormErrorMessage>
 										</FormControl>
 									)}
 								</Field>
-								<Field name="email">
-									{({ field, form }: any) => (
-										<FormControl>
-											<FormLabel>Email</FormLabel>
-											<Input
-												isDisabled
-												{...field}
-												type="email"
-												placeholder="your-email@example.com"
-											/>
-											<FormErrorMessage>{form.errors.email}</FormErrorMessage>
-										</FormControl>
-									)}
-								</Field>
+								<FormControl>
+									<FormLabel>Email</FormLabel>
+									<Input isDisabled value={value?.email} type="text" />
+								</FormControl>
+								{value?.isBusiness && (
+									<FormControl>
+										<FormLabel>PAN Number</FormLabel>
+										<Input isDisabled value={value?.panNumber} type="text" />
+									</FormControl>
+								)}
 							</VStack>
 						</FieldGroup>
+						{value?.isBusiness && <APIKeyGenerator currentUser={currentUser} />}
 
 						<FieldGroup title="Profile Photo">
 							<VStack gap={4}>
@@ -276,4 +295,90 @@ const getCityName = async (lat: number, lng: number) => {
 	);
 	const data = await res.json();
 	return ` ${data.locality}`;
+};
+
+const keysConverter: FirestoreDataConverter<any> = {
+	toFirestore(): DocumentData {
+		return {};
+	},
+	fromFirestore(
+		snapshot: QueryDocumentSnapshot,
+		options: SnapshotOptions
+	): any {
+		const data = snapshot.data(options);
+		return {
+			id: snapshot.id,
+			...data,
+		};
+	},
+};
+interface APIKeyGeneratorProps {
+	currentUser: User | null | undefined;
+}
+
+const APIKeyGenerator = ({ currentUser }: APIKeyGeneratorProps) => {
+	const [show, setShow] = useState(false);
+	const handleClick = () => setShow(!show);
+
+	const [values, loading, error] = useCollectionData(
+		query(
+			collection(db, "keys").withConverter(keysConverter),
+			where("userId", "==", currentUser?.uid ?? "-")
+		),
+		{
+			snapshotListenOptions: { includeMetadataChanges: true },
+		}
+	);
+	if (loading) {
+		return <Spinner />;
+	}
+	if (error) {
+		return <Result heading="Error" text="" dump={error.message} type="error" />;
+	}
+
+	return (
+		<FieldGroup title="API Key">
+			<VStack spacing="4" width="full">
+				{values?.length ? (
+					<>
+						<InputGroup size="md">
+							<Input
+								pr="4.5rem"
+								type={show ? "text" : "password"}
+								value={values?.length ? values[0].id : ""}
+							/>
+							<InputRightElement width="4.5rem">
+								<Button h="1.75rem" size="sm" onClick={handleClick}>
+									{show ? "Hide" : "Show"}
+								</Button>
+							</InputRightElement>
+						</InputGroup>
+						<Button
+							h="1.75rem"
+							size="sm"
+							alignSelf="flex-start"
+							onClick={async () => {
+								await deleteDoc(doc(db, "keys", values[0].id));
+							}}
+							colorScheme="red"
+						>
+							Delete
+						</Button>
+					</>
+				) : (
+					<Button
+						colorScheme="brand"
+						onClick={async () => {
+							await addDoc(collection(db, "keys"), {
+								userId: currentUser?.uid,
+								isActive: true,
+							});
+						}}
+					>
+						Generate API Key
+					</Button>
+				)}
+			</VStack>
+		</FieldGroup>
+	);
 };

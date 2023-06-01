@@ -32,11 +32,14 @@ import * as Brand from "@/config/brands";
 import Footer from "@/components/ui/Footer";
 import { motion } from "framer-motion";
 
+// ? This the landing page of the website
+
 const HomePage = () => {
 	const MotionImg = motion(Img);
 
 	return (
 		<Box>
+			{/* This displays the Navbar component at the top of the screen */}
 			<Navbar />
 			<Box
 				as="section"
@@ -78,6 +81,7 @@ const HomePage = () => {
 					alignItems={{ base: "center", lg: "flex-start" }}
 					w={{ base: "full", lg: "unset" }}
 				>
+					{/* Routes the user to create-order page if the user is logged in */}
 					<Button
 						as={Link}
 						colorScheme="brand"
@@ -110,6 +114,7 @@ const HomePage = () => {
 						filter={useColorModeValue("sepia(0.9)", "none")}
 						src="/assets/container.png"
 						alt="Shipping"
+						// animation for the container image
 						initial={{
 							y: "-2%",
 						}}
@@ -215,6 +220,7 @@ const HomePage = () => {
 							>
 								Contact Us
 							</Button>
+							{/* This button links to quote page */}
 							<Button
 								as={Link}
 								href="/quote"
@@ -324,6 +330,7 @@ const HomePage = () => {
 					my={4}
 					gap={12}
 				>
+					{/* displays transportation card */}
 					{SHIPPING_CARDS.map((shipping, index) => (
 						<ShippingCard key={shipping.title} {...shipping} index={index} />
 					))}
@@ -334,6 +341,7 @@ const HomePage = () => {
 					spacing="6"
 					color={useColorModeValue("inherit", "white")}
 				>
+					{/* Displays Brand logos above the footer */}
 					<Center py="4" px="8" rounded={{ md: "lg" }}>
 						<Brand.ChatMonkey h="6" opacity={0.64} />
 					</Center>
@@ -354,6 +362,7 @@ const HomePage = () => {
 					</Center>
 				</SimpleGrid>
 			</Box>
+			{/* Displays the footer component */}
 			<Footer />
 		</Box>
 	);

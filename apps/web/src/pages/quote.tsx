@@ -8,6 +8,9 @@ import { Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 
+// ? Quote Page allows the user to enter the source and destination of the package and calculate the postage cost according to the package information
+
+// defaultValues is setup for the formik form
 const defaultValues = {
 	source: {
 		city: "",
@@ -29,6 +32,8 @@ const defaultValues = {
 	isSignatureIncluded: false,
 	isOversizedPackageIncluded: false,
 };
+
+// QuoteFormSchema is the validation schema for the form
 const QuoteFormSchema = Yup.object({
 	source: Yup.object({
 		city: Yup.string().required("Required"),
