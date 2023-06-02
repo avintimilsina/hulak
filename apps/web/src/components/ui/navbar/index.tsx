@@ -31,9 +31,17 @@ const Navbar = () => {
 	const toast = useToast();
 
 	return (
-		<Box as="header" bg={mode("white", "gray.800")}>
+		<Box
+			// as="header"
+			bg={mode("white", "gray.800")}
+		>
 			<Box maxW="7xl" mx="auto" py="4" borderBottom="2px solid black">
-				<Flex as="nav" justify="space-between" alignItems="center" my={4}>
+				<Flex
+					// as="nav"
+					justify="space-between"
+					alignItems="center"
+					my={4}
+				>
 					<Logo h="10" />
 					<HStack display={{ base: "none", lg: "flex" }} spacing="8">
 						{NAVLINKS.map((link) => {

@@ -14,7 +14,7 @@ import { Field } from "formik";
 
 const SustinableForm = () => (
 	<Stack spacing="4">
-		<Field name="package.description">
+		<Field name="description">
 			{({ field, meta }: any) => (
 				<FormControl isInvalid={meta.error && meta.touched}>
 					<HStack justifyContent="space-between">
