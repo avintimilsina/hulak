@@ -10,12 +10,13 @@ const SuccessPage = () => {
 	useEffect(() => {
 		const runThisNow = async () => {
 			// It fetches the details about the order and displays it to the user
-			if (router.query?.purchase_order_id && router.query?.pidx) {
+			if (router.query?.product_identity && router.query?.pidx) {
 				await fetch("/api/update-order", {
 					method: "POST",
 					body: JSON.stringify({
-						pidx: router.query.pidx,
-						orderId: router.query.purchase_order_id,
+						orderId: router.query.product_identity,
+						token: router.query.token,
+						amount: router.query.amount,
 					}),
 					headers: {
 						"content-type": "application/json",

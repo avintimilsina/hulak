@@ -58,7 +58,7 @@ export default async function handler(
 
 			res.status(200).json({ orders: data });
 		} else {
-			//  it fetches a specific order placed by the user where the order pidx matches with the orderId provided in the request body
+			//  it fetches a specific order placed by the user where the orderId matches with the id provided in the request body
 			const data = await db
 				.collection("orders")
 				.doc(req.body.id as string)

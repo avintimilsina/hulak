@@ -16,15 +16,15 @@ export default async function handler(
 		res.status(405).send({ message: "Only POST requests allowed" });
 		return;
 	}
-	const resposne = await fetch("https://a.khalti.com/api/v2/epayment/lookup/", {
+	const resposne = await fetch("https://khalti.com/api/v2/payment/verify/", {
 		method: "POST",
 		body: JSON.stringify({
-			pidx: req.body.pidx,
+			token: req.body.token,
+			amount: req.body.amount,
 		}),
 		headers: {
 			"content-type": "application/json",
-			// Replace LIVE_SECRET_KEY with your live secret key
-			Authorization: `Key ${process.env.KHALTI_SECRET_KEY}`,
+			Authorization: `Key ${process.env.KHALTI_SECRET_KEY_DEPRECATED}`,
 		},
 	});
 	const khalti = await resposne.json();
@@ -33,11 +33,11 @@ export default async function handler(
 		.collection("orders")
 		.doc(req.body.orderId)
 		.collection("payments")
-		.doc(req.body.pidx)
+		.doc(req.body.token)
 		.set(
 			{
 				...khalti,
-				status: khalti?.status?.toUpperCase(),
+				status: khalti?.state?.name?.toUpperCase() ?? "FETCH ERROR",
 			},
 			{ merge: true }
 		);

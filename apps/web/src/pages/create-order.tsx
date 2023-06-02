@@ -38,6 +38,8 @@ import { OrderInfo } from "@/components/pages/admin/OrderLayout";
 import { PriceTag } from "@/components/shared/PriceTag";
 import { KHALTI_LOGO } from "@/config/brands";
 import { AiOutlineClose } from "react-icons/ai";
+import KhaltiCheckout from "khalti-checkout-web";
+import { nanoid } from "nanoid";
 import { auth, db } from "../../firebase";
 
 // ? CreateOrder is a page where the user can place an order
@@ -194,7 +196,7 @@ const CreateOrder = () => {
 
 					const docRef = await addDoc(collection(db, "orders"), {
 						...values,
-						status: "INITIATED",
+						status: "PENDING",
 						price: postageCost,
 						distance: calculatedDistance,
 						volume: calculatedVolume,
@@ -202,68 +204,124 @@ const CreateOrder = () => {
 						createdAt: serverTimestamp(),
 					});
 
-					if (docRef.id) {
-						setData(defaultValues as any);
-					}
-
 					// Payment is initiated using the payment api before writing the order details to the database
 					// If the payment is successful, the order details are written to the database
-					const response = await fetch("/api/payment", {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({
-							amount: postageCost,
-							purchase_order_id: docRef.id ?? "order-failed",
-							purchase_order_name: "Payment for delivery charges",
-							customer_info: {
-								name: currentUser.displayName,
-								email: currentUser.email,
-								phone:
-									currentUser?.phoneNumber ??
-									values.source.phoneNumber ??
-									"9800000000",
-							},
-							amount_breakdown: [
-								{
-									label: "Order Sub Total",
-									amount: postageCost,
-								},
-							],
-							product_details: [
-								{
-									identity: docRef.id ?? "order-failed",
-									name: "Package Order",
-									total_price: postageCost,
-									quantity: 1,
-									unit_price: postageCost,
-								},
-							],
-						}),
-					});
+					// const response = await fetch("/api/payment", {
+					// 	method: "POST",
+					// 	headers: {
+					// 		"Content-Type": "application/json",
+					// 	},
+					// 	body: JSON.stringify({
+					// 		amount: postageCost,
+					// 		purchase_order_id: docRef.id ?? "order-failed",
+					// 		purchase_order_name: "Payment for delivery charges",
+					// 		customer_info: {
+					// 			name: currentUser.displayName,
+					// 			email: currentUser.email,
+					// 			phone:
+					// 				currentUser?.phoneNumber ??
+					// 				values.source.phoneNumber ??
+					// 				"9800000000",
+					// 		},
+					// 		amount_breakdown: [
+					// 			{
+					// 				label: "Order Sub Total",
+					// 				amount: postageCost,
+					// 			},
+					// 		],
+					// 		product_details: [
+					// 			{
+					// 				identity: docRef.id ?? "order-failed",
+					// 				name: "Package Order",
+					// 				total_price: postageCost,
+					// 				quantity: 1,
+					// 				unit_price: postageCost,
+					// 			},
+					// 		],
+					// 	}),
+					// });
 
-					const { pidx, payment_url } = await response.json();
+					// const { pidx, payment_url } = await response.json();
 					// the order detail is updated with the payment details
-					await setDoc(
-						doc(db, "orders", docRef.id ?? "-"),
-						{
-							orderId: docRef.id,
-							pidx,
-							createdAt: serverTimestamp(),
-						},
-						{ merge: true }
-					);
 
 					// the payment details are added to the payments collection inside of the order collection in the database
-					await setDoc(doc(db, "orders", docRef.id, "payments", pidx), {
-						status: "PENDING",
-						orderId: docRef.id,
-						userId: currentUser.uid,
-					});
 
-					window.location.assign(payment_url);
-					action.resetForm();
+					// window.location.assign(payment_url);
+
+					const checkout = new KhaltiCheckout({
+						// replace this key with yours
+
+						publicKey: process.env.NEXT_PUBLIC_KHALTI_PUBLIC_KEY,
+
+						// Product identity and Name can be given as our own by passing props to the component but for testing purposes, I have used the default values
+						productIdentity: docRef.id ?? "order-failed",
+						productName: "Payment for delivery charges",
+						productUrl: `https://hulak.vercel.app/order/${
+							docRef.id ?? "order-failed"
+						}`,
+						eventHandler: {
+							async onSuccess(payload: any) {
+								await setDoc(
+									doc(db, "orders", docRef.id ?? "-"),
+									{
+										orderId: docRef.id,
+										token: payload.token,
+										createdAt: serverTimestamp(),
+									},
+									{ merge: true }
+								);
+
+								await setDoc(
+									doc(db, "orders", docRef.id, "payments", payload.token),
+									{
+										status: "PENDING",
+										orderId: docRef.id,
+										userId: currentUser.uid,
+									}
+								);
+
+								router.push({ pathname: "/payment/success", query: payload });
+
+								action.resetForm();
+								setData(defaultValues as any);
+							},
+							// onError handler is optional
+							async onError(error: any) {
+								// handle errors
+								await setDoc(
+									doc(db, "orders", docRef.id, "payments", error.token),
+									{
+										status: "PENDING",
+										orderId: docRef.id,
+										userId: currentUser.uid,
+									}
+								);
+
+								await setDoc(
+									doc(db, "orders", docRef.id, "payments", nanoid()),
+									{
+										status: "FAILED",
+										orderId: docRef.id,
+										userId: currentUser.uid,
+										remarks: error.detail,
+									}
+								);
+							},
+							async onClose() {
+								console.log("Closed");
+							},
+						},
+						// paymentPreference indicates the payment methods that the user can use to pay for the order (Khalti, eBanking, Mobile Banking, Connect IPS, SCT)
+						paymentPreference: [
+							"KHALTI",
+							"EBANKING",
+							"MOBILE_BANKING",
+							"CONNECT_IPS",
+							"SCT",
+						],
+					});
+					// this is the amount that the user needs to pay for the order which is in paisa and can be changed according to the order amount (but for testing purposes, I have used the default value)
+					checkout.show({ amount: postageCost });
 				}}
 			>
 				{(props: FormikProps<any>) => (
