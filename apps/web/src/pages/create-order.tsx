@@ -285,7 +285,7 @@ const CreateOrder = () => {
 								>
 									<Text fontWeight="semibold" color="white">
 										A previous unsubmitted order was loaded. Do you want to
-										start afresh?
+										start a fresh?
 									</Text>
 									<HStack>
 										<Button
@@ -315,10 +315,11 @@ const CreateOrder = () => {
 									<StepContent>
 										<Stack shouldWrapChildren spacing="4">
 											<Text>
-												For each ad campaign that you create, you can control
-												how much you&apos;re willing to spend on clicks and
-												conversions, which networks and geographical locations
-												you want your ads to show on, and more.
+												Please provide the following details about the sender.
+												It&apos;s important to ensure that all the information
+												provided is accurate and up to date. Double-check the
+												details before submitting the form to avoid any
+												potential issues with the pickup of your package.
 											</Text>
 											{/* Source form is called to enter details about the source location and sender details */}
 											<SourceForm />
@@ -367,8 +368,10 @@ const CreateOrder = () => {
 									<StepContent>
 										<Stack shouldWrapChildren spacing="4">
 											<Text>
-												An ad group contains one or more ads which target a
-												shared set of keywords.
+												Please provide the following details about the reciever.
+												Double-check the details before submitting the form to
+												avoid any potential issues with the delivery of your
+												package.
 											</Text>
 											{/* Destination form is called to enter details about the destination location and reciever details */}
 											<DestinationForm />
@@ -425,11 +428,9 @@ const CreateOrder = () => {
 									<StepContent>
 										<Stack shouldWrapChildren spacing="4">
 											<Text>
-												Try out different ad text to see what brings in the most
-												customers, and learn how to enhance your ads using
-												features like ad extensions. If you run into any
-												problems with your ads, find out how to tell if
-												they&apos;re running and how to resolve approval issues.
+												Please provide the following details about the package
+												being sent. Note that the dimensions are in{" "}
+												<strong>centimeters</strong>.
 											</Text>
 											{/* What form is called to enter details about the package */}
 											<WhatForm />
@@ -466,11 +467,9 @@ const CreateOrder = () => {
 									<StepContent>
 										<Stack shouldWrapChildren spacing="4">
 											<Text>
-												Try out different ad text to see what brings in the most
-												customers, and learn how to enhance your ads using
-												features like ad extensions. If you run into any
-												problems with your ads, find out how to tell if
-												they&apos;re running and how to resolve approval issues.
+												Help the environment by making your package carbon
+												neutral. We&apos;ll plant a tree for every package you
+												send.
 											</Text>
 											{/* Sustinable form is called to enter details about the sustainability of the package */}
 											<SustinableForm />
