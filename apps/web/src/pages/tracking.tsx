@@ -122,11 +122,6 @@ const steps = [
 		description:
 			"Its delivered. If you are still checking here, go check your mail",
 	},
-	{
-		index: 6,
-		title: "RETURNED",
-		description: "Returned to the sender. The order is returned to the sender.",
-	},
 ];
 
 interface TrackingTimelineProps {

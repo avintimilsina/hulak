@@ -16,17 +16,38 @@ export default async function handler(
 		res.status(405).send({ message: "Only POST requests allowed" });
 		return;
 	}
-	const resposne = await fetch("https://khalti.com/api/v2/payment/verify/", {
-		method: "POST",
-		body: JSON.stringify({
-			token: req.body.token,
-			amount: req.body.amount,
-		}),
-		headers: {
-			"content-type": "application/json",
-			Authorization: `Key ${process.env.KHALTI_SECRET_KEY_DEPRECATED}`,
-		},
-	});
+
+	let verificationData = {};
+
+	const verifyResponse = await fetch(
+		"https://khalti.com/api/v2/payment/verify/",
+		{
+			method: "POST",
+			headers: {
+				"content-type": "application/json",
+				Authorization: `Key ${process.env.KHALTI_SECRET_KEY_DEPRECATED}`,
+			},
+			body: JSON.stringify({
+				token: req.body.token,
+				amount: req.body.amount,
+			}),
+		}
+	);
+
+	if (verifyResponse.status === 200) {
+		verificationData = await verifyResponse.json();
+	}
+
+	const resposne = await fetch(
+		`https://khalti.com/api/v2/payment/status/?token=${req.body.token}&amount=${req.body.amount}`,
+		{
+			method: "GET",
+			headers: {
+				"content-type": "application/json",
+				Authorization: `Key ${process.env.KHALTI_SECRET_KEY_DEPRECATED}`,
+			},
+		}
+	);
 	const khalti = await resposne.json();
 	// when the payment is successful, the details of the order and its payment is written to the firestore database under the orders collection
 	const writePayment = await db
@@ -36,8 +57,12 @@ export default async function handler(
 		.doc(req.body.token)
 		.set(
 			{
+				...verificationData,
 				...khalti,
-				status: khalti?.state?.name?.toUpperCase() ?? "FETCH ERROR",
+				status:
+					(khalti?.state?.toUpperCase() === "COMPLETE"
+						? "COMPLETED"
+						: khalti?.status?.toUpperCase()) ?? "FETCH ERROR",
 			},
 			{ merge: true }
 		);

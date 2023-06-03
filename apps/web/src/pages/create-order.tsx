@@ -251,7 +251,7 @@ const CreateOrder = () => {
 					const checkout = new KhaltiCheckout({
 						// replace this key with yours
 
-						publicKey: process.env.NEXT_PUBLIC_KHALTI_PUBLIC_KEY,
+						publicKey: process.env.NEXT_PUBLIC_KHALTI_PUBLIC_KEY_DEPRECATED,
 
 						// Product identity and Name can be given as our own by passing props to the component but for testing purposes, I have used the default values
 						productIdentity: docRef.id ?? "order-failed",
@@ -277,7 +277,9 @@ const CreateOrder = () => {
 										status: "PENDING",
 										orderId: docRef.id,
 										userId: currentUser.uid,
-									}
+										createdAt: serverTimestamp(),
+									},
+									{ merge: true }
 								);
 
 								router.push({ pathname: "/payment/success", query: payload });
@@ -289,22 +291,24 @@ const CreateOrder = () => {
 							async onError(error: any) {
 								// handle errors
 								await setDoc(
-									doc(db, "orders", docRef.id, "payments", error.token),
+									doc(db, "orders", docRef.id ?? "-"),
 									{
-										status: "PENDING",
 										orderId: docRef.id,
-										userId: currentUser.uid,
-									}
+										token: error.token ?? "order-failed",
+										createdAt: serverTimestamp(),
+									},
+									{ merge: true }
 								);
 
 								await setDoc(
 									doc(db, "orders", docRef.id, "payments", nanoid()),
 									{
-										status: "FAILED",
+										status: "PENDING",
 										orderId: docRef.id,
 										userId: currentUser.uid,
 										remarks: error.detail,
-									}
+									},
+									{ merge: true }
 								);
 							},
 							async onClose() {

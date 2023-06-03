@@ -17,7 +17,7 @@ const PaymentPage = () => {
 		const checkout = new KhaltiCheckout({
 			// replace this key with yours
 
-			publicKey: process.env.NEXT_PUBLIC_KHALTI_PUBLIC_KEY,
+			publicKey: process.env.NEXT_PUBLIC_KHALTI_PUBLIC_KEY_DEPRECATED,
 
 			// Product identity and Name can be given as our own by passing props to the component but for testing purposes, I have used the default values
 			productIdentity: "1234567890",
