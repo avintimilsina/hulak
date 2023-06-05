@@ -18,7 +18,10 @@ import { useRouter } from "next/router";
 import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { BiLogOut } from "react-icons/bi";
 import { BsPersonCircle } from "react-icons/bs";
-import { auth } from "../../../../firebase";
+import { useEffect, useState } from "react";
+import { RiAdminFill } from "react-icons/ri";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../../../firebase";
 import MobileNav from "./MobileNav";
 import NavLink from "./NavLink";
 
@@ -29,6 +32,21 @@ const Navbar = () => {
 	const [currentUser] = useAuthState(auth);
 	const [signOut] = useSignOut(auth);
 	const toast = useToast();
+
+	const [showAdminButton, setShowAdminButton] = useState(false);
+
+	useEffect(() => {
+		const runThisNow = async () => {
+			if (currentUser) {
+				const docSnap = await getDoc(doc(db, "admins", currentUser?.uid));
+
+				if (docSnap.data()?.isActive) {
+					setShowAdminButton(true);
+				}
+			}
+		};
+		runThisNow();
+	}, [currentUser]);
 
 	return (
 		<Box
@@ -99,17 +117,19 @@ const Navbar = () => {
 											Account
 										</MenuItem>
 
-										{/* <MenuItem
-											as={Button}
-											p="0"
-											leftIcon={<RiAdminFill />}
-											variant="ghost"
-											onClick={() => {
-												router.push("/admin");
-											}}
-										>
-											Admin
-										</MenuItem> */}
+										{showAdminButton && (
+											<MenuItem
+												as={Button}
+												p="0"
+												leftIcon={<RiAdminFill />}
+												variant="ghost"
+												onClick={() => {
+													router.push("/admin");
+												}}
+											>
+												Admin
+											</MenuItem>
+										)}
 
 										<MenuItem
 											borderColor="red.500"
