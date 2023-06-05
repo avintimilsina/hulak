@@ -11,8 +11,7 @@ import { useRouter } from "next/router";
 
 import Logo from "@/components/logo";
 import { AiOutlineSetting } from "react-icons/ai";
-import { BiHomeAlt, BiPackage, BiSupport } from "react-icons/bi";
-import { BsArrowReturnLeft } from "react-icons/bs";
+import { BiBox, BiHomeAlt, BiPackage, BiSupport } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
 import { TbTruckReturn } from "react-icons/tb";
 import NavLink from "./NavLink";
@@ -126,9 +125,9 @@ export const ACCOUNT_NAV_LINKS = [
 
 export const SUPPORT_NAV_LINKS = [
 	{
-		label: "Go Home",
-		href: "/",
-		icon: BsArrowReturnLeft,
+		label: "Shipping",
+		href: "/create-order",
+		icon: BiBox,
 	},
 	{
 		label: "Help Center",

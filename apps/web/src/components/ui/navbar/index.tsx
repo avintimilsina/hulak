@@ -98,6 +98,19 @@ const Navbar = () => {
 										>
 											Account
 										</MenuItem>
+
+										{/* <MenuItem
+											as={Button}
+											p="0"
+											leftIcon={<RiAdminFill />}
+											variant="ghost"
+											onClick={() => {
+												router.push("/admin");
+											}}
+										>
+											Admin
+										</MenuItem> */}
+
 										<MenuItem
 											borderColor="red.500"
 											textColor="red.500"
@@ -126,16 +139,18 @@ const Navbar = () => {
 								</Menu>
 							</HStack>
 						) : (
-							<Button
-								as={Link}
-								colorScheme="brand"
-								display={{ base: "none", lg: "flex" }}
-								rounded="xl"
-								href="/auth/register"
-								_hover={{ textDecoration: "none" }}
-							>
-								Start Shipping
-							</Button>
+							<HStack>
+								<Button
+									as={Link}
+									colorScheme="brand"
+									display={{ base: "none", lg: "flex" }}
+									rounded="xl"
+									href="/auth/login"
+									_hover={{ textDecoration: "none" }}
+								>
+									Get Started
+								</Button>
+							</HStack>
 						)}
 						{/* triggers the mobile navbar to open if the user is in mobile view */}
 						<Box ml="5">

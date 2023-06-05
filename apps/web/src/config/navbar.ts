@@ -1,32 +1,32 @@
-import {
-	HiCurrencyDollar,
-	HiHome,
-	HiOutlineLocationMarker,
-	HiOutlineQuestionMarkCircle,
-} from "react-icons/hi";
-
-// ? It contains the navbar links with their respective icons, labels and hrefs
+import { BiBox, BiHome, BiSupport } from "react-icons/bi";
+import { BsCurrencyDollar } from "react-icons/bs";
+import { HiOutlineLocationMarker } from "react-icons/hi";
 
 const NAVLINKS = [
 	{
 		label: "Home",
 		href: "/",
-		icon: HiHome,
+		icon: BiHome,
+	},
+	{
+		label: "Shipping",
+		href: "/create-order",
+		icon: BiBox,
 	},
 	{
 		label: "Quote",
 		href: "/quote",
-		icon: HiCurrencyDollar,
+		icon: BsCurrencyDollar,
 	},
 	{
-		label: "Track",
+		label: "Tracking",
 		href: "/tracking",
 		icon: HiOutlineLocationMarker,
 	},
 	{
 		label: "Support",
 		href: "/support",
-		icon: HiOutlineQuestionMarkCircle,
+		icon: BiSupport,
 	},
 ];
 
