@@ -1,5 +1,4 @@
 import InputField from "@/components/ui/InputField";
-import withAuthPages from "@/routes/withAuthPages";
 import { Link } from "@chakra-ui/next-js";
 import { Button, Grid, HStack, Text, VStack, useToast } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
@@ -198,4 +197,4 @@ const Register = () => {
 	);
 };
 
-export default withAuthPages(Register);
+export default Register;
