@@ -59,7 +59,7 @@ const Register = () => {
 	// updateProfile is a authentication hook from react-firebase-hooks/auth where it allows the user to update the user's profile
 	const [updateProfile] = useUpdateProfile(auth);
 
-	// sendEmailVerification is a authentication hook from react-firebase-hooks/auth where it allows the user to send a email verification to the user's email
+	// sendEmailVerification is a authentication hook from react-firebase-hooks/auth where it allows it sends a email verification to the user's email
 	const [sendEmailVerification] = useSendEmailVerification(auth);
 
 	return (
