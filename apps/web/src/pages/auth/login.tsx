@@ -50,8 +50,8 @@ const Login = () => {
 	if (loading) {
 		return <p>Loading</p>;
 	}
-	if (error || loginError) {
-		return <p>Error: {error?.message || loginError?.message}</p>;
+	if (error) {
+		return <p>Error: {error?.message}</p>;
 	}
 
 	// If the user is already logged in, redirect the user to the home page
@@ -95,7 +95,7 @@ const Login = () => {
 					// If the user is not successfully logged in, display a error toast
 				} else if (!toast.isActive("login")) {
 					toast({
-						title: loginError ?? "Invalid email or password",
+						title: loginError?.message ?? "Invalid email or password",
 						status: "error",
 						isClosable: true,
 						id: "login",
