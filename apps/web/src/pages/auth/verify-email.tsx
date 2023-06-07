@@ -1,12 +1,13 @@
+import Logo from "@/components/logo";
 import Result from "@/components/shared/Result";
 import withProtected from "@/routes/withProtected";
 import {
 	Button,
-	Center,
 	Grid,
 	Heading,
 	Stack,
 	Text,
+	VStack,
 	useToast,
 } from "@chakra-ui/react";
 import { User } from "firebase/auth";
@@ -58,50 +59,63 @@ const VerifyEmailPage = ({ currentUser }: VerifyEmailPageProps) => {
 	const toast = useToast();
 	const router = useRouter();
 
+	// useEffect(() => {
+	// 	if (currentUser?.emailVerified) {
+	// 		router.push("/");
+	// 	}
+	// }, [currentUser, router]);
+
 	return (
 		<Grid placeItems="center" h="100vh">
-			<Stack>
-				<Center>
-					<Heading>Verify your Email</Heading>
-				</Center>
-				<Center>We have sent a verification email to you</Center>
-				<Center>{currentUser?.email}</Center>
+			<VStack spacing={8} mb={8}>
+				<Logo />
+				<VStack spacing="4">
+					<VStack spacing={2}>
+						<Heading fontSize="3xl">Verify your Email</Heading>
+						<Text>We have sent a verification email to you</Text>
+					</VStack>
+					<Text fontWeight="semibold" fontSize="lg">
+						{currentUser?.email}
+					</Text>
 
-				{/* this button checks whether the user is verified or not when it reloads the page and above if(currentUser.emailVerified) is called */}
-				<Button
-					onClick={async () => {
-						router.reload();
-					}}
-				>
-					Already Verified?
-				</Button>
-				<Stack spacing={6}>
-					<Stack>
-						<Text align="center">
-							Didn&apos;t receive a email?{" "}
-							{/* this button allows the user to resend a email verification to the user's email */}
-							<Button
-								variant="link"
-								onClick={async () => {
-									const emailVerification = await sendEmailVerification();
-									if (emailVerification) {
-										if (!toast.isActive("email-verification")) {
-											toast({
-												title: `Email verification sent`,
-												status: "success",
-												isClosable: true,
-												id: "email-verification",
-											});
+					{/* this button checks whether the user is verified or not when it reloads the page and above if(currentUser.emailVerified) is called */}
+					<Button
+						w="full"
+						onClick={async () => {
+							router.reload();
+						}}
+						colorScheme="green"
+					>
+						Already Verified?
+					</Button>
+					<Stack spacing={6}>
+						<Stack>
+							<Text align="center">
+								Didn&apos;t receive a email?{" "}
+								{/* this button allows the user to resend a email verification to the user's email */}
+								<Button
+									variant="link"
+									onClick={async () => {
+										const emailVerification = await sendEmailVerification();
+										if (emailVerification) {
+											if (!toast.isActive("email-verification")) {
+												toast({
+													title: `Email verification sent`,
+													status: "success",
+													isClosable: true,
+													id: "email-verification",
+												});
+											}
 										}
-									}
-								}}
-							>
-								Resend Email
-							</Button>
-						</Text>
+									}}
+								>
+									Resend Email
+								</Button>
+							</Text>
+						</Stack>
 					</Stack>
-				</Stack>
-			</Stack>
+				</VStack>
+			</VStack>
 		</Grid>
 	);
 };

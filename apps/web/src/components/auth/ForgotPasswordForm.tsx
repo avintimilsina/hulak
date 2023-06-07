@@ -70,7 +70,11 @@ const ForgotPasswordForm = () => {
 							)}
 						</Field>
 						<Stack spacing={6} width="full">
-							<Button type="submit" isLoading={props.isSubmitting}>
+							<Button
+								type="submit"
+								isLoading={props.isSubmitting}
+								colorScheme="brand"
+							>
 								Send Reset Link
 							</Button>
 						</Stack>

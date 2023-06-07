@@ -178,6 +178,15 @@ const RegisterPage = () => {
 										});
 									}
 									actions.setSubmitting(false);
+								} else if (!toast.isActive("register")) {
+									toast({
+										title: "An error occurred.",
+										description: error?.message,
+										status: "error",
+										duration: 5000,
+										isClosable: true,
+										id: "register",
+									});
 								}
 							}}
 						>
