@@ -1,4 +1,4 @@
-import { Link } from "@chakra-ui/next-js";
+import { Image, Link } from "@chakra-ui/next-js";
 import {
 	Box,
 	BoxProps,
@@ -15,11 +15,11 @@ import {
 	GridItemProps,
 	Heading,
 	Icon,
-	Img,
 	SimpleGrid,
 	Stack,
 	Text,
 	VStack,
+	Img,
 	useColorModeValue,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
@@ -34,13 +34,14 @@ import ServerNavbar from "@/components/ui/ServerNavbar";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import nookies from "nookies";
 import { adminSDK } from "../../firebase-admin";
+import container from "../../public/assets/container.webp";
 
 // ? This the landing page of the website
 
 const HomePage = ({
 	user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-	const MotionImg = motion(Img);
+	const MotionImg = motion(Image);
 
 	return (
 		<Box>
@@ -117,7 +118,7 @@ const HomePage = ({
 						right={44}
 						zIndex="-1"
 						filter={useColorModeValue("sepia(0.9)", "none")}
-						src="/assets/container.png"
+						src={container}
 						alt="Shipping"
 						// animation for the container image
 						initial={{
@@ -138,6 +139,7 @@ const HomePage = ({
 							repeatType: "reverse",
 						}}
 						layout
+						priority
 					/>
 				</VStack>
 			</Box>
