@@ -10,9 +10,10 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import nookies from "nookies";
+import { onIdTokenChanged } from "firebase/auth";
 import { auth, db } from "../../firebase";
 
-// NProgress is a minimal progress bar that is shown at the top when the page is loading
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
@@ -21,6 +22,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 	const [currentUser] = useAuthState(auth);
 	const router = useRouter();
 	useEffect(() => {
+		console.log("User Loading");
 		const setUser = async () => {
 			// When a new user is created, the user details are stored in the database under the users collection using setDoc hook from firebase
 			// if the user already exists, the user details are updated
@@ -41,11 +43,27 @@ const App = ({ Component, pageProps }: AppProps) => {
 					{ merge: true }
 				);
 			}
+
+			console.log("User Completd");
 		};
 
 		setUser();
 	}, [currentUser]);
 	// This allows to render AdminSidebarWrapper component when the route starts with /admin as the admin and users have different dashboards
+
+	useEffect(() => {
+		const unsubscribe = onIdTokenChanged(auth, async (user) => {
+			if (user) {
+				const token = await user.getIdToken();
+				nookies.set(undefined, "token", token, { path: "/" });
+			} else {
+				nookies.set(undefined, "token", "", { path: "/" });
+			}
+		});
+
+		return unsubscribe;
+	}, []);
+
 	if (router.pathname.startsWith("/admin")) {
 		return (
 			<ChakraProvider theme={theme}>

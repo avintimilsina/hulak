@@ -26,7 +26,7 @@ import FocusLock from "react-focus-lock";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { RemoveScroll } from "react-remove-scroll";
 import { Link } from "@chakra-ui/next-js";
-import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
+import { useSignOut } from "react-firebase-hooks/auth";
 import router from "next/router";
 import { BiLogOut } from "react-icons/bi";
 import { BsPersonCircle } from "react-icons/bs";
@@ -102,9 +102,12 @@ Transition.defaultProps = {
 	in: false,
 };
 
-const MobileNav = () => {
+interface MobileNavProps {
+	user: any;
+}
+
+const MobileNav = ({ user }: MobileNavProps) => {
 	const toast = useToast();
-	const [currentUser] = useAuthState(auth);
 	const [signOut] = useSignOut(auth);
 	const [show, { toggle, off }] = useBoolean();
 	const ref = React.useRef<HTMLDivElement>(null);
@@ -167,7 +170,7 @@ const MobileNav = () => {
 								})}
 							</SimpleGrid>
 							{/* displays the start shipping button and login button if the user is not logged in else displays the dashboard and sign out button if the user is logged in */}
-							{!currentUser ? (
+							{!user ? (
 								<VStack mt="8" spacing="4">
 									<Button
 										w="full"
@@ -216,18 +219,18 @@ const MobileNav = () => {
 														lineHeight={0.4}
 														color={mode("gray.600", "gray.400")}
 													>
-														{currentUser.displayName ?? "name"}
+														{user?.displayName ?? "name"}
 													</Text>
 													<Text fontWeight="normal">
-														{currentUser.email ?? "name"}
+														{user?.email ?? "name"}
 													</Text>
 												</VStack>
 
 												<Avatar
-													name={currentUser.displayName ?? "name"}
+													name={user?.displayName ?? "name"}
 													src={
-														currentUser.photoURL ??
-														`https://api.dicebear.com/6.x/micah/svg?size=256&seed=${currentUser?.displayName}`
+														user?.photoURL ??
+														`https://api.dicebear.com/6.x/micah/svg?size=256&seed=${user?.displayName}`
 													}
 													size="md"
 												/>

@@ -31,16 +31,21 @@ import { FaPlane } from "react-icons/fa";
 import * as Brand from "@/config/brands";
 import Footer from "@/components/ui/Footer";
 import { motion } from "framer-motion";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import nookies from "nookies";
+import { adminSDK } from "../../firebase-admin";
 
 // ? This the landing page of the website
 
-const HomePage = () => {
+const HomePage = ({
+	user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const MotionImg = motion(Img);
 
 	return (
 		<Box>
 			{/* This displays the Navbar component at the top of the screen */}
-			<Navbar />
+			<Navbar user={user} />
 			<Box
 				as="section"
 				maxW={{ base: "xl", md: "7xl" }}
@@ -545,3 +550,50 @@ const SHIPPING_CARDS = [
 		title: "Air",
 	},
 ];
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+	const cookies = nookies.get(ctx);
+	if (!cookies.token) {
+		return {
+			props: {
+				isLoggedIn: false,
+				user: null,
+			},
+		};
+	}
+
+	try {
+		const token = await adminSDK.auth().verifyIdToken(cookies.token);
+		if (!token) {
+			return {
+				props: {
+					isLoggedIn: false,
+					user: null,
+				},
+			};
+		}
+
+		// the user is authenticated!
+		const { uid } = token;
+		const user = await adminSDK.auth().getUser(uid);
+
+		return {
+			props: {
+				isLoggedIn: true,
+				user: {
+					uid: user.uid ?? null,
+					email: user.email ?? null,
+					displayName: user.displayName ?? null,
+					photoURL: user.photoURL ?? null,
+				},
+			},
+		};
+	} catch (error) {
+		return {
+			props: {
+				isLoggedIn: false,
+				user: null,
+			},
+		};
+	}
+}

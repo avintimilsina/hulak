@@ -15,7 +15,7 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
+import { useSignOut } from "react-firebase-hooks/auth";
 import { BiLogOut } from "react-icons/bi";
 import { BsPersonCircle } from "react-icons/bs";
 import { useEffect, useState } from "react";
@@ -27,9 +27,12 @@ import NavLink from "./NavLink";
 
 // ? Navbar component is used to display the navbar in the website where it is used to navigate to different pages of the website
 
-const Navbar = () => {
+interface NavbarProps {
+	user?: any;
+}
+
+const Navbar = ({ user }: NavbarProps) => {
 	const router = useRouter();
-	const [currentUser] = useAuthState(auth);
 	const [signOut] = useSignOut(auth);
 	const toast = useToast();
 
@@ -37,8 +40,8 @@ const Navbar = () => {
 
 	useEffect(() => {
 		const runThisNow = async () => {
-			if (currentUser) {
-				const docSnap = await getDoc(doc(db, "admins", currentUser?.uid));
+			if (user?.uid) {
+				const docSnap = await getDoc(doc(db, "admins", user?.uid));
 
 				if (docSnap.data()?.isActive) {
 					setShowAdminButton(true);
@@ -46,7 +49,7 @@ const Navbar = () => {
 			}
 		};
 		runThisNow();
-	}, [currentUser]);
+	}, [user]);
 
 	return (
 		<Box
@@ -78,7 +81,7 @@ const Navbar = () => {
 					</HStack>
 					<HStack>
 						{/* if the user is logged in then display the dashboard along with the user Avatar and sign out button else display the start shipping button */}
-						{currentUser ? (
+						{user?.uid ? (
 							<HStack display={{ base: "none", lg: "flex" }}>
 								<Button
 									as={Link}
@@ -96,10 +99,10 @@ const Navbar = () => {
 								<Menu placement="bottom">
 									<MenuButton _focus={{ boxShadow: "none" }} w="full">
 										<Avatar
-											name={currentUser.displayName ?? "name"}
+											name={user.displayName ?? "name"}
 											src={
-												currentUser.photoURL ??
-												`https://api.dicebear.com/6.x/micah/svg?size=256&seed=${currentUser?.displayName}`
+												user.photoURL ??
+												`https://api.dicebear.com/6.x/micah/svg?size=256&seed=${user?.displayName}`
 											}
 											size="md"
 										/>
@@ -151,6 +154,7 @@ const Navbar = () => {
 														});
 													}
 												}
+												router.reload();
 											}}
 										>
 											Sign out
@@ -174,7 +178,7 @@ const Navbar = () => {
 						)}
 						{/* triggers the mobile navbar to open if the user is in mobile view */}
 						<Box ml="5">
-							<MobileNav />
+							<MobileNav user={user} />
 						</Box>
 					</HStack>
 				</Flex>
@@ -184,3 +188,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+Navbar.defaultProps = {
+	user: null,
+};
