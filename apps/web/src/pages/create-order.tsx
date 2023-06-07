@@ -311,9 +311,7 @@ const CreateOrder = () => {
 									{ merge: true }
 								);
 							},
-							async onClose() {
-								console.log("Closed");
-							},
+							async onClose() {},
 						},
 						// paymentPreference indicates the payment methods that the user can use to pay for the order (Khalti, eBanking, Mobile Banking, Connect IPS, SCT)
 						paymentPreference: [
