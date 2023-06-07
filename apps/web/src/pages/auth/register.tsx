@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import { Field, FieldProps, Form, Formik, FormikProps } from "formik";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import {
@@ -29,6 +29,8 @@ import {
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdBusiness } from "react-icons/md";
 import * as Yup from "yup";
+import { useState } from "react";
+import { fadeInLeft } from "@/config/animations";
 import { auth, db } from "../../../firebase";
 
 const defaultValues = {
@@ -58,9 +60,10 @@ const RegisterSchema = Yup.object({
 });
 
 const RegisterPage = () => {
-	// const MotionFlex = motion(Flex);
+	const MotionFlex = motion(Flex);
 	const router = useRouter();
 	const toast = useToast();
+	const [animated, setAnimated] = useState(false);
 
 	// createUserWithEmailAndPassword is a authentication hook from react-firebase-hooks/auth where it allows the user to create a new account with email and password
 	const [createUserWithEmailAndPassword, , , error] =
@@ -91,17 +94,18 @@ const RegisterPage = () => {
 			</Flex>
 
 			<AnimatePresence>
-				<Flex
+				<MotionFlex
 					p={8}
 					flex={1}
 					align="center"
 					justify="center"
-					// initial="initial"
-					// animate="animate"
-					// variants={fadeInLeft}
+					initial="initial"
+					animate="animate"
+					variants={!animated && fadeInLeft}
+					onAnimationComplete={() => setAnimated(true)}
 				>
 					<Stack spacing={4} w="full" maxW="md">
-						<Text align="right" my={10}>
+						<Text align="right" my={8}>
 							Return to{" "}
 							<Link href="/" color="blue.500">
 								Home
@@ -297,7 +301,7 @@ const RegisterPage = () => {
 							)}
 						</Formik>
 					</Stack>
-				</Flex>
+				</MotionFlex>
 			</AnimatePresence>
 		</Stack>
 	);

@@ -25,6 +25,7 @@ import {
 } from "react-firebase-hooks/auth";
 import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
+import { useState } from "react";
 import { auth } from "../../../firebase";
 
 const defaultValues = {
@@ -44,6 +45,7 @@ const LoginSchema = Yup.object({
 const LoginPage = () => {
 	const [signInWithEmailAndPassword, , , loginError] =
 		useSignInWithEmailAndPassword(auth);
+	const [animated, setAnimated] = useState(false);
 
 	// signInWithGoogle is a authentication hook from react-firebase-hooks/auth where it allows the user to sign in with Google
 	const [signInWithGoogle] = useSignInWithGoogle(auth);
@@ -67,7 +69,8 @@ const LoginPage = () => {
 				justify="center"
 				initial="initial"
 				animate="animate"
-				variants={fadeInRight}
+				variants={!animated && fadeInRight}
+				onAnimationComplete={() => setAnimated(true)}
 			>
 				<Stack spacing={4} w="full" maxW="md">
 					<Text align="left" my={10}>
