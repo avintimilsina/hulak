@@ -64,6 +64,7 @@ const ForgotPasswordForm = () => {
 										{...field}
 										type="email"
 										placeholder="your-email@example.com"
+										autoComplete="email"
 									/>
 									<FormErrorMessage>{form.errors.email}</FormErrorMessage>
 								</FormControl>

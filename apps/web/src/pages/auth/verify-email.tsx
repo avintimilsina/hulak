@@ -1,13 +1,12 @@
 import Logo from "@/components/logo";
-import Result from "@/components/shared/Result";
-import withProtected from "@/routes/withProtected";
+import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
 import {
 	Button,
-	Grid,
+	Flex,
 	Heading,
 	Stack,
 	Text,
-	VStack,
+	useColorModeValue,
 	useToast,
 } from "@chakra-ui/react";
 import { User } from "firebase/auth";
@@ -18,106 +17,108 @@ import {
 } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase";
 
-// ? VerifyEmail is a page where the user can verify their email with firebase authentication
-
+// This is the verify email page.
 const VerifyEmail = () => {
 	const router = useRouter();
-	const [currentUser, loading, error] = useAuthState(auth);
+	const [user, loading, error] = useAuthState(auth);
 	if (loading) {
-		return <p>Loading...</p>;
+		return <PageLoadingSpinner />;
 	}
 	if (error) {
-		return <Result type="error" heading={error.name} text={error.message} />;
+		return <PageLoadingSpinner />;
 	}
-
-	//  if the user is already verified, redirect the user to the home page
-	if (currentUser?.emailVerified) {
+	// Checks in case the user is already verified or not.
+	// emailVerified is a property of the user object that is returned from firebase.
+	if (user?.emailVerified) {
 		router.push("/");
+		return <PageLoadingSpinner />;
 	}
-
-	// if the user is not logged in, redirect the user to the login page
-	if (!currentUser) {
+	if (!user) {
 		router.push("/auth/register");
+		return <PageLoadingSpinner />;
 	}
 	return (
 		<div>
-			<VerifyEmailPage currentUser={currentUser} />
+			<VerifyEmailPage user={user} />
 		</div>
 	);
 };
-
-// ? Interface allows the user to pass destructured props to a component
-// here we are passing the currentUser prop to the VerifyEmailPage component
 interface VerifyEmailPageProps {
-	currentUser: User | null | undefined;
+	user: User;
 }
-
-// while passing a destructured prop to a component, we need to enclose it in curly braces
-const VerifyEmailPage = ({ currentUser }: VerifyEmailPageProps) => {
-	// sendEmailVerification is a authentication hook from react-firebase-hooks/auth where it allows the user to send a email verification to the provided user's email
+const VerifyEmailPage = ({ user }: VerifyEmailPageProps) => {
+	// useSendEmailVerification is a hook from react-firebase-hooks/auth that sends a verification email to the user if they are not verified.
 	const [sendEmailVerification] = useSendEmailVerification(auth);
 	const toast = useToast();
 	const router = useRouter();
 
-	// useEffect(() => {
-	// 	if (currentUser?.emailVerified) {
-	// 		router.push("/");
-	// 	}
-	// }, [currentUser, router]);
-
 	return (
-		<Grid placeItems="center" h="100vh">
-			<VStack spacing={8} mb={8}>
+		<Flex minH="100vh" align="center" justify="center">
+			<Stack
+				spacing={4}
+				w="full"
+				maxW="sm"
+				rounded="xl"
+				boxShadow="lg"
+				p={6}
+				my={10}
+				alignItems="center"
+			>
 				<Logo />
-				<VStack spacing="4">
-					<VStack spacing={2}>
-						<Heading fontSize="3xl">Verify your Email</Heading>
-						<Text>We have sent a verification email to you</Text>
-					</VStack>
-					<Text fontWeight="semibold" fontSize="lg">
-						{currentUser?.email}
-					</Text>
-
-					{/* this button checks whether the user is verified or not when it reloads the page and above if(currentUser.emailVerified) is called */}
-					<Button
-						w="full"
-						onClick={async () => {
-							router.reload();
-						}}
-						colorScheme="green"
-					>
-						Already Verified?
-					</Button>
-					<Stack spacing={6}>
-						<Stack>
-							<Text align="center">
-								Didn&apos;t receive a email?{" "}
-								{/* this button allows the user to resend a email verification to the user's email */}
-								<Button
-									variant="link"
-									onClick={async () => {
-										const emailVerification = await sendEmailVerification();
-										if (emailVerification) {
-											if (!toast.isActive("email-verification")) {
-												toast({
-													title: `Email verification sent`,
-													status: "success",
-													isClosable: true,
-													id: "email-verification",
-												});
-											}
-										}
-									}}
-								>
-									Resend Email
-								</Button>
-							</Text>
-						</Stack>
+				<Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
+					Verify your Email
+				</Heading>
+				<Text
+					fontSize={{ base: "sm", sm: "md" }}
+					color={useColorModeValue("gray.800", "gray.400")}
+				>
+					We have sent a verification email to you
+				</Text>
+				<Text
+					fontSize={{ base: "md", sm: "large" }}
+					fontWeight="semibold"
+					color={useColorModeValue("gray.800", "gray.400")}
+				>
+					{user.email}
+				</Text>
+				{/* Checks if the email is verified. If it is, it will redirect the user to
+				the home page. If not, it will keep the user in the verification page. */}
+				<Button
+					w="full"
+					colorScheme="green"
+					onClick={async () => {
+						router.reload();
+					}}
+				>
+					Already Verified?
+				</Button>
+				<Stack spacing={6}>
+					<Stack>
+						<Text align="center">
+							Didn&apos;t receive a email?{" "}
+							<Button
+								variant="link"
+								onClick={async () => {
+									// sendEmailVerification is a function from react-firebase-hooks/auth that sends a verification email to the user if they are not verified.
+									const emailVerification = await sendEmailVerification();
+									if (emailVerification) {
+										toast({
+											title: `Email verification sent`,
+											status: "success",
+											isClosable: true,
+											id: "email-verification",
+										});
+									}
+								}}
+							>
+								Resend Email
+							</Button>
+						</Text>
 					</Stack>
-				</VStack>
-			</VStack>
-		</Grid>
+				</Stack>
+			</Stack>
+		</Flex>
 	);
 };
 
-export default withProtected(VerifyEmail);
+export default VerifyEmail;
