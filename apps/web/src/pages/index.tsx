@@ -1,4 +1,3 @@
-import Navbar from "@/components/ui/navbar";
 import { Link } from "@chakra-ui/next-js";
 import {
 	Box,
@@ -31,6 +30,7 @@ import { FaPlane } from "react-icons/fa";
 import * as Brand from "@/config/brands";
 import Footer from "@/components/ui/Footer";
 import { motion } from "framer-motion";
+import ServerNavbar from "@/components/ui/ServerNavbar";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import nookies from "nookies";
 import { adminSDK } from "../../firebase-admin";
@@ -45,7 +45,7 @@ const HomePage = ({
 	return (
 		<Box>
 			{/* This displays the Navbar component at the top of the screen */}
-			<Navbar user={user} />
+			<ServerNavbar user={user} />
 			<Box
 				as="section"
 				maxW={{ base: "xl", md: "7xl" }}
