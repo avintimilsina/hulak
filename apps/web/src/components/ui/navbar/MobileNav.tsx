@@ -183,7 +183,7 @@ const MobileNav = () => {
 											as="a"
 											color={mode("brand.600", "brand.400")}
 											onClick={() => {
-												router.push("/login");
+												router.push("/auth/login");
 											}}
 										>
 											Log in
