@@ -2,28 +2,22 @@
 import { PriceTag } from "@/components/shared/PriceTag";
 import Result from "@/components/shared/Result";
 import OrderLayoutSkeleton from "@/components/ui/skeleton/OrderLayoutSkeleton";
-import OrderListSkeleton from "@/components/ui/skeleton/OrderListSkeleton";
+import { OrderList } from "@/pages/account/orders";
 import {
 	Badge,
 	Box,
 	Card,
-	CardBody,
-	CardFooter,
-	CardHeader,
 	HStack,
 	Heading,
-	Icon,
 	IconButton,
 	SimpleGrid,
 	Stack,
-	Tag,
 	Text,
 	Tooltip,
 	VStack,
 	useColorModeValue as mode,
 	useClipboard,
 } from "@chakra-ui/react";
-import dayjs from "dayjs";
 import {
 	DocumentData,
 	collection,
@@ -33,23 +27,8 @@ import {
 	where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import {
-	Dispatch,
-	ReactNode,
-	SetStateAction,
-	useEffect,
-	useState,
-} from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { BsArrowReturnRight } from "react-icons/bs";
-import {
-	FaBoxOpen,
-	FaHandHoldingHeart,
-	FaLeaf,
-	FaSignature,
-	FaSnowflake,
-} from "react-icons/fa";
-import { IoMdBatteryCharging } from "react-icons/io";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { db } from "../../../../firebase";
 import OrderActions from "./OrderActions";
@@ -391,121 +370,4 @@ export const getColorFromStatus = (status: string) => {
 		default:
 			return "gray";
 	}
-};
-
-// ? OrderList is a component to display the list of orders in a card format
-interface OrderListProps {
-	order: any;
-	setValue: Dispatch<SetStateAction<DocumentData | undefined>>;
-	values: DocumentData[] | undefined;
-}
-const OrderList = ({ order, setValue, values }: OrderListProps) => {
-	const router = useRouter();
-
-	// fetches the payment of the order from the database for the order selected by the user
-	const [payment, paymentLoading, paymentError] = useCollectionData(
-		query(
-			collectionGroup(db, "payments"),
-			where("orderId", "==", order?.orderId ?? "-"),
-			orderBy("createdAt", "desc")
-		),
-		{
-			snapshotListenOptions: { includeMetadataChanges: true },
-		}
-	);
-
-	if (paymentLoading) {
-		return <OrderListSkeleton />;
-	}
-
-	if (paymentError) {
-		return (
-			<Result
-				heading={paymentError?.name!}
-				type="error"
-				text={paymentError?.message!}
-				dump={paymentError?.stack!}
-			/>
-		);
-	}
-	const successPayment = payment?.filter(
-		(singlePayment) => singlePayment.status === "COMPLETED"
-	)[0];
-
-	const latestPayment = successPayment ?? payment?.[0];
-	return (
-		<Card
-			// when a user selects a order to preview, the card is highlighted with a different color and the orderId of the order is passed in the URL using the router.query.id
-			// the orderId in the URL is used to display the information about that specific selected order in the Order Info section
-			onClick={() => {
-				setValue(
-					values?.filter(
-						(singleOrder) => singleOrder.orderId === router.query.id
-					)[0] ?? {}
-				);
-				router.push({ query: { id: order.orderId } });
-			}}
-			key={order.pidx}
-			w="full"
-			_hover={{ textDecoration: "none" }}
-			variant={router.query.id === order.orderId ? "filled" : "elevated"}
-		>
-			<CardHeader pb="1">
-				<HStack justifyContent="space-between">
-					<Text>
-						{/* dayjs is a library used to format the date and time */}
-						{dayjs(Number(order.createdAt.seconds * 1000)).format(
-							"DD MMMM, YYYY"
-						)}
-					</Text>
-
-					<Tag
-						colorScheme={getColorFromStatus(order?.status ?? "PENDING")}
-						px={2}
-					>
-						{order?.status?.toUpperCase()}
-					</Tag>
-				</HStack>
-			</CardHeader>
-			<CardBody
-				pt="1"
-				display="flex"
-				flexDirection="column"
-				justifyContent="space-between"
-				alignItems="flex-start"
-				gap={2}
-			>
-				<VStack w="full">
-					<Text alignSelf="flex-start">{order.source.addressLine1}</Text>
-					<HStack w="full" justifyContent="center">
-						<Icon as={BsArrowReturnRight} />
-						<Text alignSelf="flex-end">{order.destination.addressLine1}</Text>
-					</HStack>
-				</VStack>
-			</CardBody>
-			<CardFooter as={HStack} justifyContent="space-between" pt="1">
-				<Tag
-					colorScheme={getColorFromStatus(latestPayment?.status ?? "PENDING")}
-					px={2}
-				>
-					$ {latestPayment?.status?.toUpperCase() ?? "PENDING"}
-				</Tag>
-				{/*  Displays the icons of the order based on the options selected by the user while creating the order */}
-				<HStack>
-					{order.isCarbonNeutral && <Icon as={FaLeaf} fill="green.500" />}
-					{order.isLithiumIncluded && (
-						<Icon as={IoMdBatteryCharging} fill="red.500" />
-					)}
-					{order.isSignatureIncluded && <Icon as={FaSignature} />}
-					{order.isDryIceIncluded && <Icon as={FaSnowflake} fill="blue.500" />}
-					{order.deliverOnlyToReceiver && (
-						<Icon as={FaHandHoldingHeart} fill="yellow.500" />
-					)}
-					{order.isOversizedPackageIncluded && (
-						<Icon as={FaBoxOpen} fill="brown" />
-					)}
-				</HStack>
-			</CardFooter>
-		</Card>
-	);
 };

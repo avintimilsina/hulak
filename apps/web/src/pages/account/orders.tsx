@@ -9,7 +9,6 @@ import {
 	Box,
 	Card,
 	CardBody,
-	CardFooter,
 	CardHeader,
 	Divider,
 	HStack,
@@ -19,7 +18,12 @@ import {
 	Link,
 	SimpleGrid,
 	Stack,
-	Tag,
+	Step,
+	StepDescription,
+	StepIndicator,
+	StepSeparator,
+	StepTitle,
+	Stepper,
 	Text,
 	Tooltip,
 	VStack,
@@ -45,7 +49,6 @@ import {
 } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { BsArrowReturnRight } from "react-icons/bs";
 import {
 	FaBoxOpen,
 	FaHandHoldingHeart,
@@ -453,6 +456,10 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 	const successPayment = payment?.filter(
 		(singlePayment) => singlePayment.status === "COMPLETED"
 	)[0];
+	const steps = [
+		{ title: "From", description: order.source.city },
+		{ title: "To", description: order.destination.city },
+	];
 
 	const latestPayment = successPayment ?? payment?.[0];
 	return (
@@ -470,61 +477,111 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 			_hover={{ textDecoration: "none" }}
 			variant={router.query.id === order.orderId ? "filled" : "elevated"}
 		>
-			<CardHeader pb="1">
-				<HStack justifyContent="space-between">
-					<Text>
-						{dayjs(Number(order.createdAt.seconds * 1000)).format(
-							"DD MMMM, YYYY"
-						)}
-					</Text>
-
-					<Tag
-						colorScheme={getColorFromStatus(order?.status ?? "PENDING")}
-						px={2}
-					>
-						ORDER {order?.status?.toUpperCase()}
-					</Tag>
-				</HStack>
-			</CardHeader>
-			<CardBody
-				pt="1"
-				display="flex"
-				flexDirection="column"
-				justifyContent="space-between"
-				alignItems="flex-start"
-				gap={2}
-			>
-				<VStack w="full">
-					<Text alignSelf="flex-start">{order.source.addressLine1}</Text>
-					<HStack w="full" justifyContent="center">
-						<Icon as={BsArrowReturnRight} />
-						<Text alignSelf="flex-end">{order.destination.addressLine1}</Text>
-					</HStack>
-				</VStack>
-			</CardBody>
-			<CardFooter as={HStack} justifyContent="space-between" pt="1">
-				<Tag
-					colorScheme={getColorFromStatus(latestPayment?.status ?? "PENDING")}
-					px={2}
-					m="0"
-				>
-					$ {latestPayment?.status?.toUpperCase() ?? "PENDING"}
-				</Tag>
-				<HStack p="0" m="0">
-					{order.isCarbonNeutral && <Icon as={FaLeaf} fill="green.500" />}
-					{order.isLithiumIncluded && (
-						<Icon as={IoMdBatteryCharging} fill="red.500" />
+			<HStack alignItems="flex-start" w="full">
+				<VStack py="6" pl="4" m="0">
+					{order.isCarbonNeutral && (
+						<Icon as={FaLeaf} fill="green.500" title="Carbon Neutral" />
 					)}
-					{order.isSignatureIncluded && <Icon as={FaSignature} />}
-					{order.isDryIceIncluded && <Icon as={FaSnowflake} fill="blue.500" />}
+					{order.isLithiumIncluded && (
+						<Icon
+							as={IoMdBatteryCharging}
+							fill="red.500"
+							title="Lithium Battery Included"
+						/>
+					)}
+					{order.isSignatureIncluded && (
+						<Icon as={FaSignature} title="Signature Included" />
+					)}
+					{order.isDryIceIncluded && (
+						<Icon as={FaSnowflake} fill="blue.500" title="Dry Ice Included" />
+					)}
 					{order.deliverOnlyToReceiver && (
-						<Icon as={FaHandHoldingHeart} fill="yellow.500" />
+						<Icon
+							as={FaHandHoldingHeart}
+							fill="yellow.500"
+							title="Deliver to Reciever"
+						/>
 					)}
 					{order.isOversizedPackageIncluded && (
-						<Icon as={FaBoxOpen} fill="brown" />
+						<Icon as={FaBoxOpen} fill="brown" title="Over Sized Package" />
 					)}
-				</HStack>
-			</CardFooter>
+				</VStack>
+				<Box flexGrow="1">
+					<CardHeader>
+						<VStack alignItems="flex-start">
+							<Text fontWeight="semibold" fontSize="lg">
+								{" "}
+								{order.orderId}
+							</Text>
+							<Text fontSize="sm" lineHeight="0">
+								{dayjs(Number(order.createdAt.seconds * 1000)).format(
+									"DD MMMM, YYYY"
+								)}
+							</Text>
+						</VStack>
+					</CardHeader>
+					<CardBody
+						pt="1"
+						display="flex"
+						flexDirection="column"
+						justifyContent="space-between"
+						alignItems="flex-start"
+						gap={2}
+						w="full"
+					>
+						<HStack w="full" justifyContent="space-around">
+							<Stepper
+								size="xs"
+								index={1}
+								orientation="vertical"
+								height="100px"
+								gap="0"
+								colorScheme="brand"
+							>
+								{steps.map((step, index) => (
+									<Step key={`${index + 1}`}>
+										<StepIndicator />
+										<Box flexShrink="0">
+											<StepTitle>{step.title}</StepTitle>
+											<StepDescription>{step.description}</StepDescription>
+										</Box>
+										<StepSeparator />
+									</Step>
+								))}
+							</Stepper>
+							<Stepper
+								size="xs"
+								index={1}
+								orientation="vertical"
+								height="100px"
+								gap="0"
+								colorScheme="brand"
+							>
+								<Step>
+									<Box flexShrink="0">
+										<StepTitle>Status</StepTitle>
+										<StepDescription>
+											{order?.status ?? "PENDING"}
+										</StepDescription>
+									</Box>
+								</Step>
+								<Step>
+									<Box flexShrink="0">
+										<StepTitle>Price</StepTitle>
+										<StepDescription>
+											{latestPayment?.status === "COMPLETED"
+												? order?.price
+												: "UNPAID"}
+										</StepDescription>
+									</Box>
+								</Step>
+							</Stepper>
+						</HStack>
+					</CardBody>
+				</Box>
+			</HStack>
 		</Card>
 	);
 };
+
+export { OrderList };
