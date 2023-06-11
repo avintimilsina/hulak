@@ -97,7 +97,7 @@ const SuccessPage = () => {
 						<Button
 							colorScheme="brand"
 							as={Link}
-							href={`/order/${router?.query?.product_identity}`}
+							href={`/account/orders?id=${router?.query?.product_identity}`}
 						>
 							View Order
 						</Button>

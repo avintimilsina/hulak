@@ -16,7 +16,9 @@ import {
 	useColorModeValue,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { FaArrowRight } from "react-icons/fa";
 import * as Yup from "yup";
 
 // ? Quote Page allows the user to enter the source and destination of the package and calculate the postage cost according to the package information
@@ -63,6 +65,7 @@ const QuotePage = () => {
 	const [cost, setCost] = useState(0);
 	const [distance, setDistance] = useState(0);
 	const [volume, setVolume] = useState(0);
+	const router = useRouter();
 
 	return (
 		<>
@@ -248,6 +251,16 @@ const QuotePage = () => {
 											</Text>
 										</Flex>
 									</Stack>
+									<Button
+										colorScheme="brand"
+										size="lg"
+										fontSize="md"
+										rightIcon={<FaArrowRight />}
+										onClick={() => router.push("/create-order")}
+										variant="outline"
+									>
+										Create Order
+									</Button>
 								</Stack>
 							</Box>
 						</Stack>
@@ -269,7 +282,7 @@ type OrderSummaryBillItemProps = {
 export const OrderSummaryBillItem = (props: OrderSummaryBillItemProps) => {
 	const { label, value, children } = props;
 	return (
-		<Flex justify="space-between" fontSize="sm">
+		<Flex justify="space-between">
 			<Text
 				fontWeight="medium"
 				color={useColorModeValue("gray.600", "gray.400")}

@@ -10,7 +10,7 @@ interface PageLoadingSpinnerProps {
 const PageLoadingSpinner = ({ text }: PageLoadingSpinnerProps) => (
 	<Grid placeItems="center" height="100vh">
 		<VStack w="full">
-			<Spinner size="xl" w="full" />
+			<Spinner />
 			{text && process.env.NODE_ENV === "development" && <Text>{text}</Text>}
 		</VStack>
 	</Grid>

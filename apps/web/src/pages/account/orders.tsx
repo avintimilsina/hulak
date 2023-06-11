@@ -73,7 +73,8 @@ const OrdersPage = () => {
 		query(
 			collection(db, "orders"),
 			where("userId", "==", currentUser?.uid ?? "-"),
-			where("status", "!=", "RETURNED")
+			where("status", "!=", "RETURNED"),
+			orderBy("status", "desc")
 		),
 		{
 			snapshotListenOptions: { includeMetadataChanges: true },
