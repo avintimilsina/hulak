@@ -1,4 +1,4 @@
-import PageLoadingSpinner from "@/components/shared/PageLoadingSpinner";
+import { NativeLoadingSpinner } from "@/components/shared/PageLoadingSpinner";
 import SidebarWrapper from "@/components/shared/dashboard/sidebar";
 import AdminSidebarWrapper from "@/components/shared/dashboard/sidebar/AdminSidebarWrapper";
 import theme from "@/config/theme";
@@ -64,7 +64,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 	}, []);
 
 	if (loading) {
-		return <PageLoadingSpinner />;
+		return <NativeLoadingSpinner />;
 	}
 
 	if (router.pathname.startsWith("/admin")) {
