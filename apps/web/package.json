@@ -33,7 +33,7 @@
 		"yup": "^1.1.1"
 	},
 	"devDependencies": {
-		"@types/node": "18.16.6",
+		"@types/node": "18.16.17",
 		"@types/nprogress": "^0.2.0",
 		"@types/react": "18.2.7",
 		"@types/react-dom": "18.2.4",
