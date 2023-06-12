@@ -40,6 +40,6 @@
 		"eslint": "^8.0.0",
 		"eslint-config-next": "13.4.5",
 		"tsconfig": "workspace:*",
-		"typescript": "^4.9.3"
+		"typescript": "^5.0.0"
 	}
 }
