@@ -15,7 +15,7 @@
 		"@emotion/styled": "^11.10.8",
 		"chakra-react-select": "^4.6.0",
 		"dayjs": "^1.11.7",
-		"firebase": "^9.21.0",
+		"firebase": "^10.0.0",
 		"firebase-admin": "^11.8.0",
 		"formik": "^2.2.9",
 		"framer-motion": "^10.12.7",
