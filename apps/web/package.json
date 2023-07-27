@@ -22,6 +22,7 @@
 		"khalti-checkout-web": "^2.2.0",
 		"nanoid": "^4.0.2",
 		"next": "^13.3.4",
+		"next-pwa": "^5.6.0",
 		"nookies": "^2.5.2",
 		"nprogress": "^0.2.0",
 		"react": "^18.2.0",
@@ -41,5 +42,8 @@
 		"eslint-config-next": "13.4.5",
 		"tsconfig": "workspace:*",
 		"typescript": "^5.0.0"
+	},
+	"peerDependencies": {
+		"webpack": "^5.6.0"
 	}
 }
