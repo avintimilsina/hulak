@@ -142,7 +142,7 @@ const TrackingTimeline = ({ status, orientation }: TrackingTimelineProps) => {
 			{status !== "RETURNED" ? (
 				<Stepper
 					size="lg"
-					colorScheme="red"
+					colorScheme="brand"
 					w="full"
 					maxW={{ base: "unset", lg: "2xl" }}
 					orientation={orientation}

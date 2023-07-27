@@ -188,19 +188,19 @@ const QuotePage = () => {
 											display={{ base: "flex-row", lg: "grid" }}
 										>
 											<CheckboxField
-												label="Include Lithium Batteries (+$)"
+												label="Include Lithium Batteries (+रु)"
 												name="isLithiumIncluded"
 											/>
 											<CheckboxField
-												label="Include Dry Ice (+$)"
+												label="Include Dry Ice (+रु)"
 												name="isDryIceIncluded"
 											/>
 											<CheckboxField
-												label="Signature Options (+$)"
+												label="Signature Options (+रु)"
 												name="isSignatureIncluded"
 											/>
 											<CheckboxField
-												label="Oversized Package (+$)"
+												label="Oversized Package (+रु)"
 												name="isOversizedPackageIncluded"
 											/>
 										</SimpleGrid>

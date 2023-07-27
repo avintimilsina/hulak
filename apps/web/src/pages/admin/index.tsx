@@ -94,9 +94,9 @@ const AdminPage = () => {
 									size="sm"
 									placeholder="All roles"
 								>
-									<option>All roles</option>
-									<option>UI Designers</option>
-									<option>Marketing Directors</option>
+									<option>Admin</option>
+									<option>Manager</option>
+									<option>Logistics</option>
 								</Select>
 							</HStack>
 							<Button

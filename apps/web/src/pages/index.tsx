@@ -1,3 +1,5 @@
+import Footer from "@/components/ui/Footer";
+import ServerNavbar from "@/components/ui/ServerNavbar";
 import { Image, Link } from "@chakra-ui/next-js";
 import {
 	Box,
@@ -7,7 +9,6 @@ import {
 	CardBody,
 	CardFooter,
 	CardHeader,
-	Center,
 	Divider,
 	Flex,
 	Grid,
@@ -15,24 +16,22 @@ import {
 	GridItemProps,
 	Heading,
 	Icon,
+	Img,
 	SimpleGrid,
 	Stack,
 	Text,
 	VStack,
-	Img,
 	useColorModeValue,
 } from "@chakra-ui/react";
-import { ReactNode } from "react";
-import { IconType } from "react-icons";
-import { BiDollarCircle, BiWorld } from "react-icons/bi";
-import { BsTruck } from "react-icons/bs";
-import { FaPlane } from "react-icons/fa";
-import * as Brand from "@/config/brands";
-import Footer from "@/components/ui/Footer";
 import { motion } from "framer-motion";
-import ServerNavbar from "@/components/ui/ServerNavbar";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import nookies from "nookies";
+import { ReactNode } from "react";
+import { IconType } from "react-icons";
+import { BiWorld } from "react-icons/bi";
+import { BsTruck } from "react-icons/bs";
+import { FaPlane } from "react-icons/fa";
+import { TbCurrencyRupeeNepalese } from "react-icons/tb";
 import { adminSDK } from "../../firebase-admin";
 import container from "../../public/assets/container.webp";
 
@@ -78,8 +77,7 @@ const HomePage = ({
 						textAlign={{ base: "center", lg: "end" }}
 						color={useColorModeValue("blackAlpha.600", "blackAlpha.400")}
 					>
-						Trust your package to us, we have been trusted by the whole world.
-						your package must be safe
+						Trust your package to us, we have been trusted by the whole Nepal.
 					</Text>
 				</Stack>
 				<VStack
@@ -107,9 +105,9 @@ const HomePage = ({
 						justifyContent="space-between"
 						w={{ base: "full", lg: "unset" }}
 					>
-						<Stat title="Years" value="10+" />
-						<Stat title="Offices" value="18K+" accentColor="brand.500" />
-						<Stat title="Vehicles" value="23K+" />
+						<Stat title="Years" value="145+" />
+						<Stat title="Offices" value="4,400+" accentColor="brand.500" />
+						<Stat title="Staffs" value="18,000+" />
 					</Stack>
 					<MotionImg
 						display={{ base: "none", lg: "block" }}
@@ -197,15 +195,17 @@ const HomePage = ({
 							textAlign={{ base: "center", lg: "start" }}
 						>
 							We are
-							<Text color="brand.500">#1 Logistics</Text> WORLDWIDE
+							<Text color="brand.500">#1 Logistics</Text> IN NEPAL
 						</Heading>
 						<Text
 							color={useColorModeValue("whiteAlpha.600", "whiteAlpha.400")}
 							textAlign={{ base: "center", lg: "start" }}
 						>
-							We are an international scale company that has been trusted by all
-							corners of the world. Use our company to expedite your package
-							delivery!
+							Looking for a reliable postal service in Nepal? Look no further!
+							Nepal Postal Service is your trusted partner for all your mail and
+							package delivery needs. Whether you&apos;re sending letters,
+							documents, or packages, we&apos;ve got you covered with our
+							extensive network and top-notch services.
 						</Text>
 
 						<Stack
@@ -238,7 +238,7 @@ const HomePage = ({
 								p={8}
 								rounded="full"
 								variant="outline"
-								leftIcon={<BiDollarCircle size="32" />}
+								leftIcon={<TbCurrencyRupeeNepalese size="32" />}
 								_hover={{
 									bg: "brand.500",
 									textDecoration: "none",
@@ -280,8 +280,9 @@ const HomePage = ({
 						fontSize={{ base: "sm", lg: "md" }}
 						color={useColorModeValue("blackAlpha.600", "blackAlpha.400")}
 					>
-						we treat costumer like KING. everything you need, everything is in
-						us. Come with Hulak guaranteed fast!
+						We believe in providing top-quality services without burning a hole
+						in your pocket. Our competitive rates make us the go-to choice for
+						both individuals and businesses.
 					</Text>
 				</Stack>
 				<Grid
@@ -327,8 +328,9 @@ const HomePage = ({
 						fontSize={{ base: "sm", lg: "md" }}
 						color={useColorModeValue("blackAlpha.600", "blackAlpha.400")}
 					>
-						We provide all access to simplify and expedite your package delivery
-						Hulak will give you the best!
+						With an extensive network that spans across every nook and cranny of
+						Nepal, we ensure your mail and packages reach their destination, no
+						matter how remote.
 					</Text>
 				</Stack>
 				<Grid
@@ -342,13 +344,12 @@ const HomePage = ({
 						<ShippingCard key={shipping.title} {...shipping} index={index} />
 					))}
 				</Grid>
-				<SimpleGrid
+				{/* <SimpleGrid
 					columns={{ base: 2, sm: 4, md: 6 }}
 					mt="8"
 					spacing="6"
 					color={useColorModeValue("inherit", "white")}
 				>
-					{/* Displays Brand logos above the footer */}
 					<Center py="4" px="8" rounded={{ md: "lg" }}>
 						<Brand.ChatMonkey h="6" opacity={0.64} />
 					</Center>
@@ -367,7 +368,7 @@ const HomePage = ({
 					<Center py="4" px="8" rounded={{ md: "lg" }}>
 						<Brand.WorkScout h="5" opacity={0.64} />
 					</Center>
-				</SimpleGrid>
+				</SimpleGrid> */}
 			</Box>
 			{/* Displays the footer component */}
 			<Footer />
@@ -458,7 +459,10 @@ const FEATURE_CARDS = [
 	{
 		title: "Real Time Tracking",
 		children: (
-			<Text>We use quality packaging for the safety of your goods!</Text>
+			<Text>
+				Stay updated on the status of your shipment with our real-time tracking
+				feature.
+			</Text>
 		),
 	},
 	{
@@ -490,7 +494,7 @@ const FEATURE_CARDS = [
 		title: "Pickup Delivery",
 		children: (
 			<Text>
-				we will pick up your package at home. Wait there. we&apos;ll be there!
+				We will pick up your package at home. Wait there. we&apos;ll be there!
 			</Text>
 		),
 	},
@@ -498,7 +502,7 @@ const FEATURE_CARDS = [
 		title: "24 Hours",
 		children: (
 			<Text>
-				we will send your package non-stop so that it arrives quickly!
+				We will send your package non-stop so that it arrives quickly!
 			</Text>
 		),
 	},
@@ -523,7 +527,6 @@ const ShippingCard = ({ icon, title, index, ...rest }: ShippingCardProps) => {
 			color={isSpecial ? "white" : textColor}
 			borderRadius="3xl"
 			py={6}
-			// h="40vh"
 			justifyContent="space-between"
 		>
 			<CardHeader>

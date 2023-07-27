@@ -39,9 +39,9 @@ const AccountPreference = () => (
 					<FormControl id="currency">
 						<FormLabel fontSize="sm">Currency</FormLabel>
 						<Select size="sm" maxW="2xs">
+							<option>NPR (रु)</option>
 							<option>USD ($)</option>
-							<option>AED (dh)</option>
-							<option>EUR (€)</option>
+							<option>INR (₹)</option>
 						</Select>
 					</FormControl>
 				</Stack>

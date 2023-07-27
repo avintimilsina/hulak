@@ -83,7 +83,7 @@ const SupportPage = () => {
 						>
 							<Flex>
 								<Box
-									bg="brand.600"
+									bg="brand.500"
 									color="white"
 									borderRadius="lg"
 									m={{ sm: 4, md: 16, lg: 10 }}
@@ -108,7 +108,7 @@ const SupportPage = () => {
 																_hover={{ border: "2px solid " }}
 																leftIcon={<MdPhone color="black" size="20px" />}
 															>
-																+977-988888888
+																+977-9865071231
 															</Button>
 															<Button
 																size="md"

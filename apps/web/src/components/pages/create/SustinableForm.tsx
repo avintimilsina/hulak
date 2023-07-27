@@ -26,11 +26,11 @@ const SustinableForm = () => (
 			)}
 		</Field>
 		<CheckboxField
-			label="Deliver only to receivers address (+$)"
+			label="Deliver only to receivers address (+रु)"
 			name="deliverOnlyToReceiver"
 		/>
 		<CheckboxField
-			label="Carbon Neutral-Offset the environmental impact of your shipment (+$)"
+			label="Carbon Neutral-Offset the environmental impact of your shipment (+रु)"
 			name="isCarbonNeutral"
 		/>
 	</Stack>

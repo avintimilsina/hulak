@@ -540,7 +540,7 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 								colorScheme="brand"
 							>
 								{steps.map((step, index) => (
-									<Step key={`${index + 1}`}>
+									<Step key={`hello${index + 1}`}>
 										<StepIndicator />
 										<Box flexShrink="0">
 											<StepTitle>{step.title}</StepTitle>
@@ -571,7 +571,7 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 										<StepTitle>Price</StepTitle>
 										<StepDescription>
 											{latestPayment?.status === "COMPLETED"
-												? order?.price
+												? `रु ${order?.price}`
 												: "UNPAID"}
 										</StepDescription>
 									</Box>

@@ -84,10 +84,9 @@ const Footer = () => (
 				<Stack>
 					<Logo h={8} alignContent="center" />
 					<Box mt={2} maxW="sm">
-						Trust your package to us, we have been trusted by the whole world.
-						your package must be safe!
+						Trust your package to us, we have been trusted by the whole Nepal.
 						<Text mt="3" opacity="0.8">
-							avin.timilsina.16@gmail.com
+							support@hulak.com
 						</Text>
 					</Box>
 				</Stack>
@@ -103,22 +102,20 @@ const Footer = () => (
 						<Box minW="130px">
 							<FooterHeading mb="4">Product</FooterHeading>
 							<Stack>
-								<Link href="/">How it works</Link>
-								<Link href="/">Pricing</Link>
-								<Link href="/">Use Cases</Link>
+								<Link href="/quote">Get a Quote</Link>
+								<Link href="/create-order">Start Shipping</Link>
+								<Link href="/support">Contact Us</Link>
 							</Stack>
 						</Box>
 						<Box minW="130px">
 							<FooterHeading mb="4">Legal</FooterHeading>
 							<Stack>
-								<Link href="/">Privacy</Link>
-								<Link href="/">Terms</Link>
-								<Link href="/">License</Link>
+								<Link href="/#">Privacy</Link>
+								<Link href="/#">Terms</Link>
+								<Link href="/#">License</Link>
 							</Stack>
 						</Box>
 					</SimpleGrid>
-
-					{/* <SubscribeForm /> */}
 				</Stack>
 			</Stack>
 		</Box>
