@@ -30,6 +30,7 @@ import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import router from "next/router";
 import { BiLogOut } from "react-icons/bi";
 import { BsPersonCircle } from "react-icons/bs";
+import { useTranslations } from "next-intl";
 import { auth } from "../../../../firebase";
 import NavLink from "./NavLink";
 
@@ -110,6 +111,8 @@ const MobileNav = () => {
 	const ref = React.useRef<HTMLDivElement>(null);
 	useFocusOnShow(ref, { visible: show, shouldFocus: true });
 
+	const t = useTranslations("Navbar");
+
 	return (
 		<>
 			<Box
@@ -161,7 +164,7 @@ const MobileNav = () => {
 									return (
 										// NavLink.Mobile is used to display the navbar links in the mobile view
 										<NavLink.Mobile key={label} href={href} icon={icon}>
-											{label}
+											{t(label)}
 										</NavLink.Mobile>
 									);
 								})}
@@ -175,10 +178,10 @@ const MobileNav = () => {
 										as={Link}
 										href="/create-order"
 									>
-										Start Shipping
+										{t("start-shipping")}
 									</Button>
 									<Box textAlign="center" fontWeight="medium">
-										Have an account?{" "}
+										{t("have-an-account")}{" "}
 										<Box
 											as="a"
 											color={mode("brand.600", "brand.400")}
@@ -186,7 +189,7 @@ const MobileNav = () => {
 												router.push("/auth/login");
 											}}
 										>
-											Log in
+											{t("log-in")}
 										</Box>
 									</Box>
 								</VStack>
@@ -203,7 +206,7 @@ const MobileNav = () => {
 										my="4"
 										size="lg"
 									>
-										Dashboard
+										{t("dashboard")}
 									</Button>
 									{/* Same menu as in desktop view  */}
 									<Menu placement="bottom">
@@ -243,7 +246,7 @@ const MobileNav = () => {
 													router.push("/account");
 												}}
 											>
-												Account
+												{t("account")}
 											</MenuItem>
 											<MenuItem
 												borderColor="red.500"
@@ -267,7 +270,7 @@ const MobileNav = () => {
 													}
 												}}
 											>
-												Sign out
+												{t("sign-out")}
 											</MenuItem>
 										</MenuList>
 									</Menu>

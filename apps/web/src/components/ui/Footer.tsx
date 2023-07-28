@@ -16,111 +16,116 @@ import { FiArrowUpRight } from "react-icons/fi";
 
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import Logo from "@/components/logo";
+import { useTranslations } from "next-intl";
 
 // ? Footer is the component that is displayed at the bottom of the Landing page.
 
-const Footer = () => (
-	<Box
-		as="section"
-		mt={{ base: 0, lg: 8 }}
-		px={{ base: "6", md: "36" }}
-		bg={useColorModeValue("black", "gray.800")}
-		borderTopRadius="3xl"
-		color="white"
-	>
-		<Stack
-			justifyContent="space-between"
-			alignItems="center"
-			maxW={{ base: "xl", md: "7xl" }}
-			mx="auto"
-			py={8}
-			direction={{ base: "column", lg: "row" }}
-		>
-			<Heading
-				fontFamily="monospace"
-				fontSize={{ base: "4xl", lg: "6xl" }}
-				fontWeight="normal"
-			>
-				<Text as="span" color="brand.500">
-					Let&apos;s{" "}
-				</Text>{" "}
-				start with us in{" "}
-				<Text as="span" color="brand.500">
-					shipping
-				</Text>{" "}
-				your goods!
-			</Heading>
-			<Box bg="gray.900" borderRadius="3xl" py="10">
-				<IconButton
-					aria-label="Icon"
-					size="lg"
-					p={8}
-					icon={<FiArrowUpRight size="128" />}
-					colorScheme="brand"
-					variant="ghost"
-					_hover={{ bg: "gray.900", opcaity: "0.8" }}
-				/>
-			</Box>
-		</Stack>
+const Footer = () => {
+	const t = useTranslations("Footer");
 
-		<Stack spacing="10" divider={<StackDivider />}>
-			<Box />
-			<Box />
-		</Stack>
-
+	return (
 		<Box
-			as="footer"
-			role="contentinfo"
-			mx="auto"
-			maxW="7xl"
-			py="12"
-			px={{ base: "4", md: "8" }}
+			as="section"
+			mt={{ base: 0, lg: 8 }}
+			px={{ base: "6", md: "36" }}
+			bg={useColorModeValue("black", "gray.800")}
+			borderTopRadius="3xl"
+			color="white"
 		>
 			<Stack
-				direction={{ base: "column", lg: "row" }}
-				spacing={{ base: "10", lg: "28" }}
 				justifyContent="space-between"
+				alignItems="center"
+				maxW={{ base: "xl", md: "7xl" }}
+				mx="auto"
+				py={8}
+				direction={{ base: "column", lg: "row" }}
 			>
-				<Stack>
-					<Logo h={8} alignContent="center" />
-					<Box mt={2} maxW="sm">
-						Trust your package to us, we have been trusted by the whole Nepal.
-						<Text mt="3" opacity="0.8">
-							support@hulak.com
-						</Text>
-					</Box>
-				</Stack>
-				<Stack
-					direction={{ base: "column", md: "row" }}
-					spacing={{ base: "10", md: "20" }}
+				<Heading
+					fontFamily="monospace"
+					fontSize={{ base: "4xl", lg: "6xl" }}
+					fontWeight="normal"
 				>
-					<SimpleGrid
-						columns={2}
-						spacing={{ base: "10", md: "20", lg: "28" }}
-						flex="1"
-					>
-						<Box minW="130px">
-							<FooterHeading mb="4">Product</FooterHeading>
-							<Stack>
-								<Link href="/quote">Get a Quote</Link>
-								<Link href="/create-order">Start Shipping</Link>
-								<Link href="/support">Contact Us</Link>
-							</Stack>
-						</Box>
-						<Box minW="130px">
-							<FooterHeading mb="4">Legal</FooterHeading>
-							<Stack>
-								<Link href="/#">Privacy</Link>
-								<Link href="/#">Terms</Link>
-								<Link href="/#">License</Link>
-							</Stack>
-						</Box>
-					</SimpleGrid>
-				</Stack>
+					<Text as="span" color="brand.500">
+						{t("heading.section1")}{" "}
+					</Text>{" "}
+					{t("heading.section2")}{" "}
+					<Text as="span" color="brand.500">
+						{t("heading.section3")}
+					</Text>{" "}
+					{t("heading.section4")}
+				</Heading>
+				<Box bg="gray.900" borderRadius="3xl" py="10">
+					<IconButton
+						aria-label="Icon"
+						size="lg"
+						p={8}
+						icon={<FiArrowUpRight size="128" />}
+						colorScheme="brand"
+						variant="ghost"
+						_hover={{ bg: "gray.900", opcaity: "0.8" }}
+					/>
+				</Box>
 			</Stack>
+
+			<Stack spacing="10" divider={<StackDivider />}>
+				<Box />
+				<Box />
+			</Stack>
+
+			<Box
+				as="footer"
+				role="contentinfo"
+				mx="auto"
+				maxW="7xl"
+				py="12"
+				px={{ base: "4", md: "8" }}
+			>
+				<Stack
+					direction={{ base: "column", lg: "row" }}
+					spacing={{ base: "10", lg: "28" }}
+					justifyContent="space-between"
+				>
+					<Stack>
+						<Logo h={8} alignContent="center" />
+						<Box mt={2} maxW="sm">
+							{t("description")}
+							<Text mt="3" opacity="0.8">
+								support@hulak.com
+							</Text>
+						</Box>
+					</Stack>
+					<Stack
+						direction={{ base: "column", md: "row" }}
+						spacing={{ base: "10", md: "20" }}
+					>
+						<SimpleGrid
+							columns={2}
+							spacing={{ base: "10", md: "20", lg: "28" }}
+							flex="1"
+						>
+							<Box minW="130px">
+								<FooterHeading mb="4">{t("product")}</FooterHeading>
+								<Stack>
+									<Link href="/quote">{t("get-a-quote")}</Link>
+									<Link href="/create-order">{t("start-shipping")}</Link>
+									<Link href="/support">{t("contact-us")}</Link>
+								</Stack>
+							</Box>
+							<Box minW="130px">
+								<FooterHeading mb="4">{t("legal")}</FooterHeading>
+								<Stack>
+									<Link href="/#">{t("privacy")}</Link>
+									<Link href="/#">{t("terms")}</Link>
+									<Link href="/#">{t("license")}</Link>
+								</Stack>
+							</Box>
+						</SimpleGrid>
+					</Stack>
+				</Stack>
+			</Box>
 		</Box>
-	</Box>
-);
+	);
+};
 
 export default Footer;
 

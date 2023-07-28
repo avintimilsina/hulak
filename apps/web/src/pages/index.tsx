@@ -26,7 +26,6 @@ import {
 import { motion } from "framer-motion";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import nookies from "nookies";
-import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import { BiWorld } from "react-icons/bi";
 import { BsTruck } from "react-icons/bs";
@@ -108,9 +107,16 @@ const HomePage = ({
 						justifyContent="space-between"
 						w={{ base: "full", lg: "unset" }}
 					>
-						<Stat title="Years" value="145+" />
-						<Stat title="Offices" value="4,400+" accentColor="brand.500" />
-						<Stat title="Staffs" value="18,000+" />
+						<Stat title={t("stats.year-label")} value={t("stats.year-count")} />
+						<Stat
+							title={t("stats.office-label")}
+							value={t("stats.office-count")}
+							accentColor="brand.500"
+						/>
+						<Stat
+							title={t("stats.staff-label")}
+							value={t("stats.staff-count")}
+						/>
 					</Stack>
 					<MotionImg
 						display={{ base: "none", lg: "block" }}
@@ -197,18 +203,17 @@ const HomePage = ({
 							color={useColorModeValue("white", "black")}
 							textAlign={{ base: "center", lg: "start" }}
 						>
-							We are
-							<Text color="brand.500">#1 Logistics</Text> IN NEPAL
+							{t("glimpse-heading.section1")}
+							<Text color="brand.500">
+								{t("glimpse-heading.section2")}
+							</Text>{" "}
+							{t("glimpse-heading.section3")}
 						</Heading>
 						<Text
 							color={useColorModeValue("whiteAlpha.600", "whiteAlpha.400")}
 							textAlign={{ base: "center", lg: "start" }}
 						>
-							Looking for a reliable postal service in Nepal? Look no further!
-							Nepal Postal Service is your trusted partner for all your mail and
-							package delivery needs. Whether you&apos;re sending letters,
-							documents, or packages, we&apos;ve got you covered with our
-							extensive network and top-notch services.
+							{t("glimpse-subheading")}
 						</Text>
 
 						<Stack
@@ -228,7 +233,7 @@ const HomePage = ({
 									textDecoration: "none",
 								}}
 							>
-								Contact Us
+								{t("contact-button")}
 							</Button>
 							{/* This button links to quote page */}
 							<Button
@@ -247,7 +252,7 @@ const HomePage = ({
 									textDecoration: "none",
 								}}
 							>
-								Get a Quote
+								{t("get-a-quote-button")}
 							</Button>
 						</Stack>
 					</VStack>
@@ -272,10 +277,10 @@ const HomePage = ({
 						textAlign="justify"
 					>
 						<Text as="span" color="brand.500">
-							Everything
+							{t("feature-heading.section1")}
 						</Text>{" "}
-						you <br />
-						need we have!
+						{t("feature-heading.section2")} <br />
+						{t("feature-heading.section3")}
 					</Heading>
 					<Text
 						maxW="xs"
@@ -283,9 +288,7 @@ const HomePage = ({
 						fontSize={{ base: "sm", lg: "md" }}
 						color={useColorModeValue("blackAlpha.600", "blackAlpha.400")}
 					>
-						We believe in providing top-quality services without burning a hole
-						in your pocket. Our competitive rates make us the go-to choice for
-						both individuals and businesses.
+						{t("feature-subheading")}
 					</Text>
 				</Stack>
 				<Grid
@@ -295,7 +298,7 @@ const HomePage = ({
 					gap={4}
 				>
 					{FEATURE_CARDS.map((feature, index) => (
-						<FeatureCard key={feature.title} {...feature} index={index} />
+						<FeatureCard key={feature} slug={feature} index={index} />
 					))}
 				</Grid>
 			</Box>
@@ -318,11 +321,11 @@ const HomePage = ({
 						fontWeight="normal"
 						textAlign="justify"
 					>
-						Delivery of
+						{t("delivery-heading.section1")}
 						<br />
-						your{" "}
+						{t("delivery-heading.section2")}{" "}
 						<Text as="span" color="brand.500">
-							package
+							{t("delivery-heading.section3")}
 						</Text>{" "}
 					</Heading>
 					<Text
@@ -331,9 +334,7 @@ const HomePage = ({
 						fontSize={{ base: "sm", lg: "md" }}
 						color={useColorModeValue("blackAlpha.600", "blackAlpha.400")}
 					>
-						With an extensive network that spans across every nook and cranny of
-						Nepal, we ensure your mail and packages reach their destination, no
-						matter how remote.
+						{t("delivery-subheading")}
 					</Text>
 				</Stack>
 				<Grid
@@ -428,15 +429,16 @@ Stat.defaultProps = {
 };
 
 interface FeatureCardProps extends GridItemProps {
-	title: string;
-	children: ReactNode;
+	slug: string;
 	index: number;
 }
 
-const FeatureCard = ({ title, children, index, ...rest }: FeatureCardProps) => {
+const FeatureCard = ({ slug, index, ...rest }: FeatureCardProps) => {
 	const isSpecial = index === 2 || index === 3;
 	const backgroundColor = useColorModeValue("gray.100", "gray.700");
 	const textColor = useColorModeValue("gray.700", "gray.200");
+
+	const t = useTranslations("Home");
 
 	return (
 		<GridItem
@@ -450,65 +452,21 @@ const FeatureCard = ({ title, children, index, ...rest }: FeatureCardProps) => {
 		>
 			<CardHeader>
 				<Heading as="h3" size="lg" fontWeight="normal" letterSpacing="tight">
-					{title}
+					{t(`features.${slug}.title`)}
 				</Heading>
 			</CardHeader>
-			<CardBody>{children}</CardBody>
+			<CardBody>{t(`features.${slug}.description`)}</CardBody>
 		</GridItem>
 	);
 };
 
 const FEATURE_CARDS = [
-	{
-		title: "Real Time Tracking",
-		children: (
-			<Text>
-				Stay updated on the status of your shipment with our real-time tracking
-				feature.
-			</Text>
-		),
-	},
-	{
-		title: "Packaging",
-		children: (
-			<Text>We use quality packaging for the safety of your goods!</Text>
-		),
-	},
-	{
-		title: "Mobile App Tracker",
-		children: (
-			<Text>
-				You can track your package using mobile. This makes it easier for you to
-				find out where your package is anytime and anywhere!
-			</Text>
-		),
-	},
-	{
-		title: "Insurance Services",
-		children: (
-			<Text>
-				We will provide insurance if your item is damaged in transit. So,
-				don&apos;t worry if your item is damaged because we will take care of
-				it!
-			</Text>
-		),
-	},
-	{
-		title: "Pickup Delivery",
-		children: (
-			<Text>
-				We will pick up your package at home. Wait there. we&apos;ll be there!
-			</Text>
-		),
-	},
-	{
-		title: "24 Hours",
-		children: (
-			<Text>
-				We will send your package non-stop so that it arrives quickly!
-			</Text>
-		),
-	},
+	"real-time-tracking",
+	"packaging",
+	"mobile-app-tracker",
+	"insurances-services",
+	"pickup-delivery",
+	"24-hours",
 ];
 
 interface ShippingCardProps extends GridItemProps {
@@ -521,6 +479,7 @@ const ShippingCard = ({ icon, title, index, ...rest }: ShippingCardProps) => {
 	const isSpecial = index === 2 || index === 3;
 	const backgroundColor = useColorModeValue("gray.100", "gray.700");
 	const textColor = useColorModeValue("gray.700", "gray.200");
+	const t = useTranslations("Home");
 
 	return (
 		<GridItem
@@ -537,7 +496,7 @@ const ShippingCard = ({ icon, title, index, ...rest }: ShippingCardProps) => {
 			</CardHeader>
 			<CardFooter>
 				<Heading fontSize="4xl" fontWeight="normal">
-					{title} <br /> Shipping
+					{t(`delivery.${title}`)} <br /> {t(`delivery.shipping`)}
 				</Heading>
 			</CardFooter>
 		</GridItem>
@@ -547,15 +506,15 @@ const ShippingCard = ({ icon, title, index, ...rest }: ShippingCardProps) => {
 const SHIPPING_CARDS = [
 	{
 		icon: BiWorld,
-		title: "Worldwide",
+		title: "worldwide",
 	},
 	{
 		icon: BsTruck,
-		title: "Ground",
+		title: "ground",
 	},
 	{
 		icon: FaPlane,
-		title: "Air",
+		title: "air",
 	},
 ];
 

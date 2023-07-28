@@ -21,9 +21,11 @@ import { BsPersonCircle } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { RiAdminFill } from "react-icons/ri";
 import { doc, getDoc } from "firebase/firestore";
+import { useTranslations } from "next-intl";
 import { auth, db } from "../../../../firebase";
 import MobileNav from "./MobileNav";
 import NavLink from "./NavLink";
+import LocaleSwitcher from "../LocaleSwitcher";
 
 // ? Navbar component is used to display the navbar in the website where it is used to navigate to different pages of the website
 
@@ -32,6 +34,8 @@ const Navbar = () => {
 	const [currentUser] = useAuthState(auth);
 	const [signOut] = useSignOut(auth);
 	const toast = useToast();
+
+	const t = useTranslations("Navbar");
 
 	const [showAdminButton, setShowAdminButton] = useState(false);
 
@@ -71,13 +75,15 @@ const Navbar = () => {
 									href={href}
 									active={router.asPath === href}
 								>
-									{label}
+									{t(`${label}`)}
 								</NavLink.Desktop>
 							);
 						})}
 					</HStack>
+
 					<HStack>
 						{/* if the user is logged in then display the dashboard along with the user Avatar and sign out button else display the start shipping button */}
+
 						{currentUser ? (
 							<HStack display={{ base: "none", lg: "flex" }}>
 								<Button
@@ -90,7 +96,7 @@ const Navbar = () => {
 									px="10"
 									size="lg"
 								>
-									Dashboard
+									{t("dashboard")}
 								</Button>
 								{/* this menu is used to display Account and Sign out button when the user clicks on the user avatar  and lets the user to naviagte to it */}
 								<Menu placement="bottom">
@@ -114,7 +120,7 @@ const Navbar = () => {
 												router.push("/account");
 											}}
 										>
-											Account
+											{t("account")}
 										</MenuItem>
 
 										{showAdminButton && (
@@ -127,7 +133,7 @@ const Navbar = () => {
 													router.push("/admin");
 												}}
 											>
-												Admin
+												{t("admin")}
 											</MenuItem>
 										)}
 
@@ -153,7 +159,7 @@ const Navbar = () => {
 												}
 											}}
 										>
-											Sign out
+											{t("sign-out")}
 										</MenuItem>
 									</MenuList>
 								</Menu>
@@ -168,11 +174,14 @@ const Navbar = () => {
 									href="/auth/login"
 									_hover={{ textDecoration: "none" }}
 								>
-									Get Started
+									{t("get-started")}
 								</Button>
 							</HStack>
 						)}
 						{/* triggers the mobile navbar to open if the user is in mobile view */}
+
+						<LocaleSwitcher />
+
 						<Box ml="5">
 							<MobileNav />
 						</Box>

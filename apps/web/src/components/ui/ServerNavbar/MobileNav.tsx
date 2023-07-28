@@ -32,6 +32,7 @@ import { BsPersonCircle } from "react-icons/bs";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { RiAdminFill } from "react-icons/ri";
 import { RemoveScroll } from "react-remove-scroll";
+import { useTranslations } from "next-intl";
 import { auth, db } from "../../../../firebase";
 import NavLink from "./NavLink";
 
@@ -116,6 +117,8 @@ const MobileNav = ({ user }: MobileNavProps) => {
 	useFocusOnShow(ref, { visible: show, shouldFocus: true });
 	const [showAdminButton, setShowAdminButton] = React.useState(false);
 
+	const t = useTranslations("Navbar");
+
 	React.useEffect(() => {
 		const runThisNow = async () => {
 			if (user?.uid) {
@@ -180,7 +183,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
 									return (
 										// NavLink.Mobile is used to display the navbar links in the mobile view
 										<NavLink.Mobile key={label} href={href} icon={icon}>
-											{label}
+											{t(`${label}`)}
 										</NavLink.Mobile>
 									);
 								})}
@@ -194,10 +197,10 @@ const MobileNav = ({ user }: MobileNavProps) => {
 										as={Link}
 										href="/create-order"
 									>
-										Start Shipping
+										{t("start-shipping")}
 									</Button>
 									<Box textAlign="center" fontWeight="medium">
-										Have an account?{" "}
+										{t("have-an-account")}{" "}
 										<Box
 											as="a"
 											color={mode("brand.600", "brand.400")}
@@ -205,7 +208,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
 												router.push("/auth/login");
 											}}
 										>
-											Log in
+											{t("log-in")}
 										</Box>
 									</Box>
 								</VStack>
@@ -222,7 +225,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
 										my="4"
 										size="lg"
 									>
-										Dashboard
+										{t("dashboard")}
 									</Button>
 									{/* Same menu as in desktop view  */}
 									<Menu placement="bottom">
@@ -262,7 +265,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
 													router.push("/account");
 												}}
 											>
-												Account
+												{t("account")}
 											</MenuItem>
 											{showAdminButton && (
 												<MenuItem
@@ -274,7 +277,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
 														router.push("/admin");
 													}}
 												>
-													Admin
+													{t("admin")}
 												</MenuItem>
 											)}
 											<MenuItem
@@ -299,7 +302,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
 													}
 												}}
 											>
-												Sign out
+												{t("sign-out")}
 											</MenuItem>
 										</MenuList>
 									</Menu>

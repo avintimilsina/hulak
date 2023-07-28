@@ -8,7 +8,82 @@
 			"section4": "Package!"
 		},
 		"primary-subheading": "Trust your package to us, we have been trusted by the whole Nepal.",
-		"hero-button": "Start Shipping"
+		"hero-button": "Start Shipping",
+		"stats": {
+			"year-count": "145+",
+			"year-label": "Years",
+			"office-count": "4,400+",
+			"office-label": "Offices",
+			"staff-count": "18,000+",
+			"staff-label": "Staffs"
+		},
+		"glimpse-heading": {
+			"section1": "We are",
+			"section2": "#1 Logistics",
+			"section3": "IN NEPAL"
+		},
+		"glimpse-subheading": "Looking for a reliable postal service in Nepal? Look no further! Nepal Postal Service is your trusted partner for all your mail and package delivery needs. Whether you're sending letters, documents, or packages, we've got you covered with our extensive network and top-notch services.",
+		"contact-button": "Contact Us",
+		"get-a-quote-button": "Get a Quote",
+		"feature-heading": {
+			"section1": "Everything",
+			"section2": "you",
+			"section3": "need we have!"
+		},
+		"feature-subheading": "We believe in providing top-quality services without burning a hole in your pocket. Our competitive rates make us the go-to choice for both individuals and businesses.",
+		"features": {
+			"real-time-tracking": {
+				"title": "Real Time Tracking",
+				"description": "Stay updated on the status of your shipment with our real-time tracking feature."
+			},
+			"packaging": {
+				"title": "Packaging",
+				"description": "We use quality packaging for the safety of your goods!"
+			},
+			"mobile-app-tracker": {
+				"title": "Mobile App Tracker",
+				"description": "You can track your package using mobile. This makes it easier for you to find out where your package is anytime and anywhere!"
+			},
+			"insurances-services": {
+				"title": "Insurance Services",
+				"description": "We will provide insurance if your item is damaged in transit. So, don't worry if your item is damaged because we will take care of it!"
+			},
+			"pickup-delivery": {
+				"title": "Pickup Delivery",
+				"description": "We will pick up your package at home. Wait there. we'll be there!"
+			},
+			"24-hours": {
+				"title": "24 Hours",
+				"description": "We will send your package non-stop so that it arrives quickly!"
+			}
+		},
+		"delivery-heading": {
+			"section1": "Delivery of",
+			"section2": "your",
+			"section3": "package"
+		},
+		"delivery-subheading": "With an extensive network that spans across every nook and cranny of Nepal, we ensure your mail and packages reach their destination, no matter how remote.",
+		"delivery": {
+			"worldwide": "Worldwide",
+			"ground": "Ground",
+			"air": "Air",
+			"shipping": "Shipping"
+		}
+	},
+	"Navbar": {
+		"Home": "Home",
+		"Shipping": "Shipping",
+		"Quote": "Quote",
+		"Tracking": "Tracking",
+		"Support": "Support",
+		"dashboard": "Dashboard",
+		"account": "Account",
+		"admin": "Admin",
+		"sign-out": "Sign Out",
+		"log-in": "Log In",
+		"get-started": "Get Started",
+		"start-shipping": "Start Shipping",
+		"have-an-account": "Have an account?"
 	},
 	"CreateOrder": {
 		"local-storage-message": "A previous unsubmitted order was loaded. Do you want to start a fresh?",
@@ -29,5 +104,22 @@
 		},
 		"next-button": "Next",
 		"back-button": "Back"
+	},
+	"Footer": {
+		"heading": {
+			"section1": "Let's",
+			"section2": "start with us in",
+			"section3": "shipping",
+			"section4": "your goods!"
+		},
+		"description": "Trust your package to us, we have been trusted by the whole Nepal.",
+		"product": "Product",
+		"get-a-quote": "Get a Quote",
+		"start-shipping": "Start Shipping",
+		"contact-us": "Contact Us",
+		"legal": "Legal",
+		"privacy": "Privacy",
+		"terms": "Terms",
+		"license": "License"
 	}
 }
