@@ -13,6 +13,6 @@ const OrderShippedPage = () => (
 export default withAdminProtected(OrderShippedPage);
 export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
 	props: {
-		messages: (await import(`../../messages/${ctx.locale}.json`)).default,
+		messages: (await import(`../../../messages/${ctx.locale}.json`)).default,
 	},
 });
