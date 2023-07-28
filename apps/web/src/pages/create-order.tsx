@@ -421,20 +421,15 @@ const CreateOrder = () => {
 										</Stack>
 									</StepContent>
 								</Step>
-								<Step title="Where is your shipping going?">
+								<Step title={t("destination-title")}>
 									<StepContent>
 										<Stack shouldWrapChildren spacing="4">
-											<Text>
-												Please provide the following details about the reciever.
-												Double-check the details before submitting the form to
-												avoid any potential issues with the delivery of your
-												package.
-											</Text>
+											<Text>{t("destination-description")}</Text>
 											{/* Destination form is called to enter details about the destination location and reciever details */}
 											<DestinationForm />
 											<HStack>
 												<Button size="sm" onClick={prevStep} variant="ghost">
-													Back
+													{t("back-button")}
 												</Button>
 												<Button
 													size="sm"
@@ -475,25 +470,21 @@ const CreateOrder = () => {
 														}
 													}}
 												>
-													Next
+													{t("next-button")}
 												</Button>
 											</HStack>
 										</Stack>
 									</StepContent>
 								</Step>
-								<Step title="What kind of packaging are you using?">
+								<Step title={t("what-title")}>
 									<StepContent>
 										<Stack shouldWrapChildren spacing="4">
-											<Text>
-												Please provide the following details about the package
-												being sent. Note that the dimensions are in{" "}
-												<strong>centimeters</strong>.
-											</Text>
+											<Text>{t("what-description")}</Text>
 											{/* What form is called to enter details about the package */}
 											<WhatForm />
 											<HStack>
 												<Button size="sm" onClick={prevStep} variant="ghost">
-													Back
+													{t("back-button")}
 												</Button>
 												<Button
 													size="sm"
@@ -514,25 +505,21 @@ const CreateOrder = () => {
 														}
 													}}
 												>
-													Next
+													{t("next-button")}
 												</Button>
 											</HStack>
 										</Stack>
 									</StepContent>
 								</Step>
-								<Step title="Almost Done. Let's check a few more details.">
+								<Step title={t("sustinable-title")}>
 									<StepContent>
 										<Stack shouldWrapChildren spacing="4">
-											<Text>
-												Help the environment by making your package carbon
-												neutral. We&apos;ll plant a tree for every package you
-												send.
-											</Text>
+											<Text>{t("sustinable-description")}</Text>
 											{/* Sustinable form is called to enter details about the sustainability of the package */}
 											<SustinableForm />
 											<HStack>
 												<Button size="sm" onClick={prevStep} variant="ghost">
-													Back
+													{t("back-button")}
 												</Button>
 												<Button
 													size="sm"
@@ -547,7 +534,7 @@ const CreateOrder = () => {
 														}
 													}}
 												>
-													Proceed to Review
+													{t("review-button")}
 												</Button>
 											</HStack>
 										</Stack>
@@ -611,6 +598,7 @@ interface OrderReviewProps {
 const OrderReview = ({ activeStep }: OrderReviewProps) => {
 	const { values } = useFormikContext<typeof defaultValues>();
 	const [total, setTotal] = useState(0);
+	const t = useTranslations("CreateOrder");
 
 	const packageCost = useCallback(async () => {
 		if (
@@ -659,7 +647,7 @@ const OrderReview = ({ activeStep }: OrderReviewProps) => {
 	return (
 		<VStack gap={4} my={8} display={activeStep === 4 ? "block" : "none"}>
 			<Heading fontSize="lg" fontWeight="semibold">
-				Review
+				{t("review-title")}
 			</Heading>
 			<Stack
 				direction={{ base: "column", md: "row" }}
@@ -668,7 +656,7 @@ const OrderReview = ({ activeStep }: OrderReviewProps) => {
 				alignItems="flex-start"
 			>
 				{/* Displays the details of the source and destination of the order */}
-				<OrderInfo label="Delivering From">
+				<OrderInfo label={t("review-delivering-from")}>
 					<Text>
 						{values?.source.addressLine1}, {values?.source.addressLine2}
 					</Text>
@@ -681,7 +669,7 @@ const OrderReview = ({ activeStep }: OrderReviewProps) => {
 				</OrderInfo>
 				<VStack alignItems="flex-start">
 					<Text fontSize="lg" fontWeight="semibold">
-						Delivering To
+						{t("review-delivering-to")}
 					</Text>
 					<Text>
 						{values?.destination.addressLine1},{" "}
@@ -696,7 +684,7 @@ const OrderReview = ({ activeStep }: OrderReviewProps) => {
 				</VStack>
 			</Stack>
 			<HStack justify="space-between" w="full" fontWeight="bold" fontSize="lg">
-				<Text>Order Total</Text>
+				<Text>{t("order-total")}</Text>
 				<PriceTag price={total} currency="NPR" />
 			</HStack>
 		</VStack>

@@ -17,15 +17,16 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik, FormikProps } from "formik";
 import { motion } from "framer-motion";
+import { GetStaticPropsContext } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import {
 	useSignInWithEmailAndPassword,
 	useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
-import { useState } from "react";
 import { auth } from "../../../firebase";
 
 const defaultValues = {
@@ -222,3 +223,9 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../messages/${ctx.locale}.json`)).default,
+	},
+});

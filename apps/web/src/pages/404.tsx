@@ -1,4 +1,5 @@
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 import { FaHome } from "react-icons/fa";
 
@@ -391,3 +392,9 @@ export const CatImage = () => (
 		/>
 	</svg>
 );
+
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../messages/${ctx.locale}.json`)).default,
+	},
+});

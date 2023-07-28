@@ -16,6 +16,8 @@ import {
 	useColorModeValue,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
+import { GetStaticPropsContext } from "next";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
@@ -66,6 +68,7 @@ const QuotePage = () => {
 	const [distance, setDistance] = useState(0);
 	const [volume, setVolume] = useState(0);
 	const router = useRouter();
+	const t = useTranslations("Quote");
 
 	return (
 		<>
@@ -114,22 +117,24 @@ const QuotePage = () => {
 									<Box w={{ base: "none", lg: "7xl" }}>
 										<VStack alignItems="flex-start">
 											<Text fontSize="xl" fontWeight="semibold">
-												Shipping Information
+												{t("shipping-title")}
 											</Text>
-											<Text color="gray.500">
-												Enter the source and destination
-											</Text>
+											<Text color="gray.500">{t("shipping-description")}</Text>
 										</VStack>
 									</Box>
 									<InputField
-										name="destination.city"
-										label="From"
+										name="source.city"
+										label={t("shipping-from")}
 										type="text"
 									/>
 
-									<InputField name="source.city" label="To" type="text" />
 									<InputField
-										label="Weight"
+										name="destination.city"
+										label={t("shipping-to")}
+										type="text"
+									/>
+									<InputField
+										label={t("shipping-weight")}
 										name="package.weight"
 										type="number"
 									/>
@@ -143,25 +148,23 @@ const QuotePage = () => {
 									<Box w={{ base: "none", lg: "7xl" }}>
 										<VStack alignItems="flex-start">
 											<Text fontSize="xl" fontWeight="semibold">
-												Dimension
+												{t("dimension-title")}
 											</Text>
-											<Text color="gray.500">
-												Enter package dimensions in cm
-											</Text>
+											<Text color="gray.500">{t("dimension-description")}</Text>
 										</VStack>
 									</Box>
 									<InputField
-										label="Length"
+										label={t("dimension-length")}
 										name="package.length"
 										type="number"
 									/>
 									<InputField
-										label="Width"
+										label={t("dimension-width")}
 										name="package.width"
 										type="number"
 									/>
 									<InputField
-										label="Height"
+										label={t("dimension-height")}
 										name="package.height"
 										type="number"
 									/>
@@ -176,9 +179,9 @@ const QuotePage = () => {
 									<Box w={{ base: "none", lg: "sm" }}>
 										<VStack alignItems="flex-start">
 											<Text fontSize="xl" fontWeight="semibold">
-												Options
+												{t("options-title")}
 											</Text>
-											<Text color="gray.500">Select options as required</Text>
+											<Text color="gray.500">{t("options-description")}</Text>
 										</VStack>
 									</Box>
 									<VStack gap="8" w="full">
@@ -188,24 +191,24 @@ const QuotePage = () => {
 											display={{ base: "flex-row", lg: "grid" }}
 										>
 											<CheckboxField
-												label="Include Lithium Batteries (+रु)"
+												label={t("is-lithium-included")}
 												name="isLithiumIncluded"
 											/>
 											<CheckboxField
-												label="Include Dry Ice (+रु)"
+												label={t("is-dry-ice-included")}
 												name="isDryIceIncluded"
 											/>
 											<CheckboxField
-												label="Signature Options (+रु)"
+												label={t("is-signature-included")}
 												name="isSignatureIncluded"
 											/>
 											<CheckboxField
-												label="Oversized Package (+रु)"
+												label={t("is-oversized-package-included")}
 												name="isOversizedPackageIncluded"
 											/>
 										</SimpleGrid>
 										<Button type="submit" colorScheme="brand" w="full">
-											Show Result
+											{t("show-result")}
 										</Button>
 									</VStack>
 								</Stack>
@@ -233,18 +236,18 @@ const QuotePage = () => {
 									padding="8"
 									width="full"
 								>
-									<Heading size="md">Order Summary</Heading>
+									<Heading size="md">{t("order-summary")}</Heading>
 
 									<Stack spacing="6">
-										<OrderSummaryBillItem label="Distance">
+										<OrderSummaryBillItem label={t("distance")}>
 											{distance.toFixed(2)} KM
 										</OrderSummaryBillItem>
-										<OrderSummaryBillItem label="Pacakge Volume">
+										<OrderSummaryBillItem label={t("package-volume")}>
 											{volume} cc
 										</OrderSummaryBillItem>
 										<Flex justify="space-between">
 											<Text fontSize="lg" fontWeight="semibold">
-												Total
+												{t("total")}
 											</Text>
 											<Text fontSize="xl" fontWeight="extrabold">
 												{formatPrice(cost)}
@@ -259,7 +262,7 @@ const QuotePage = () => {
 										onClick={() => router.push("/create-order")}
 										variant="outline"
 									>
-										Create Order
+										{t("create-order")}
 									</Button>
 								</Stack>
 							</Box>
@@ -298,3 +301,9 @@ OrderSummaryBillItem.defaultProps = {
 	value: undefined,
 	children: undefined,
 };
+
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../messages/${ctx.locale}.json`)).default,
+	},
+});

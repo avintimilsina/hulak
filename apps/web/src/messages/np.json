@@ -102,8 +102,47 @@
 			"zip": "जिप कोड",
 			"country": "देश"
 		},
+		"destination-title": "तपाईंको ढुवानी कहाँ जाँदैछ?",
+		"destination-description": "कृपया प्राप्तकर्ताको बारेमा निम्न विवरणहरू प्रदान गर्नुहोस्। तपाईंको प्याकेजको डेलिभरीमा सम्भावित समस्याहरूबाट बच्न फारम पेश गर्नु अघि विवरणहरू डबल-जाँच गर्नुहोस्।",
+		"destination-fields": {
+			"name": "पूरा नाम वा कम्पनीको नाम",
+			"contact": "सम्पर्क नाम",
+			"phone": "फोन नम्बर",
+			"email": "इमेल",
+			"address-line-1": "ठेगाना लाइन 1",
+			"address-line-2": "ठेगाना लाइन 2",
+			"city": "सहर",
+			"state": "प्रदेश",
+			"zip": "जिप कोड",
+			"country": "देश"
+		},
+		"what-title": "तपाइँ कस्तो प्रकारको प्याकेजिङ प्रयोग गर्दै हुनुहुन्छ?",
+		"what-description": "कृपया पठाइएको प्याकेजको बारेमा निम्न विवरणहरू प्रदान गर्नुहोस्। ध्यान दिनुहोस् कि आयामहरू सेन्टिमिटरमा छन्।",
+		"what-fields": {
+			"length": "लम्बाइ (cm)",
+			"width": "चौडाइ (cm)",
+			"height": "उचाइ (cm)",
+			"weight": "वजन (kg)",
+			"total-package-value": "कुल प्याकेज मूल्य",
+			"is-lithium-included": "लिथियम ब्याट्रीहरू समावेश गर्नुहोस् (+रु)",
+			"is-dry-ice-included": "ड्राई आइस समावेश गर्नुहोस् (+रु)",
+			"is-signature-included": "हस्ताक्षर विकल्प (+रु)",
+			"is-oversized-package-included": "ओभरसाइज प्याकेज (+रु)"
+		},
+		"sustinable-title": "लगभग सकियो। केही थप विवरणहरू जाँच गरौं।",
+		"sustinable-description": "आफ्नो प्याकेज कार्बन न्यूट्रल बनाएर वातावरणमा मद्दत गर्नुहोस्। तपाईंले पठाउनुभएको हरेक प्याकेजमा हामी एउटा रुख रोप्नेछौं।",
+		"sustinable-fields": {
+			"heading": "तपाई के ढुवानी गर्दै हुनुहुन्छ? (विस्तृतमा लेख्नुहोस्)",
+			"deliver-only-to-receiver": "प्रापक ठेगानामा मात्र डेलिभर गर्नुहोस् (+रु)",
+			"is-carbon-neutral": "कार्बन न्यूट्रल-तपाईंको ढुवानीको वातावरणीय प्रभाव अफसेट (+रु)"
+		},
 		"next-button": "अर्को",
-		"back-button": "पछाडि"
+		"back-button": "पछाडि",
+		"review-button": "समीक्षा गर्न अगाडि",
+		"review-title": "आफ्नो अर्डर समीक्षा गर्नुहोस्",
+		"review-delivering-from": "बाट वितरण गर्दै",
+		"review-delivering-to": "लाई वितरण गर्दै",
+		"order-total": "अर्डर कुल"
 	},
 	"Footer": {
 		"heading": {
@@ -121,5 +160,55 @@
 		"privacy": "गोपनीयता",
 		"terms": "सर्तहरू",
 		"license": "इजाजतपत्र"
+	},
+	"Quote": {
+		"shipping-title": "ढुवानी जानकारी",
+		"shipping-description": "स्रोत र गन्तव्य प्रविष्ट गर्नुहोस्",
+		"shipping-from": "कहाँ बाट",
+		"shipping-to": "कहाँ जानी",
+		"shipping-weight": "वजन",
+		"dimension-title": "आयाम",
+		"dimension-description": "सेन्टिमिटरमा प्याकेज आयामहरू प्रविष्ट गर्नुहोस्",
+		"dimension-length": "लम्बाइ",
+		"dimension-width": "चौडाइ",
+		"dimension-height": "उचाइ",
+		"options-title": "विकल्पहरू",
+		"options-description": "आवश्यकता अनुसार विकल्पहरू चयन गर्नुहोस्",
+		"is-lithium-included": "लिथियम ब्याट्रीहरू समावेश गर्नुहोस् (+रु)",
+		"is-dry-ice-included": "ड्राई आइस समावेश गर्नुहोस् (+रु)",
+		"is-signature-included": "हस्ताक्षर विकल्प (+रु)",
+		"is-oversized-package-included": "ओभरसाइज प्याकेज (+रु)",
+		"show-result": "नतिजा देखाउनुहोस्",
+		"order-summary": "आदेश सारांश",
+		"distance": "दूरी",
+		"package-volume": "प्याकेज भोल्युम",
+		"total": "कुल",
+		"create-order": "अर्डर सिर्जना गर्नुहोस्"
+	},
+	"Tracking": {
+		"tracking-title": "ट्र्याकिङ नम्बर",
+		"search": "खोज्नुहोस्",
+		"status": {
+			"PLACED": {
+				"title": "राखिएको",
+				"description": "अर्डर पुष्टि भएको छ र भुक्तानी प्रक्रियामा छ।"
+			},
+			"PICKED": {
+				"title": "उठाइयो",
+				"description": "अर्डर प्रेषकबाट उठाइन्छ।"
+			},
+			"SHIPPED": {
+				"title": "पठाइयो",
+				"description": "अर्डरले प्रेषकको स्थान छोडेको छ।"
+			},
+			"OUTFORDELIVERY": {
+				"title": "डेलिभरीको लागि बाहिर",
+				"description": "डेलिभरी केटाको लागि हेर्नुहोस्। तपाईंको अर्डर डेलिभरीको लागि बाहिर छ"
+			},
+			"DELIVERED": {
+				"title": "डेलिभर गरियो",
+				"description": "यसको डेलिभरी। यदि तपाईं अझै पनि यहाँ जाँच गर्दै हुनुहुन्छ भने, जानुहोस् आफ्नो मेल जाँच गर्नुहोस्"
+			}
+		}
 	}
 }

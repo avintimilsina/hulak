@@ -1,6 +1,7 @@
 import Logo from "@/components/logo";
 import InputField from "@/components/ui/InputField";
 import { ToggleButton, ToggleButtonGroup } from "@/components/ui/ToggleButton";
+import { fadeInLeft } from "@/config/animations";
 import { Link } from "@chakra-ui/next-js";
 import {
 	AbsoluteCenter,
@@ -19,8 +20,10 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 import { Field, FieldProps, Form, Formik, FormikProps } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
+import { GetStaticPropsContext } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import {
 	useCreateUserWithEmailAndPassword,
 	useSendEmailVerification,
@@ -29,8 +32,6 @@ import {
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdBusiness } from "react-icons/md";
 import * as Yup from "yup";
-import { useState } from "react";
-import { fadeInLeft } from "@/config/animations";
 import { auth, db } from "../../../firebase";
 
 const defaultValues = {
@@ -308,3 +309,9 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../messages/${ctx.locale}.json`)).default,
+	},
+});

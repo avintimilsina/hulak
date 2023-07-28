@@ -23,6 +23,8 @@ import {
 } from "@chakra-ui/react";
 import { doc } from "firebase/firestore";
 import { Form, Formik, FormikProps } from "formik";
+import { GetStaticPropsContext } from "next";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import * as Yup from "yup";
@@ -37,6 +39,7 @@ const TrackingPage = () => {
 			snapshotListenOptions: { includeMetadataChanges: true },
 		}
 	);
+	const t = useTranslations("Tracking");
 	if (error) {
 		<Result
 			heading={error.name}
@@ -70,13 +73,13 @@ const TrackingPage = () => {
 								w="full"
 								maxW={{ base: "unset", lg: "2xl" }}
 							>
-								<InputField label="Tracking Number" name="orderId" />
+								<InputField label={t("tracking-title")} name="orderId" />
 								<Button
 									type="submit"
 									isLoading={props.isSubmitting}
 									colorScheme="brand"
 								>
-									Search
+									{t("search")}
 								</Button>
 							</HStack>
 							{loading ? (
@@ -134,6 +137,7 @@ const TrackingTimeline = ({ status, orientation }: TrackingTimelineProps) => {
 		index: steps.filter((step) => step.title === status)[0].index,
 		count: steps.length,
 	});
+	const t = useTranslations("Tracking");
 	useEffect(() => {
 		setActiveStep(steps.filter((step) => step.title === status)[0].index);
 	}, [setActiveStep, status]);
@@ -161,10 +165,10 @@ const TrackingTimeline = ({ status, orientation }: TrackingTimelineProps) => {
 							</StepIndicator>
 
 							<Box w="full">
-								<StepTitle>{step.title}</StepTitle>
+								<StepTitle>{t(`status.${step.title}.title`)}</StepTitle>
 								{activeStep === index + 1 && (
 									<StepDescription as={Text} textAlign="justify">
-										{step.description}
+										{t(`status.${step.title}.description`)}
 									</StepDescription>
 								)}
 							</Box>
@@ -185,3 +189,9 @@ TrackingTimeline.defaultProps = {
 };
 
 export { TrackingTimeline };
+
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../messages/${ctx.locale}.json`)).default,
+	},
+});

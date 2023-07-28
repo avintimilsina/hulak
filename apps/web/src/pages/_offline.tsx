@@ -1,4 +1,5 @@
 import { Button, Heading, VStack } from "@chakra-ui/react";
+import { GetStaticPropsContext } from "next";
 import Link from "next/link";
 
 const PageNotFound = () => (
@@ -275,3 +276,9 @@ const PageNotFound = () => (
 );
 
 export default PageNotFound;
+
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../messages/${ctx.locale}.json`)).default,
+	},
+});

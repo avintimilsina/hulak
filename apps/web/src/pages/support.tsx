@@ -20,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { Field, Form, Formik, FormikProps } from "formik";
+import { GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { BsDiscord, BsGithub } from "react-icons/bs";
@@ -300,3 +301,9 @@ const SupportPage = () => {
 };
 
 export default SupportPage;
+
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../messages/${ctx.locale}.json`)).default,
+	},
+});

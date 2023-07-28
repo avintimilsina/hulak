@@ -102,8 +102,48 @@
 			"zip": "Zip Code",
 			"country": "Country"
 		},
+		"destination-title": "Where is your shipping going?",
+		"destination-description": "Please provide the following details about the reciever.Double-check the details before submitting the form to avoid any potential issues with the delivery of your package.",
+		"destination-fields": {
+			"name": "Full Name or Company Name",
+			"contact": "Contact Name",
+			"phone": "Phone Number",
+			"email": "Email",
+			"address-line-1": "Address Line 1",
+			"address-line-2": "Address Line 2",
+			"city": "City",
+			"state": "State",
+			"zip": "Zip Code",
+			"country": "Country"
+		},
+		"what-title": "What kind of packaging are you using?",
+		"what-description": "Please provide the following details about the package being sent. Note that the dimensions are in centimeters.",
+		"what-fields": {
+			"length": "Length (cm)",
+			"width": "Width (cm)",
+			"height": "Height (cm)",
+			"weight": "Weight (kg)",
+			"total-package-value": "Total Package Value",
+			"is-lithium-included": "Include Lithium Batteries (+रु)",
+			"is-dry-ice-included": "Include Dry Ice (+रु)",
+			"is-signature-included": "Signature Options (+रु)",
+			"is-oversized-package-included": "Oversized Package (+रु)"
+		},
+		"sustinable-title": "Almost Done. Let's check a few more details.",
+		"sustinable-description": "Help the environment by making your package carbonneutral. We'll plant a tree every package you send.",
+		"sustinable-fields": {
+			"heading": "What are you shipping?(Write in detail)",
+			"deliver-only-to-receiver": "Deliver only to receivers address (+रु)",
+			"is-carbon-neutral": "Carbon Neutral-Offset the environmental impact of your shipment (+रु)"
+		},
+
 		"next-button": "Next",
-		"back-button": "Back"
+		"back-button": "Back",
+		"review-button": "Proceed to Review",
+		"review-title": "Review your order",
+		"review-delivering-from": "Delivering From",
+		"review-delivering-to": "Delivering To",
+		"order-total": "Order Total"
 	},
 	"Footer": {
 		"heading": {
@@ -121,5 +161,55 @@
 		"privacy": "Privacy",
 		"terms": "Terms",
 		"license": "License"
+	},
+	"Quote": {
+		"shipping-title": "Shipping Information",
+		"shipping-description": "Enter the source and destination",
+		"shipping-from": "From",
+		"shipping-to": "To",
+		"shipping-weight": "Weight",
+		"dimension-title": "Dimension",
+		"dimension-description": "Enter package dimensions in centimeters",
+		"dimension-length": "Length",
+		"dimension-width": "Width",
+		"dimension-height": "Height",
+		"options-title": "Options",
+		"options-description": "Select options as required",
+		"is-lithium-included": "Include Lithium Batteries (+रु)",
+		"is-dry-ice-included": "Include Dry Ice (+रु)",
+		"is-signature-included": "Signature Options (+रु)",
+		"is-oversized-package-included": "Oversized Package (+रु)",
+		"show-result": "Show Result",
+		"order-summary": "Order Summary",
+		"distance": "Distance",
+		"package-volume": "Package Volume",
+		"total": "Total",
+		"create-order": "Create Order"
+	},
+	"Tracking": {
+		"tracking-title": "Tracking Number",
+		"search": "Search",
+		"status": {
+			"PLACED": {
+				"title": "PLACED",
+				"description": "The order is confirmed and the payment is processed."
+			},
+			"PICKED": {
+				"title": "PICKED",
+				"description": "The order is picked up from the sender."
+			},
+			"SHIPPED": {
+				"title": "SHIPPED",
+				"description": "The order has left the sender location."
+			},
+			"OUTFORDELIVERY": {
+				"title": "OUTFORDELIVERY",
+				"description": "Look out for the delivery guy. Your's order is out for delivery"
+			},
+			"DELIVERED": {
+				"title": "DELIVERED",
+				"description": "Its delivered. If you are still checking here, go check your mail"
+			}
+		}
 	}
 }

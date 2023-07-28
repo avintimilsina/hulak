@@ -10,6 +10,7 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { User } from "firebase/auth";
+import { GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 import {
 	useAuthState,
@@ -122,3 +123,9 @@ const VerifyEmailPage = ({ user }: VerifyEmailPageProps) => {
 };
 
 export default VerifyEmail;
+
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../messages/${ctx.locale}.json`)).default,
+	},
+});
