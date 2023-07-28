@@ -32,6 +32,7 @@ import { BiWorld } from "react-icons/bi";
 import { BsTruck } from "react-icons/bs";
 import { FaPlane } from "react-icons/fa";
 import { TbCurrencyRupeeNepalese } from "react-icons/tb";
+import { useTranslations } from "next-intl";
 import { adminSDK } from "../../firebase-admin";
 import container from "../../public/assets/container.webp";
 
@@ -41,6 +42,8 @@ const HomePage = ({
 	user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const MotionImg = motion(Image);
+
+	const t = useTranslations("Home");
 
 	return (
 		<Box>
@@ -63,13 +66,13 @@ const HomePage = ({
 						fontWeight="normal"
 						textAlign={{ base: "center", lg: "justify" }}
 					>
-						We will{" "}
+						{t("primary-heading.section1")}{" "}
 						<Text as="span" color="brand.500">
-							Deliver
+							{t("primary-heading.section2")}
 						</Text>{" "}
-						<br /> your{" "}
+						<br /> {t("primary-heading.section3")}{" "}
 						<Text as="span" color="brand.500">
-							Package!
+							{t("primary-heading.section4")}
 						</Text>
 					</Heading>
 					<Text
@@ -77,7 +80,7 @@ const HomePage = ({
 						textAlign={{ base: "center", lg: "end" }}
 						color={useColorModeValue("blackAlpha.600", "blackAlpha.400")}
 					>
-						Trust your package to us, we have been trusted by the whole Nepal.
+						{t("primary-subheading")}
 					</Text>
 				</Stack>
 				<VStack
@@ -97,7 +100,7 @@ const HomePage = ({
 						href="/create-order"
 						_hover={{ textDecoration: "none" }}
 					>
-						Start Shipping
+						{t("hero-button")}
 					</Button>
 					<Stack
 						direction={{ base: "row", lg: "column" }}
@@ -563,6 +566,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 			props: {
 				isLoggedIn: false,
 				user: null,
+				messages: (await import(`../messages/${ctx.locale}.json`)).default,
 			},
 		};
 	}
@@ -574,6 +578,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 				props: {
 					isLoggedIn: false,
 					user: null,
+					messages: (await import(`../messages/${ctx.locale}.json`)).default,
 				},
 			};
 		}
@@ -591,6 +596,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 					displayName: user.displayName ?? null,
 					photoURL: user.photoURL ?? null,
 				},
+				messages: (await import(`../messages/${ctx.locale}.json`)).default,
 			},
 		};
 	} catch (error) {
@@ -598,6 +604,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 			props: {
 				isLoggedIn: false,
 				user: null,
+				messages: (await import(`../messages/${ctx.locale}.json`)).default,
 			},
 		};
 	}

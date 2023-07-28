@@ -1,0 +1,33 @@
+{
+	"Home": {
+		"title": "Hulak",
+		"primary-heading": {
+			"section1": "We will",
+			"section2": "Deliver",
+			"section3": "your",
+			"section4": "Package!"
+		},
+		"primary-subheading": "Trust your package to us, we have been trusted by the whole Nepal.",
+		"hero-button": "Start Shipping"
+	},
+	"CreateOrder": {
+		"local-storage-message": "A previous unsubmitted order was loaded. Do you want to start a fresh?",
+		"local-storage-button": "Start Fresh",
+		"source-title": "Where are you shipping from?",
+		"source-description": "Please provide the following details about the sender. It's important to ensure that all the information provided is accurate and up to date. Double-check the details before submitting the form to avoid any potential issues with the pickup of your package.",
+		"source-fields": {
+			"name": "Full Name or Company Name",
+			"contact": "Contact Name",
+			"phone": "Phone Number",
+			"email": "Email",
+			"address-line-1": "Address Line 1",
+			"address-line-2": "Address Line 2",
+			"city": "City",
+			"state": "State",
+			"zip": "Zip Code",
+			"country": "Country"
+		},
+		"next-button": "Next",
+		"back-button": "Back"
+	}
+}

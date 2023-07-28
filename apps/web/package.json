@@ -22,6 +22,7 @@
 		"khalti-checkout-web": "^2.2.0",
 		"nanoid": "^4.0.2",
 		"next": "^13.3.4",
+		"next-intl": "^2.19.0",
 		"next-pwa": "^5.6.0",
 		"nookies": "^2.5.2",
 		"nprogress": "^0.2.0",

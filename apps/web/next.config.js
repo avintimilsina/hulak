@@ -12,7 +12,7 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   productionBrowserSourceMaps: true,
   i18n: {
-    locales: ["en"],
+    locales: ["en","np"],
     defaultLocale: "en",
   },
   reactStrictMode: true,

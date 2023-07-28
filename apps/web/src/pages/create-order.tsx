@@ -40,6 +40,8 @@ import { KHALTI_LOGO } from "@/config/brands";
 import { AiOutlineClose } from "react-icons/ai";
 import KhaltiCheckout from "khalti-checkout-web";
 import { nanoid } from "nanoid";
+import { type GetStaticPropsContext } from "next";
+import { useTranslations } from "next-intl";
 import { auth, db } from "../../firebase";
 
 // ? CreateOrder is a page where the user can place an order
@@ -146,6 +148,8 @@ const CreateOrder = () => {
 
 	const [currentUser] = useAuthState(auth);
 	const router = useRouter();
+
+	const t = useTranslations("CreateOrder");
 
 	// steps from the useSteps hook is used to navigate through the steps in the form (from the ui/steps folder)
 	const { nextStep, prevStep, activeStep } = useSteps({
@@ -344,8 +348,7 @@ const CreateOrder = () => {
 									bgGradient="linear(to-r, teal.500, green.500)"
 								>
 									<Text fontWeight="semibold" color="white">
-										A previous unsubmitted order was loaded. Do you want to
-										start a fresh?
+										{t("local-storage-message")}
 									</Text>
 									<HStack>
 										<Button
@@ -355,7 +358,7 @@ const CreateOrder = () => {
 												setData(defaultValues as any);
 											}}
 										>
-											Start Fresh
+											{t("local-storage-button")}
 										</Button>
 										<IconButton
 											variant="ghost"
@@ -371,21 +374,15 @@ const CreateOrder = () => {
 
 							{/* Steps are used to navigate through the form one form at a time */}
 							<Steps activeStep={activeStep}>
-								<Step title="Where are you shipping from?">
+								<Step title={t("source-title")}>
 									<StepContent>
 										<Stack shouldWrapChildren spacing="4">
-											<Text>
-												Please provide the following details about the sender.
-												It&apos;s important to ensure that all the information
-												provided is accurate and up to date. Double-check the
-												details before submitting the form to avoid any
-												potential issues with the pickup of your package.
-											</Text>
+											<Text>{t("source-description")}</Text>
 											{/* Source form is called to enter details about the source location and sender details */}
 											<SourceForm />
 											<HStack>
 												<Button size="sm" variant="ghost" isDisabled>
-													Back
+													{t("back-button")}
 												</Button>
 												<Button
 													size="sm"
@@ -418,7 +415,7 @@ const CreateOrder = () => {
 														}
 													}}
 												>
-													Next
+													{t("next-button")}
 												</Button>
 											</HStack>
 										</Stack>
@@ -705,3 +702,9 @@ const OrderReview = ({ activeStep }: OrderReviewProps) => {
 		</VStack>
 	);
 };
+
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../messages/${ctx.locale}.json`)).default,
+	},
+});

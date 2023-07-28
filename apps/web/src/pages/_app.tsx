@@ -13,6 +13,7 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { NextIntlClientProvider } from "next-intl";
 import { auth, db } from "../../firebase";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -69,29 +70,35 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 	if (router.pathname.startsWith("/admin")) {
 		return (
-			<ChakraProvider theme={theme}>
-				<AdminSidebarWrapper>
-					<Component {...pageProps} />
-				</AdminSidebarWrapper>
-			</ChakraProvider>
+			<NextIntlClientProvider messages={pageProps.messages}>
+				<ChakraProvider theme={theme}>
+					<AdminSidebarWrapper>
+						<Component {...pageProps} />
+					</AdminSidebarWrapper>
+				</ChakraProvider>
+			</NextIntlClientProvider>
 		);
 	}
 	// This allows to render SidebarWrapper component when the route starts with /account as the admin and users have different dashboards
 	if (router.pathname.startsWith("/account")) {
 		return (
-			<ChakraProvider theme={theme}>
-				<SidebarWrapper>
-					<Component {...pageProps} />
-				</SidebarWrapper>
-			</ChakraProvider>
+			<NextIntlClientProvider messages={pageProps.messages}>
+				<ChakraProvider theme={theme}>
+					<SidebarWrapper>
+						<Component {...pageProps} />
+					</SidebarWrapper>
+				</ChakraProvider>
+			</NextIntlClientProvider>
 		);
 	}
 
 	return (
 		// This is the default component that is rendered when the app is loaded
-		<ChakraProvider theme={theme}>
-			<Component {...pageProps} />
-		</ChakraProvider>
+		<NextIntlClientProvider messages={pageProps.messages}>
+			<ChakraProvider theme={theme}>
+				<Component {...pageProps} />
+			</ChakraProvider>
+		</NextIntlClientProvider>
 	);
 };
 export default App;
