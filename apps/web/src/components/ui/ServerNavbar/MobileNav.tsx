@@ -1,5 +1,6 @@
 import Logo from "@/components/logo";
 import NAVLINKS from "@/config/navbar";
+import { Link } from "@chakra-ui/next-js";
 import {
 	Avatar,
 	Box,
@@ -13,24 +14,25 @@ import {
 	MenuList,
 	Portal,
 	SimpleGrid,
+	Text,
 	VStack,
 	useColorModeValue as mode,
 	useBoolean,
 	useFocusOnShow,
 	useToast,
-	Text,
 } from "@chakra-ui/react";
+import { doc, getDoc } from "firebase/firestore";
 import { HTMLMotionProps, Variants, motion } from "framer-motion";
-import * as React from "react";
-import FocusLock from "react-focus-lock";
-import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
-import { RemoveScroll } from "react-remove-scroll";
-import { Link } from "@chakra-ui/next-js";
-import { useSignOut } from "react-firebase-hooks/auth";
 import router from "next/router";
+import * as React from "react";
+import { useSignOut } from "react-firebase-hooks/auth";
+import FocusLock from "react-focus-lock";
 import { BiLogOut } from "react-icons/bi";
 import { BsPersonCircle } from "react-icons/bs";
-import { auth } from "../../../../firebase";
+import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
+import { RiAdminFill } from "react-icons/ri";
+import { RemoveScroll } from "react-remove-scroll";
+import { auth, db } from "../../../../firebase";
 import NavLink from "./NavLink";
 
 // ? MobileNav component is used to display the navbar in the mobile view where it is used to navigate to different pages of the website
@@ -112,6 +114,20 @@ const MobileNav = ({ user }: MobileNavProps) => {
 	const [show, { toggle, off }] = useBoolean();
 	const ref = React.useRef<HTMLDivElement>(null);
 	useFocusOnShow(ref, { visible: show, shouldFocus: true });
+	const [showAdminButton, setShowAdminButton] = React.useState(false);
+
+	React.useEffect(() => {
+		const runThisNow = async () => {
+			if (user?.uid) {
+				const docSnap = await getDoc(doc(db, "admins", user?.uid));
+
+				if (docSnap.data()?.isActive) {
+					setShowAdminButton(true);
+				}
+			}
+		};
+		runThisNow();
+	}, [user]);
 
 	return (
 		<>
@@ -186,7 +202,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
 											as="a"
 											color={mode("brand.600", "brand.400")}
 											onClick={() => {
-												router.push("/login");
+												router.push("/auth/login");
 											}}
 										>
 											Log in
@@ -248,6 +264,19 @@ const MobileNav = ({ user }: MobileNavProps) => {
 											>
 												Account
 											</MenuItem>
+											{showAdminButton && (
+												<MenuItem
+													as={Button}
+													p="0"
+													leftIcon={<RiAdminFill />}
+													variant="ghost"
+													onClick={() => {
+														router.push("/admin");
+													}}
+												>
+													Admin
+												</MenuItem>
+											)}
 											<MenuItem
 												borderColor="red.500"
 												textColor="red.500"

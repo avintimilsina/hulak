@@ -1,6 +1,6 @@
 import { BiBox, BiHome, BiSupport } from "react-icons/bi";
-import { BsCurrencyDollar } from "react-icons/bs";
 import { HiOutlineLocationMarker } from "react-icons/hi";
+import { TbCurrencyRupeeNepalese } from "react-icons/tb";
 
 const NAVLINKS = [
 	{
@@ -16,7 +16,7 @@ const NAVLINKS = [
 	{
 		label: "Quote",
 		href: "/quote",
-		icon: BsCurrencyDollar,
+		icon: TbCurrencyRupeeNepalese,
 	},
 	{
 		label: "Tracking",
