@@ -265,5 +265,23 @@
 		"already-verified": "पहिले नै प्रमाणित?",
 		"didnt-receive": "इमेल प्राप्त गर्नुभएन?",
 		"verify-button": "इमेल पुन: पठाउनुहोस्"
+	},
+	"Sidebar": {
+		"Orders": "अर्डर",
+		"Returns": "फर्काउँछ",
+		"Address": "ठेगाना",
+		"Account": "खाता",
+		"Preference": "प्राथमिकता",
+		"Shipping": "ढुवानी",
+		"Help Center": "मद्दत केन्द्र"
+	},
+	"Adminbar": {
+		"Manage Admin": "व्यवस्थापक व्यवस्थापन ",
+		"Placed": "राखियो",
+		"Picked": "उठाइयो",
+		"Shipped": "पठाइयो",
+		"Out for Delivery": "डेलिभरीको लागि बाहिर",
+		"Delivered": "डेलिभर गरियो",
+		"Returns": "फर्काउँछ"
 	}
 }

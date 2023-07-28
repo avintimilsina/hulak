@@ -39,6 +39,7 @@ import {
 	query,
 	where,
 } from "firebase/firestore";
+import { GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 import {
 	Dispatch,
@@ -586,3 +587,8 @@ const OrderList = ({ order, setValue, values }: OrderListProps) => {
 };
 
 export { OrderList };
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../../messages/${ctx.locale}.json`)).default,
+	},
+});

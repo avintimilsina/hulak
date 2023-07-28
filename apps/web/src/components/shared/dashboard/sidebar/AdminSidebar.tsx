@@ -10,6 +10,7 @@ import {
 import { useRouter } from "next/router";
 
 import Logo from "@/components/logo";
+import { useTranslations } from "next-intl";
 import { BiPackage } from "react-icons/bi";
 import { BsFillClipboardCheckFill } from "react-icons/bs";
 import { FaShippingFast } from "react-icons/fa";
@@ -28,6 +29,7 @@ interface SidebarProps extends BoxProps {
 
 const AdminSidebar = ({ onClose, ...rest }: SidebarProps) => {
 	const router = useRouter();
+	const t = useTranslations("Adminbar");
 
 	return (
 		<Flex
@@ -54,7 +56,7 @@ const AdminSidebar = ({ onClose, ...rest }: SidebarProps) => {
 						<NavLink
 							key={link.label}
 							href={link.href}
-							label={link.label}
+							label={t(link.label)}
 							icon={link.icon}
 							isActive={router.pathname === link.href}
 						/>

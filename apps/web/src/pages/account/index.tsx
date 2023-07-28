@@ -38,6 +38,7 @@ import {
 } from "firebase/firestore";
 import { Field, Form, Formik, FormikProps } from "formik";
 import { nanoid } from "nanoid";
+import { GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useAuthState, useUpdateProfile } from "react-firebase-hooks/auth";
@@ -382,3 +383,8 @@ const APIKeyGenerator = ({ currentUser }: APIKeyGeneratorProps) => {
 		</FieldGroup>
 	);
 };
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../../messages/${ctx.locale}.json`)).default,
+	},
+});

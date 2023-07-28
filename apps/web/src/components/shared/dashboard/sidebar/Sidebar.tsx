@@ -10,6 +10,7 @@ import {
 import { useRouter } from "next/router";
 
 import Logo from "@/components/logo";
+import { useTranslations } from "next-intl";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BiBox, BiHomeAlt, BiPackage, BiSupport } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
@@ -24,6 +25,7 @@ interface SidebarProps extends BoxProps {
 
 const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
 	const router = useRouter();
+	const t = useTranslations("Sidebar");
 
 	return (
 		<Flex
@@ -52,7 +54,7 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
 						<NavLink
 							key={link.label}
 							href={link.href}
-							label={link.label}
+							label={t(link.label)}
 							icon={link.icon}
 							isActive={router.pathname === link.href}
 						/>
@@ -64,7 +66,7 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
 						<NavLink
 							key={link.label}
 							href={link.href}
-							label={link.label}
+							label={t(link.label)}
 							icon={link.icon}
 							isActive={router.pathname === link.href}
 						/>
@@ -76,7 +78,7 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
 						<NavLink
 							key={link.label}
 							href={link.href}
-							label={link.label}
+							label={t(link.label)}
 							icon={link.icon}
 							isActive={router.pathname === link.href}
 						/>

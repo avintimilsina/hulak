@@ -3,6 +3,7 @@ import AddressForm from "@/components/pages/account/address/AddressForm";
 import ModalButton from "@/components/ui/ModalButton";
 import withProtected from "@/routes/withProtected";
 import { Stack } from "@chakra-ui/react";
+import { GetStaticPropsContext } from "next";
 import { useRef } from "react";
 import { IoAdd } from "react-icons/io5";
 
@@ -48,3 +49,9 @@ const AddressPage = () => {
 };
 
 export default withProtected(AddressPage);
+
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../../messages/${ctx.locale}.json`)).default,
+	},
+});

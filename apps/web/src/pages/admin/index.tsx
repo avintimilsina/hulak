@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import Search from "@/components/pages/admin/Search";
+import { TableContent } from "@/components/pages/admin/UserTable";
 import withAdminProtected from "@/routes/withAdminProtected";
 import {
 	Box,
@@ -19,8 +20,8 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 import { collection, doc, setDoc } from "firebase/firestore";
+import { GetStaticPropsContext } from "next";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { TableContent } from "@/components/pages/admin/UserTable";
 import { BsSearch } from "react-icons/bs";
 import { RiAddFill } from "react-icons/ri";
 import { db } from "../../../firebase";
@@ -126,3 +127,9 @@ const AdminPage = () => {
 };
 
 export default withAdminProtected(AdminPage);
+
+export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
+	props: {
+		messages: (await import(`../../messages/${ctx.locale}.json`)).default,
+	},
+});

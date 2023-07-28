@@ -266,5 +266,23 @@
 		"already-verified": "Already Verified?",
 		"didnt-receive": "Didn't receive an email?",
 		"verify-button": "Resend Email"
+	},
+	"Sidebar": {
+		"Orders": "Orders",
+		"Returns": "Returns",
+		"Address": "Address",
+		"Account": "Account",
+		"Preference": "Preference",
+		"Shipping": "Shipping",
+		"Help Center": "Help Center"
+	},
+	"Adminbar": {
+		"Manage Admin": "Manage Admin",
+		"Placed": "Placed",
+		"Picked": "Picked",
+		"Shipped": "Shipped",
+		"Out for Delivery": "Out for Delivery",
+		"Delivered": "Delivered",
+		"Returns": "Returns"
 	}
 }
