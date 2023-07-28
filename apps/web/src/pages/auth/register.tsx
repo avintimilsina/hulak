@@ -21,6 +21,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { Field, FieldProps, Form, Formik, FormikProps } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import { GetStaticPropsContext } from "next";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -75,6 +76,7 @@ const RegisterPage = () => {
 
 	// sendEmailVerification is a authentication hook from react-firebase-hooks/auth where it allows it sends a email verification to the user's email
 	const [sendEmailVerification] = useSendEmailVerification(auth);
+	const t = useTranslations("Register");
 
 	return (
 		<Stack
@@ -107,9 +109,9 @@ const RegisterPage = () => {
 				>
 					<Stack spacing={4} w="full" maxW="md">
 						<Text align="right" my={8}>
-							Return to{" "}
+							{t("return-to")}
 							<Link href="/" color="blue.500">
-								Home
+								{t("home")}
 							</Link>
 						</Text>
 						<VStack spacing={4} alignItems="center">
@@ -122,7 +124,7 @@ const RegisterPage = () => {
 								whiteSpace="nowrap"
 								m={5}
 							>
-								Thank you for choosing us!
+								{t("register-title")}
 							</Heading>
 						</VStack>
 
@@ -236,7 +238,7 @@ const RegisterPage = () => {
 												opacity="0.8"
 												fontSize="sm"
 											>
-												Let&apos;s get started
+												{t("register-description")}
 											</AbsoluteCenter>
 										</Box>
 										<VStack gap={2} w="full">
@@ -245,13 +247,13 @@ const RegisterPage = () => {
 												<HStack>
 													<InputField
 														name="firstName"
-														label="Company Name"
+														label={t("business-name")}
 														type="text"
 														autoComplete="organization"
 													/>
 													<InputField
 														name="panNumber"
-														label="PAN Number"
+														label={t("pan-number")}
 														type="text"
 													/>
 												</HStack>
@@ -260,22 +262,26 @@ const RegisterPage = () => {
 												<HStack>
 													<InputField
 														name="firstName"
-														label="First Name"
+														label={t("first-name")}
 														type="text"
 														autoComplete="given-name"
 													/>
 													<InputField
 														name="lastName"
-														label="Last Name"
+														label={t("last-name")}
 														type="text"
 														autoComplete="family-name"
 													/>
 												</HStack>
 											)}
-											<InputField name="email" label="Email" type="email" />
+											<InputField
+												name="email"
+												label={t("email")}
+												type="email"
+											/>
 											<InputField
 												name="password"
-												label="Password"
+												label={t("password")}
 												type="password"
 												autoComplete="new-password"
 											/>
@@ -287,13 +293,13 @@ const RegisterPage = () => {
 												colorScheme="brand"
 											>
 												{props.values.isBusiness
-													? "Register as Business"
-													: "Register"}
+													? t("register-business-button")
+													: t("register-customer-button")}
 											</Button>
 											<Text align="center">
-												Already a user?{" "}
+												{t("already-user")}
 												<Link href="/auth/login" color="blue.400">
-													Login
+													{t("login-button")}
 												</Link>
 											</Text>
 										</VStack>
@@ -312,6 +318,6 @@ export default RegisterPage;
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
 	props: {
-		messages: (await import(`../messages/${ctx.locale}.json`)).default,
+		messages: (await import(`../../messages/${ctx.locale}.json`)).default,
 	},
 });

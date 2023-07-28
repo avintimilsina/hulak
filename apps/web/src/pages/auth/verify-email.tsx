@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { User } from "firebase/auth";
 import { GetStaticPropsContext } from "next";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import {
 	useAuthState,
@@ -52,6 +53,7 @@ const VerifyEmailPage = ({ user }: VerifyEmailPageProps) => {
 	const [sendEmailVerification] = useSendEmailVerification(auth);
 	const toast = useToast();
 	const router = useRouter();
+	const t = useTranslations("VerifyEmail");
 
 	return (
 		<Flex minH="100vh" align="center" justify="center">
@@ -67,13 +69,13 @@ const VerifyEmailPage = ({ user }: VerifyEmailPageProps) => {
 			>
 				<Logo />
 				<Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
-					Verify your Email
+					{t("title")}
 				</Heading>
 				<Text
 					fontSize={{ base: "sm", sm: "md" }}
 					color={useColorModeValue("gray.800", "gray.400")}
 				>
-					We have sent a verification email to you
+					{t("description")}
 				</Text>
 				<Text
 					fontSize={{ base: "md", sm: "large" }}
@@ -91,12 +93,12 @@ const VerifyEmailPage = ({ user }: VerifyEmailPageProps) => {
 						router.reload();
 					}}
 				>
-					Already Verified?
+					{t("already-verified")}
 				</Button>
 				<Stack spacing={6}>
 					<Stack>
 						<Text align="center">
-							Didn&apos;t receive a email?{" "}
+							{t("didnt-receive")}
 							<Button
 								variant="link"
 								onClick={async () => {
@@ -112,7 +114,7 @@ const VerifyEmailPage = ({ user }: VerifyEmailPageProps) => {
 									}
 								}}
 							>
-								Resend Email
+								{t("verify-button")}
 							</Button>
 						</Text>
 					</Stack>
@@ -126,6 +128,6 @@ export default VerifyEmail;
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
 	props: {
-		messages: (await import(`../messages/${ctx.locale}.json`)).default,
+		messages: (await import(`../../messages/${ctx.locale}.json`)).default,
 	},
 });

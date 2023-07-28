@@ -210,5 +210,60 @@
 				"description": "यसको डेलिभरी। यदि तपाईं अझै पनि यहाँ जाँच गर्दै हुनुहुन्छ भने, जानुहोस् आफ्नो मेल जाँच गर्नुहोस्"
 			}
 		}
+	},
+	"Support": {
+		"contact-title": "सम्पर्क गर्नुहोस्",
+		"contact-description": "सम्पर्क गर्न तलको फारम भर्नुहोस्",
+		"contact-location": "काठमाडौं, नेपाल",
+		"name": "नाम",
+		"email": "इमेल",
+		"issue": "मुद्दा",
+		"reference-number": "सन्दर्भ नम्बर",
+		"description": "विवरण",
+		"issue-button": "मुद्दा खुला"
+	},
+	"Login": {
+		"return-to": "फर्कनुहोस् ",
+		"home": "होम मा",
+		"login-title": "आफ्नो खातामा लगइन गर्नुहोस्",
+		"email": "इमेल",
+		"email-placeholder": "आफ्नो इमेल लेख्नुहोस्",
+		"password": "पासवर्ड",
+		"password-placeholder": "आफ्नो पासवर्ड लेख्नुहोस्",
+		"remember-me": "मलाई सम्झनुहोस्",
+		"forgot-password": "पासवर्ड भुल्नु भयो?",
+		"login-button": "साइन इन गर्नुहोस्",
+		"or": "वा",
+		"google-login-button": "Google को साथ जारी राख्नुहोस्",
+		"dont-have-account": "खाता छैन?",
+		"register": "दर्ता गर्नुहोस्"
+	},
+	"Register": {
+		"return-to": "फर्कनुहोस्",
+		"home": "होम मा",
+		"register-title": "हामीलाई छान्नु भएकोमा धन्यवाद!",
+		"register-description": "सुरु गरौं",
+		"business-name": "कम्पनीको नाम",
+		"pan-number": "प्यान नम्बर",
+		"first-name": "पहिलो नाम",
+		"last-name": "थर",
+		"email": "इमेल",
+		"password": "पासवर्ड",
+		"register-business-button": "व्यवसायको रूपमा दर्ता गर्नुहोस्",
+		"register-customer-button": "दर्ता गर्नुहोस्",
+		"already-user": "पहिले नै प्रयोगकर्ता?",
+		"login-button": "लग - इन"
+	},
+	"ForgotPassword": {
+		"title": "आफ्नो पासवर्ड बिर्सनुभयो?",
+		"description": "तपाईंले रिसेट लिंक भएको इमेल प्राप्त गर्नुहुनेछ।",
+		"reset-button": "रिसेट लिङ्क पठाउनुहोस्"
+	},
+	"VerifyEmail": {
+		"title": "आफ्नो इमेल प्रमाणित गर्नुहोस्",
+		"description": "तपाईंले प्रमाणीकरण लिङ्क भएको इमेल प्राप्त गर्नुहुनेछ।",
+		"already-verified": "पहिले नै प्रमाणित?",
+		"didnt-receive": "इमेल प्राप्त गर्नुभएन?",
+		"verify-button": "इमेल पुन: पठाउनुहोस्"
 	}
 }

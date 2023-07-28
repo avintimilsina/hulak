@@ -18,6 +18,7 @@ import {
 import { Form, Formik, FormikProps } from "formik";
 import { motion } from "framer-motion";
 import { GetStaticPropsContext } from "next";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -61,6 +62,7 @@ const LoginPage = () => {
 
 	// If the user is already logged in, redirect the user to the home page
 	const MotionFlex = motion(Flex);
+	const t = useTranslations("Login");
 	return (
 		<Stack minH="100vh" direction={{ base: "column", md: "row" }}>
 			<MotionFlex
@@ -75,9 +77,9 @@ const LoginPage = () => {
 			>
 				<Stack spacing={4} w="full" maxW="md">
 					<Text align="left" my={10}>
-						Return to{" "}
+						{t("return-to")}
 						<Link href="/" color="blue.400">
-							Home
+							{t("home")}
 						</Link>
 					</Text>
 					<VStack spacing={4} alignItems="center">
@@ -90,7 +92,7 @@ const LoginPage = () => {
 							whiteSpace="nowrap"
 							m={5}
 						>
-							Login to your account
+							{t("login-title")}
 						</Heading>
 					</VStack>
 					<Formik
@@ -140,12 +142,12 @@ const LoginPage = () => {
 										mt={4}
 										w="full"
 									>
-										Sign in
+										{t("login-button")}
 									</Button>
 									<Box position="relative" w="full">
 										<Divider colorScheme="brand" />
 										<AbsoluteCenter bg="white" px="4" opacity="0.8">
-											OR
+											{t("or")}
 										</AbsoluteCenter>
 									</Box>
 									{/* This button allows the user to sign in with Google Provider */}
@@ -168,13 +170,14 @@ const LoginPage = () => {
 										}}
 										leftIcon={<FcGoogle />}
 									>
-										Continue with Google
+										{t("google-login-button")}
 									</Button>
 									<Stack pt={1}>
 										<Text align="center">
-											Don&apos;t have an account?{" "}
+											{t("dont-have-account")}
+
 											<Link href="/auth/register" color="blue.400">
-												Register
+												{t("register")}
 											</Link>
 										</Text>
 									</Stack>
@@ -226,6 +229,6 @@ export default LoginPage;
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => ({
 	props: {
-		messages: (await import(`../messages/${ctx.locale}.json`)).default,
+		messages: (await import(`../../messages/${ctx.locale}.json`)).default,
 	},
 });

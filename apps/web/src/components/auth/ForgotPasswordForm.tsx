@@ -10,6 +10,7 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikProps } from "formik";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import * as Yup from "yup";
@@ -22,6 +23,7 @@ const ForgotPasswordForm = () => {
 	const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
 	const toast = useToast();
 	const router = useRouter();
+	const t = useTranslations("ForgotPassword");
 	return (
 		<Formik
 			initialValues={{ email: "" }}
@@ -50,11 +52,9 @@ const ForgotPasswordForm = () => {
 				<Form>
 					<VStack gap={2}>
 						<Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
-							Forgot your password?
+							{t("title")}
 						</Heading>
-						<Text fontSize={{ base: "sm", sm: "md" }}>
-							You&apos;ll get an email with a reset link.
-						</Text>
+						<Text fontSize={{ base: "sm", sm: "md" }}>{t("description")}</Text>
 						<Field name="email">
 							{({ field, form }: any) => (
 								<FormControl
@@ -76,7 +76,7 @@ const ForgotPasswordForm = () => {
 								isLoading={props.isSubmitting}
 								colorScheme="brand"
 							>
-								Send Reset Link
+								{t("reset-button")}
 							</Button>
 						</Stack>
 					</VStack>

@@ -21,6 +21,7 @@ import {
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { Field, Form, Formik, FormikProps } from "formik";
 import { GetStaticPropsContext } from "next";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { BsDiscord, BsGithub } from "react-icons/bs";
@@ -49,6 +50,7 @@ const SupportPage = () => {
 	const toast = useToast();
 	const [currentUser] = useAuthState(auth);
 	const router = useRouter();
+	const t = useTranslations("Support");
 
 	return (
 		<>
@@ -94,9 +96,9 @@ const SupportPage = () => {
 										<Wrap spacing={{ base: 20, sm: 3, md: 5, lg: 20 }}>
 											<WrapItem>
 												<Box>
-													<Heading>Contact</Heading>
+													<Heading>{t("contact-title")}</Heading>
 													<Text mt={{ sm: 3, md: 3, lg: 5 }}>
-														Fill up the form below to contact
+														{t("conatct-description")}
 													</Text>
 													<Box py={{ base: 5, sm: 5, md: 8, lg: 10 }}>
 														<VStack pl={0} spacing={3} alignItems="flex-start">
@@ -132,7 +134,7 @@ const SupportPage = () => {
 																	<MdLocationOn color="black" size="20px" />
 																}
 															>
-																Kathmandu, Nepal
+																{t("contact-location")}
 															</Button>
 														</VStack>
 													</Box>
@@ -183,7 +185,7 @@ const SupportPage = () => {
 																			}
 																		>
 																			<HStack justifyContent="space-between">
-																				<FormLabel>Name</FormLabel>
+																				<FormLabel>{t("name")}</FormLabel>
 																				<FormErrorMessage>
 																					{form.errors.supportName}
 																				</FormErrorMessage>
@@ -205,7 +207,7 @@ const SupportPage = () => {
 																			}
 																		>
 																			<HStack justifyContent="space-between">
-																				<FormLabel>Email</FormLabel>
+																				<FormLabel>{t("email")}</FormLabel>
 																				<FormErrorMessage>
 																					{form.errors.supportEmail}
 																				</FormErrorMessage>
@@ -228,7 +230,7 @@ const SupportPage = () => {
 																			}
 																		>
 																			<HStack justifyContent="space-between">
-																				<FormLabel>Issue</FormLabel>
+																				<FormLabel>{t("issue")}</FormLabel>
 																				<FormErrorMessage>
 																					{form.errors.issue}
 																				</FormErrorMessage>
@@ -244,7 +246,9 @@ const SupportPage = () => {
 																<Field name="referenceNumber">
 																	{({ field }: any) => (
 																		<FormControl>
-																			<FormLabel>Reference Number</FormLabel>
+																			<FormLabel>
+																				{t("reference-number")}
+																			</FormLabel>
 																			<Input {...field} type="text" />
 																		</FormControl>
 																	)}
@@ -259,7 +263,7 @@ const SupportPage = () => {
 																		}
 																	>
 																		<HStack justifyContent="space-between">
-																			<FormLabel>Description</FormLabel>
+																			<FormLabel>{t("description")}</FormLabel>
 																			<FormErrorMessage>
 																				{form.errors.supportDescription}
 																			</FormErrorMessage>
@@ -281,7 +285,7 @@ const SupportPage = () => {
 																	isLoading={props.isSubmitting}
 																	_hover={{ bg: "black" }}
 																>
-																	Open Issue
+																	{t("issue-button")}
 																</Button>
 															</FormControl>
 														</VStack>

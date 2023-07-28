@@ -211,5 +211,60 @@
 				"description": "Its delivered. If you are still checking here, go check your mail"
 			}
 		}
+	},
+	"Support": {
+		"contact-title": "Contact",
+		"contact-description": "Fill up the form below to contact",
+		"contact-location": "Kathmandu, Nepal",
+		"name": "Name",
+		"email": "Email",
+		"issue": "Issue",
+		"reference-number": "Reference Number",
+		"description": "Description",
+		"issue-button": "Open Issue"
+	},
+	"Login": {
+		"return-to": "Return to",
+		"home": "Home",
+		"login-title": "Login to your account",
+		"email": "Email",
+		"email-placeholder": "Enter your email",
+		"password": "Password",
+		"password-placeholder": "Enter your password",
+		"remember-me": "Remember Me",
+		"forgot-password": "Forgot Password?",
+		"login-button": "Sign In",
+		"or": "OR",
+		"google-login-button": "Continue with Google",
+		"dont-have-account": "Don't have an account?",
+		"register": "Register"
+	},
+	"Register": {
+		"return-to": "Return to",
+		"home": "Home",
+		"register-title": "Thank you for choosing us!",
+		"register-description": "Let's get started",
+		"business-name": "Company Name",
+		"pan-number": "PAN Number",
+		"first-name": "First Name",
+		"last-name": "Last Name",
+		"email": "Email",
+		"password": "Password",
+		"register-business-button": "Register as Business",
+		"register-customer-button": "Register",
+		"already-user": "Already a user?",
+		"login-button": "Login"
+	},
+	"ForgotPassword": {
+		"title": "Forgot your password?",
+		"description": "You'll get an email with a reset link.",
+		"reset-button": "Send Reset Link"
+	},
+	"VerifyEmail": {
+		"title": "Verify your Email",
+		"description": "You'll get an email with a verification link.",
+		"already-verified": "Already Verified?",
+		"didnt-receive": "Didn't receive an email?",
+		"verify-button": "Resend Email"
 	}
 }
