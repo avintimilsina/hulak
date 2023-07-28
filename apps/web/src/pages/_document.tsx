@@ -9,6 +9,7 @@ const Document = () => (
 	<Html lang="en">
 		<Head>
 			<title>Hulak</title>
+			<link rel="manifest" href="manifest.json" />
 		</Head>
 		<body>
 			<ColorModeScript initialColorMode={theme.config.initialColorMode} />
