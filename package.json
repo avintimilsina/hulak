@@ -20,6 +20,6 @@
 		"prettier": "^2.8.8",
 		"turbo": "^1.10.12"
 	},
-	"packageManager": "pnpm@8.6.2",
+	"packageManager": "pnpm@8.15.9",
 	"name": "hulak"
 }
