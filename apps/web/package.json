@@ -37,8 +37,8 @@
 	"devDependencies": {
 		"@types/node": "18.16.17",
 		"@types/nprogress": "^0.2.0",
-		"@types/react": "18.2.11",
-		"@types/react-dom": "18.2.4",
+		"@types/react": "18.3.11",
+		"@types/react-dom": "18.3.1",
 		"babel-loader": "^9.1.3",
 		"eslint": "^8.0.0",
 		"eslint-config-next": "13.4.5",
